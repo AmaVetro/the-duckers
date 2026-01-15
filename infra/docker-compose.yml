@@ -1,0 +1,55 @@
+name: the-duckers
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: duckers-mysql
+    restart: unless-stopped
+
+    env_file:
+      - ../.env
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - duckers_mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d:ro
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-p$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+    networks:
+      - duckers-net
+  mongo:
+    image: mongo:7
+    container_name: duckers-mongo
+    restart: unless-stopped
+
+    env_file:
+      - ../.env
+
+    ports:
+      - "27017:27017"
+
+    volumes:
+      - duckers_mongo_data:/data/db
+
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+    networks:
+      - duckers-net
+
+volumes:
+  duckers_mysql_data:
+  duckers_mongo_data:
+
+networks:
+  duckers-net:
+    driver: bridge
