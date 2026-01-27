@@ -1,0 +1,19 @@
+spring:
+    datasource:
+        url: jdbc:mysql://localhost:3306/the_duckers
+        username: duckers
+        password: duckerspass
+        driver-class-name: com.mysql.cj.jdbc.Driver
+
+    jpa:
+        hibernate:
+            ddl-auto: validate
+        show-sql: false
+
+
+    mongodb:
+        host: localhost
+        port: 27017
+        database: the_duckers_catalog
+
+

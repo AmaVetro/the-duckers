@@ -1,0 +1,307 @@
+[
+    {
+        "_id": "mechanical-keyboard-redragon-k552",
+        "name": "Redragon K552 Kumara",
+        "description": "Compact mechanical keyboard with durable switches and solid metal construction.",
+        "price": 39990,
+        "stock": 20,
+        "categoryId": "keyboards",
+        "images": ["https://placehold.co/600x400?text=Redragon+K552"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Switch Type": "Mechanical",
+        "Layout": "TKL",
+        "Connection": "Wired"
+        }
+    },
+    {
+        "_id": "gaming-keyboard-logitech-g213",
+        "name": "Logitech G213 Prodigy",
+        "description": "Gaming keyboard with Lightsync RGB and comfortable performance keys.",
+        "price": 54990,
+        "stock": 15,
+        "categoryId": "keyboards",
+        "images": ["https://placehold.co/600x400?text=Logitech+G213"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Switch Type": "Membrane",
+        "Layout": "Full Size",
+        "Connection": "Wired"
+        }
+    },
+    {
+        "_id": "mechanical-keyboard-hyperx-alloy-fps-pro",
+        "name": "HyperX Alloy FPS Pro",
+        "description": "Tenkeyless mechanical keyboard designed for FPS gamers and portability.",
+        "price": 69990,
+        "stock": 12,
+        "categoryId": "keyboards",
+        "images": ["https://placehold.co/600x400?text=HyperX+Alloy+FPS+Pro"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Switch Type": "Mechanical",
+        "Layout": "TKL",
+        "Connection": "Wired"
+        }
+    },
+    {
+        "_id": "mechanical-keyboard-razer-blackwidow-v3",
+        "name": "Razer BlackWidow V3",
+        "description": "Full-size mechanical keyboard with Razer switches and RGB lighting.",
+        "price": 129990,
+        "stock": 8,
+        "categoryId": "keyboards",
+        "images": ["https://placehold.co/600x400?text=Razer+BlackWidow+V3"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Switch Type": "Mechanical",
+        "Layout": "Full Size",
+        "Connection": "Wired"
+        }
+    },
+
+    {
+        "_id": "gaming-mouse-logitech-g203",
+        "name": "Logitech G203 Lightsync",
+        "description": "Compact gaming mouse with accurate sensor and customizable RGB lighting.",
+        "price": 19990,
+        "stock": 30,
+        "categoryId": "mice",
+        "images": ["https://placehold.co/600x400?text=Logitech+G203"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Sensor": "Optical",
+        "DPI": "200–8000",
+        "Connection": "Wired"
+        }
+    },
+    {
+        "_id": "gaming-mouse-razer-deathadder-essential",
+        "name": "Razer DeathAdder Essential",
+        "description": "Ergonomic gaming mouse with proven performance and classic design.",
+        "price": 24990,
+        "stock": 25,
+        "categoryId": "mice",
+        "images": ["https://placehold.co/600x400?text=Razer+DeathAdder"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Sensor": "Optical",
+        "DPI": "6400",
+        "Connection": "Wired"
+        }
+    },
+    {
+        "_id": "gaming-mouse-steelseries-rival-3",
+        "name": "SteelSeries Rival 3",
+        "description": "Lightweight gaming mouse built for speed and precision.",
+        "price": 29990,
+        "stock": 18,
+        "categoryId": "mice",
+        "images": ["https://placehold.co/600x400?text=SteelSeries+Rival+3"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Sensor": "Optical",
+        "DPI": "8500",
+        "Connection": "Wired"
+        }
+    },
+    {
+        "_id": "gaming-mouse-logitech-g502-hero",
+        "name": "Logitech G502 HERO",
+        "description": "High-performance gaming mouse with adjustable weights and HERO sensor.",
+        "price": 59990,
+        "stock": 10,
+        "categoryId": "mice",
+        "images": ["https://placehold.co/600x400?text=Logitech+G502"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Sensor": "HERO",
+        "DPI": "100–25600",
+        "Connection": "Wired"
+        }
+    },
+
+    {
+        "_id": "gaming-headset-hyperx-cloud-stinger",
+        "name": "HyperX Cloud Stinger",
+        "description": "Lightweight gaming headset with clear sound and swivel-to-mute microphone.",
+        "price": 49990,
+        "stock": 14,
+        "categoryId": "headsets",
+        "images": ["https://placehold.co/600x400?text=HyperX+Cloud+Stinger"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Connection": "Wired",
+        "Microphone": "Yes",
+        "Surround": "Stereo"
+        }
+    },
+    {
+        "_id": "gaming-headset-logitech-g335",
+        "name": "Logitech G335",
+        "description": "Comfortable gaming headset with lightweight design and vibrant colors.",
+        "price": 69990,
+        "stock": 10,
+        "categoryId": "headsets",
+        "images": ["https://placehold.co/600x400?text=Logitech+G335"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Connection": "Wired",
+        "Microphone": "Yes",
+        "Surround": "Stereo"
+        }
+    },
+    {
+        "_id": "gaming-headset-razer-kraken-x",
+        "name": "Razer Kraken X",
+        "description": "Ultra-light gaming headset with immersive surround sound support.",
+        "price": 59990,
+        "stock": 9,
+        "categoryId": "headsets",
+        "images": ["https://placehold.co/600x400?text=Razer+Kraken+X"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Connection": "Wired",
+        "Microphone": "Yes",
+        "Surround": "7.1"
+        }
+    },
+
+    {
+        "_id": "mousepad-steelseries-qck-medium",
+        "name": "SteelSeries QcK Medium",
+        "description": "Durable cloth mousepad with optimized surface for precise tracking.",
+        "price": 14990,
+        "stock": 40,
+        "categoryId": "mousepads",
+        "images": ["https://placehold.co/600x400?text=SteelSeries+QcK"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Size": "Medium",
+        "Surface": "Cloth",
+        "Base": "Rubber"
+        }
+    },
+    {
+        "_id": "mousepad-logitech-g240",
+        "name": "Logitech G240 Cloth Mouse Pad",
+        "description": "Cloth mousepad designed for low-DPI gaming and smooth control.",
+        "price": 17990,
+        "stock": 35,
+        "categoryId": "mousepads",
+        "images": ["https://placehold.co/600x400?text=Logitech+G240"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Size": "Medium",
+        "Surface": "Cloth",
+        "Base": "Rubber"
+        }
+    },
+    {
+        "_id": "mousepad-hyperx-fury-s-pro-xl",
+        "name": "HyperX Fury S Pro XL",
+        "description": "Extra-large gaming mousepad with stitched edges and smooth surface.",
+        "price": 29990,
+        "stock": 22,
+        "categoryId": "mousepads",
+        "images": ["https://placehold.co/600x400?text=HyperX+Fury+S+XL"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Size": "XL",
+        "Surface": "Cloth",
+        "Base": "Rubber"
+        }
+    },
+
+    {
+        "_id": "controller-xbox-wireless",
+        "name": "Xbox Wireless Controller for PC",
+        "description": "Wireless controller with ergonomic design and native PC compatibility.",
+        "price": 59990,
+        "stock": 16,
+        "categoryId": "controllers",
+        "images": ["https://placehold.co/600x400?text=Xbox+Controller"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Connection": "Wireless",
+        "Compatibility": "PC",
+        "Layout": "Xbox"
+        }
+    },
+    {
+        "_id": "controller-logitech-f310",
+        "name": "Logitech F310 Gamepad",
+        "description": "Wired gamepad with console-style layout and wide PC compatibility.",
+        "price": 29990,
+        "stock": 18,
+        "categoryId": "controllers",
+        "images": ["https://placehold.co/600x400?text=Logitech+F310"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Connection": "Wired",
+        "Compatibility": "PC",
+        "Layout": "Console-style"
+        }
+    },
+    {
+        "_id": "controller-8bitdo-pro-2-wired",
+        "name": "8BitDo Pro 2 Wired Controller",
+        "description": "Customizable wired controller designed for precision gaming on PC.",
+        "price": 44990,
+        "stock": 12,
+        "categoryId": "controllers",
+        "images": ["https://placehold.co/600x400?text=8BitDo+Pro+2"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Connection": "Wired",
+        "Compatibility": "PC",
+        "Layout": "Symmetrical"
+        }
+    },
+
+    {
+        "_id": "gaming-monitor-aoc-24g2",
+        "name": "AOC 24G2 24\" 144Hz Monitor",
+        "description": "24-inch gaming monitor with 144Hz refresh rate and IPS panel.",
+        "price": 189990,
+        "stock": 6,
+        "categoryId": "monitors",
+        "images": ["https://placehold.co/600x400?text=AOC+24G2"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Resolution": "1920x1080",
+        "Refresh Rate": "144Hz",
+        "Panel Type": "IPS"
+        }
+    },
+    {
+        "_id": "gaming-monitor-lg-27gn600-b",
+        "name": "LG UltraGear 27GN600-B 27\" 144Hz Monitor",
+        "description": "27-inch UltraGear monitor offering smooth gameplay and vivid colors.",
+        "price": 229990,
+        "stock": 5,
+        "categoryId": "monitors",
+        "images": ["https://placehold.co/600x400?text=LG+UltraGear+27"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Resolution": "1920x1080",
+        "Refresh Rate": "144Hz",
+        "Panel Type": "IPS"
+        }
+    },
+    {
+        "_id": "gaming-monitor-samsung-odyssey-g3",
+        "name": "Samsung Odyssey G3 24\" 144Hz Monitor",
+        "description": "Gaming monitor with fast refresh rate and immersive Odyssey design.",
+        "price": 199990,
+        "stock": 7,
+        "categoryId": "monitors",
+        "images": ["https://placehold.co/600x400?text=Samsung+Odyssey+G3"],
+        "createdAt": "2026-01-01T00:00:00Z",
+        "specs": {
+        "Resolution": "1920x1080",
+        "Refresh Rate": "144Hz",
+        "Panel Type": "VA"
+        }
+    }
+]

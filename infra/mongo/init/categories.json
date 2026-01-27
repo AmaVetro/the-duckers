@@ -1,0 +1,32 @@
+[
+    {
+        "_id": "keyboards",
+        "name": "Keyboards",
+        "description": "Gaming keyboards designed for precision, speed, and durability."
+    },
+    {
+        "_id": "mice",
+        "name": "Mice",
+        "description": "Gaming mice built for accuracy, comfort, and responsive control."
+    },
+    {
+        "_id": "headsets",
+        "name": "Headsets",
+        "description": "Gaming headsets delivering immersive sound and clear communication."
+    },
+    {
+        "_id": "mousepads",
+        "name": "Mousepads",
+        "description": "High-quality mousepads providing smooth and consistent tracking."
+    },
+    {
+        "_id": "controllers",
+        "name": "Controllers",
+        "description": "PC-compatible game controllers for precise and comfortable gameplay."
+    },
+    {
+        "_id": "monitors",
+        "name": "Monitors",
+        "description": "Gaming monitors with high refresh rates and sharp image quality."
+    }             
+]
