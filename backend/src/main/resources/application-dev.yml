@@ -17,3 +17,8 @@ spring:
         database: the_duckers_catalog
 
 
+logging:
+    level:
+        org.springdoc: DEBUG
+        org.springframework.web: DEBUG
+        org.springframework.web.servlet.DispatcherServlet: DEBUG

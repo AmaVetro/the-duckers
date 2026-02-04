@@ -13,3 +13,8 @@ springdoc:
         enabled: true
     swagger-ui:
         enabled: true
+
+security:
+    jwt:
+        secret: ${JWT_SECRET:change-me-in-prod}
+        expiration-minutes: 60

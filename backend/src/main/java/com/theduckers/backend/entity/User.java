@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
@@ -22,6 +23,7 @@ public class User {
     private String email;
 
     @Column(name = "password_hash", nullable = false, length = 255)
+    @JsonIgnore
     private String passwordHash;
 
     @Column(name = "first_name", nullable = false, length = 100)
@@ -57,6 +59,48 @@ public class User {
     protected User() { //Constructor PROTEGIDO (requerido por JPA) y vacío por ahora, no sé porqué
     }
 
-    // Getters & setters se agregarán después
+    public User(
+        String email,
+        String passwordHash,
+        String firstName,
+        String lastNameFather,
+        String lastNameMother,
+        String referralCode,
+        LocalDateTime createdAt
+    ) {
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.firstName = firstName;
+        this.lastNameFather = lastNameFather;
+        this.lastNameMother = lastNameMother;
+        this.referralCode = referralCode;
+        this.createdAt = createdAt;
+        this.updatedAt = createdAt;
+    }
+
+
+    
+    // Getters & setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public Long getReferredByUserId() {
+        return referredByUserId;
+    }
+
+    public void setReferredByUserId(Long referredByUserId) {
+        this.referredByUserId = referredByUserId;
+    }
+
 
 }

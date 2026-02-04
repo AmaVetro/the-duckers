@@ -23,5 +23,42 @@ public class UserPoints {
     protected UserPoints() { //Constructor PROTEGIDO (requerido por JPA) y vacío por ahora, no sé porqué
     }
 
+    public UserPoints(Long userId) {
+        this.userId = userId;
+        this.balance = 0L;
+        this.totalEarned = 0L;
+        this.updatedAt = LocalDateTime.now();
+    }
+
     // Getters & setters se agregarán después
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public Long getTotalEarned() {
+        return totalEarned;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
+    }
+
+    public void setTotalEarned(Long totalEarned) {
+        this.totalEarned = totalEarned;
+    }
+
+    public void touchUpdatedAt() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
+
 }
