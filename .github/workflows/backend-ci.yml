@@ -23,7 +23,9 @@ jobs:
           java-version: 21
 
       - name: Make mvnw executable
-        run: chmod +x backend/mvnw
+        run: chmod +x mvnw
+        working-directory: backend
 
       - name: Build & test backend
-        run: ./backend/mvnw clean test
+        run: ./mvnw clean test
+        working-directory: backend
