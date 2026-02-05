@@ -22,9 +22,8 @@ jobs:
           distribution: temurin
           java-version: 21
 
+      - name: Make mvnw executable
+        run: chmod +x backend/mvnw
+
       - name: Build & test backend
-        working-directory: backend
-        env:
-          JWT_SECRET: the-duckers-ci-secret
-          SPRING_PROFILES_ACTIVE: test
-        run: ./mvnw clean test
+        run: ./backend/mvnw clean test
