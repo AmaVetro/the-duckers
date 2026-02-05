@@ -60,5 +60,7 @@ public class UserPoints {
         this.updatedAt = LocalDateTime.now();
     }
 
+    
+
 
 }

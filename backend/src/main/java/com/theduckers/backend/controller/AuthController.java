@@ -14,6 +14,11 @@ import com.theduckers.backend.dto.auth.LoginRequest;
 import com.theduckers.backend.dto.auth.RegisterRequest;
 import com.theduckers.backend.service.AuthService;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -29,6 +34,21 @@ public class AuthController {
     // =========================
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "201",
+            description = "User registered successfully",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = AuthResponse.class)
+            )
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid input or business rule violation",
+            content = @Content
+        )
+    })
     public AuthResponse register(
             @Valid @RequestBody RegisterRequest request
     ) {
@@ -39,6 +59,26 @@ public class AuthController {
     // LOGIN
     // =========================
     @PostMapping("/login")
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "User authenticated successfully",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = AuthResponse.class)
+            )
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid request body",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "401",
+            description = "Invalid credentials",
+            content = @Content
+        )
+    })
     public AuthResponse login(
             @Valid @RequestBody LoginRequest request
     ) {

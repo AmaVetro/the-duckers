@@ -16,7 +16,7 @@ import com.theduckers.backend.security.JwtService;
 import com.theduckers.backend.security.UserDetailsImpl;
 import com.theduckers.backend.repository.UserPointsRepository;
 import com.theduckers.backend.entity.UserPoints;
-import com.theduckers.backend.service.ReferralService;
+import com.theduckers.backend.exception.BadRequestException;
 
 @Service
 public class AuthService {
@@ -51,7 +51,7 @@ public class AuthService {
     public AuthResponse register(RegisterRequest request) {
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already in use");
+            throw new BadRequestException("Email already in use");
         }
 
         User user = new User(
@@ -93,14 +93,14 @@ public class AuthService {
 
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Invalid credentials")
+                        new BadRequestException("Invalid credentials")
                 );
 
         if (!passwordEncoder.matches(
                 request.getPassword(),
                 user.getPasswordHash()
         )) {
-            throw new IllegalArgumentException("Invalid credentials");
+            throw new BadRequestException("Invalid credentials");
         }
 
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
