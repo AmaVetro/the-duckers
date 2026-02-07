@@ -22,6 +22,11 @@ jobs:
           distribution: temurin
           java-version: 21
 
+      - name: Verify Docker is available
+        run: |
+          docker version
+          docker info
+
       - name: Make mvnw executable
         run: chmod +x mvnw
         working-directory: backend
@@ -29,3 +34,5 @@ jobs:
       - name: Build & test backend
         run: ./mvnw clean test
         working-directory: backend
+        env:
+          SPRING_PROFILES_ACTIVE: test

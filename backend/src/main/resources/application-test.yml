@@ -1,0 +1,30 @@
+spring:
+    application:
+        name: the-duckers-backend-test
+
+    datasource:
+        url: jdbc:mysql://localhost:3306/testcontainers
+        username: test
+        password: test
+        driver-class-name: com.mysql.cj.jdbc.Driver
+
+    jpa:
+        hibernate:
+            ddl-auto: none
+        show-sql: false
+
+    mongodb:
+        host: localhost
+        port: 27017
+        database: testcontainers
+
+springdoc:
+    api-docs:
+        enabled: false
+    swagger-ui:
+        enabled: false
+
+security:
+    jwt:
+        secret: test-secret-for-tests-only-test-secret-for-tests-only
+        expiration-minutes: 60
