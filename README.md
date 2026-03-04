@@ -39,6 +39,17 @@ The project is intentionally architected to be explainable and defensible in tec
 
 ---
 
+## 🌍 Public Deployment
+
+- Public backend API (Render)
+- Public frontend (Vercel)
+- Managed MySQL
+- MongoDB Atlas
+- Production profile configuration
+- CI pipeline enforced before deploy
+
+---
+
 ## 📦 Project Structure
 
 ```
