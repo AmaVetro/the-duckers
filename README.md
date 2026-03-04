@@ -1,7 +1,18 @@
 # The Duckers 🦆
 
-The Duckers is a fullstack e-commerce system focused on gamer products.  
-It is designed as a portfolio-ready backend project that demonstrates transactional consistency, concurrency-safe stock handling, financial correctness, and production-aligned architecture using modern Spring technologies.
+The Duckers is a fullstack e-commerce system focused on gamer products.
+
+It is designed as a portfolio-grade backend project that goes beyond academic CRUD implementations.  
+The system demonstrates:
+
+- Transactional integrity across heterogeneous databases (MySQL + MongoDB)
+- Concurrency-safe stock reservation using atomic MongoDB updates
+- Explicit order state machine (`PENDING → PAID → CANCELLED`)
+- Financially realistic pricing engine (VAT 19%, conditional domain discounts, capped loyalty redemption)
+- Stateless JWT-based security with real filter-chain execution
+- Deterministic integration testing using Testcontainers
+
+The project is intentionally architected to be explainable and defensible in technical interviews from transactional, concurrency, and financial integrity perspectives.
 
 ---
 
