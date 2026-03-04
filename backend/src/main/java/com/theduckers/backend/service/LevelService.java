@@ -5,6 +5,11 @@ import org.springframework.stereotype.Service;
 import com.theduckers.backend.entity.Level;
 import com.theduckers.backend.repository.LevelRepository;
 
+
+//service/LevelService:
+
+
+
 @Service
 public class LevelService {
 
@@ -17,7 +22,7 @@ public class LevelService {
     public Level getLevelForTotalPoints(Long totalPoints) {
         return levelRepository
                 .findTopByMinPointsLessThanEqualOrderByMinPointsDesc(totalPoints)
-                .orElseThrow(() -> new IllegalStateException("No level configuration found"));
+                .orElseGet(Level::defaultLevel);
     }
 }
 

@@ -13,6 +13,11 @@ import org.mockito.MockitoAnnotations;
 import com.theduckers.backend.entity.UserPoints;
 import com.theduckers.backend.repository.UserPointsRepository;
 
+
+//test/service/PointsServiceTest:
+
+
+
 class PointsServiceTest {
 
     @Mock

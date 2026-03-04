@@ -6,6 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.theduckers.backend.entity.UserPoints;
 
+
+//Repository/UserPointsRepository:
+
+
+
 public interface UserPointsRepository extends JpaRepository<UserPoints, Long> {
 
     Optional<UserPoints> findByUserId(Long userId);

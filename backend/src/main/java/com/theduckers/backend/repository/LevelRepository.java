@@ -6,6 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.theduckers.backend.entity.Level;
 
+
+//Repository/LevelRepository:
+
+
 public interface LevelRepository extends JpaRepository<Level, Long> {
 
     Optional<Level> findTopByMinPointsLessThanEqualOrderByMinPointsDesc(Long points);

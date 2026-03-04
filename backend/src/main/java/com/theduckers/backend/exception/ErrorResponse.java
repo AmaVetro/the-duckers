@@ -2,6 +2,10 @@ package com.theduckers.backend.exception;
 
 import java.time.Instant;
 
+
+//exception/ErrorResponse:
+
+
 public class ErrorResponse {
 
     private Instant timestamp;

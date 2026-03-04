@@ -4,6 +4,9 @@ import com.theduckers.backend.entity.mongo.ProductDocument;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 
+//Repository/mongo/ProductRepository:
+
 
 public interface ProductRepository extends MongoRepository<ProductDocument, String> {
+    
 }

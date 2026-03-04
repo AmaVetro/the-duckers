@@ -1,12 +1,18 @@
 package com.theduckers.backend.security;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.theduckers.backend.entity.User;
+
+
+
+//security/UserDetailsImpl:
+
 
 public class UserDetailsImpl implements UserDetails {
 
@@ -26,7 +32,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override

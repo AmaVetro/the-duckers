@@ -4,15 +4,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+// =========================
+// exception/GlobalExceptionHandler
+// =========================
 
-//@RestControllerAdvice(basePackages = "com.theduckers.backend.controller")
+@RestControllerAdvice(basePackages = "com.theduckers.backend.controller")
 public class GlobalExceptionHandler {
 
-
-        
         // =========================
-        // INVALID INPUT (DTO validation)
+        // DTO Validation Errors
         // =========================
         @ExceptionHandler(MethodArgumentNotValidException.class)
         public ResponseEntity<ErrorResponse> handleValidationErrors(
@@ -25,50 +27,73 @@ public class GlobalExceptionHandler {
                         .map(error -> error.getField() + ": " + error.getDefaultMessage())
                         .orElse("Invalid request");
 
-                ErrorResponse response = new ErrorResponse(
-                        HttpStatus.BAD_REQUEST.value(),
-                        HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                        message
+                return ResponseEntity.badRequest().body(
+                        new ErrorResponse(
+                                HttpStatus.BAD_REQUEST.value(),
+                                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                                message
+                        )
                 );
-
-                return ResponseEntity.badRequest().body(response);
         }
-        
-
 
         // =========================
-        // BUSINESS ERRORS
+        // Explicit Business Errors
+        // =========================
+        @ExceptionHandler(BadRequestException.class)
+        public ResponseEntity<ErrorResponse> handleBadRequest(
+                BadRequestException ex
+        ) {
+                return ResponseEntity.badRequest().body(
+                        new ErrorResponse(
+                                HttpStatus.BAD_REQUEST.value(),
+                                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                                ex.getMessage()
+                        )
+                );
+        }
+
+        @ExceptionHandler(InvalidStateException.class)
+        public ResponseEntity<ErrorResponse> handleInvalidState(
+                InvalidStateException ex
+        ) {
+                return ResponseEntity.badRequest().body(
+                        new ErrorResponse(
+                                HttpStatus.BAD_REQUEST.value(),
+                                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                                ex.getMessage()
+                        )
+                );
+        }
+
+        // =========================
+        // Illegal Arguments
         // =========================
         @ExceptionHandler(IllegalArgumentException.class)
         public ResponseEntity<ErrorResponse> handleIllegalArgument(
                 IllegalArgumentException ex
         ) {
-                ErrorResponse response = new ErrorResponse(
-                        HttpStatus.BAD_REQUEST.value(),
-                        HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                        ex.getMessage()
+                return ResponseEntity.badRequest().body(
+                        new ErrorResponse(
+                                HttpStatus.BAD_REQUEST.value(),
+                                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                                ex.getMessage()
+                        )
                 );
-
-                return ResponseEntity.badRequest().body(response);
         }
 
-
-        
         // =========================
-        // FALLBACK (unexpected errors)
+        // Fallback
         // =========================
         @ExceptionHandler(Exception.class)
         public ResponseEntity<ErrorResponse> handleGeneric(
                 Exception ex
         ) {
-                ErrorResponse response = new ErrorResponse(
-                        HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                        HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
-                        "Unexpected error occurred"
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                        new ErrorResponse(
+                                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                                "Unexpected error occurred"
+                        )
                 );
-
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
-        
 }
-

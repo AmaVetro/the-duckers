@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
+
+//entity/Referral:
+
+
 @Entity
 @Table(name = "referrals")
 public class Referral {

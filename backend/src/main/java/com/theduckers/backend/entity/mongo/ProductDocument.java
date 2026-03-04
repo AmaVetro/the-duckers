@@ -4,10 +4,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
-//A diferencia de SQL, Mongo NO valida schema automáticamente
-//Por tanto:
-//Si el JSON tiene algo extra → no rompe, no obliga a declarar todos los campos tampoco
-//Pero si el nombre de colección está mal → falla al arrancar
+
+
+//entity/mongo/ProductDocument:
 
 @Document(collection = "products")
 public class ProductDocument {
@@ -22,10 +21,72 @@ public class ProductDocument {
     private String categoryId;
     private List<String> images;
 
-    // createdAt se omite a propósito por ahora
 
-    protected ProductDocument() {
+
+    public ProductDocument() {
     }
 
-    // Getters & setters se agregarán después
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+
+    
+
+
+
+
+    
 }

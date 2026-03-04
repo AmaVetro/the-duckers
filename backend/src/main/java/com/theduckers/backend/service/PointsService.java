@@ -9,31 +9,63 @@ import com.theduckers.backend.exception.BadRequestException;
 import com.theduckers.backend.exception.InvalidStateException;
 
 
+
+//service/PointsService:
+
+
+
 @Service
 public class PointsService {
 
-    private final UserPointsRepository userPointsRepository;
+        private final UserPointsRepository userPointsRepository;
 
-    public PointsService(UserPointsRepository userPointsRepository) {
-        this.userPointsRepository = userPointsRepository;
-    }
-
-    @Transactional
-    public void addPoints(Long userId, long amount) {
-
-        if (amount <= 0) {
-            throw new BadRequestException("Points amount must be positive");
+        public PointsService(UserPointsRepository userPointsRepository) {
+                this.userPointsRepository = userPointsRepository;
         }
 
-        UserPoints userPoints = userPointsRepository.findByUserId(userId)
-                .orElseThrow(() ->
-                        new InvalidStateException("UserPoints not found for user " + userId)
-                );
+        @Transactional
+        public void addPoints(Long userId, long amount) {
 
-        userPoints.setBalance(userPoints.getBalance() + amount);
-        userPoints.setTotalEarned(userPoints.getTotalEarned() + amount);
-        userPoints.touchUpdatedAt();
+                if (amount <= 0) {
+                throw new BadRequestException("Points amount must be positive");
+                }
 
-        userPointsRepository.save(userPoints);
-    }
+                UserPoints userPoints = userPointsRepository.findByUserId(userId)
+                        .orElseThrow(() ->
+                                new InvalidStateException("UserPoints not found for user " + userId)
+                        );
+
+                userPoints.setBalance(userPoints.getBalance() + amount);
+                userPoints.setTotalEarned(userPoints.getTotalEarned() + amount);
+                userPoints.touchUpdatedAt();
+
+                userPointsRepository.save(userPoints);
+        }
+
+
+
+        @Transactional
+        public void deductPoints(Long userId, long pointsToDeduct) {
+
+                if (pointsToDeduct <= 0) {
+                        throw new BadRequestException("Points to deduct must be positive");
+                }
+
+                UserPoints userPoints = userPointsRepository.findByUserId(userId)
+                        .orElseThrow(() ->
+                                new InvalidStateException("UserPoints not found for user " + userId)
+                        );
+
+                long currentBalance = userPoints.getBalance();
+
+                if (currentBalance < pointsToDeduct) {
+                        throw new InvalidStateException("Insufficient points balance");
+                }
+
+                userPoints.setBalance(currentBalance - pointsToDeduct);
+                userPoints.touchUpdatedAt();
+
+                userPointsRepository.save(userPoints);
+        }
+
 }

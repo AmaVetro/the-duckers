@@ -12,6 +12,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
+//entity/User:
+
+
+
 @Entity
 @Table(name = "users")
 public class User {

@@ -17,6 +17,12 @@ import com.theduckers.backend.security.UserDetailsImpl;
 import com.theduckers.backend.repository.UserPointsRepository;
 import com.theduckers.backend.entity.UserPoints;
 import com.theduckers.backend.exception.BadRequestException;
+import org.springframework.transaction.annotation.Transactional;
+
+
+
+//service/AuthService:
+
 
 @Service
 public class AuthService {
@@ -48,6 +54,7 @@ public class AuthService {
     // =========================
     // REGISTER
     // =========================
+    @Transactional
     public AuthResponse register(RegisterRequest request) {
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {

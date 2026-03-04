@@ -2,6 +2,9 @@ package com.theduckers.backend.dto.auth;
 
 import java.time.Instant;
 
+
+//dto/auth/AuthResponse:
+
 public class AuthResponse {
 
     private String token;

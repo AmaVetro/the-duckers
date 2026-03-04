@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 
 
 
+//entity/ProductDocument:
+
+
 @Entity
 @Table(name = "levels")
 public class Level {
@@ -19,6 +22,12 @@ public class Level {
     private Long minPoints;
 
     protected Level() { //Constructor PROTEGIDO (requerido por JPA) y vacío por ahora, no sé porqué
+    }
+
+    private Level(Long id, String name, Long minPoints) {
+        this.id = id;
+        this.name = name;
+        this.minPoints = minPoints;
     }
 
 
@@ -52,6 +61,14 @@ public class Level {
         return getClass().hashCode();
     }
 
+
+    public static Level defaultLevel() {
+        return new Level(
+                0L,
+                "UNCONFIGURED",
+                0L
+        );
+    }
 
 
 

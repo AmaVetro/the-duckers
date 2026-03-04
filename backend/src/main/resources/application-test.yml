@@ -1,22 +1,24 @@
+#resources/application-test.yml:
+
+
 spring:
     application:
         name: the-duckers-backend-test
 
     datasource:
-        url: jdbc:mysql://localhost:3306/testcontainers
         username: test
         password: test
         driver-class-name: com.mysql.cj.jdbc.Driver
 
     jpa:
         hibernate:
-            ddl-auto: none
+            ddl-auto: create-drop
         show-sql: false
+        defer-datasource-initialization: true
 
-    mongodb:
-        host: localhost
-        port: 27017
-        database: testcontainers
+    sql:
+        init:
+            mode: always
 
 springdoc:
     api-docs:
@@ -26,5 +28,5 @@ springdoc:
 
 security:
     jwt:
-        secret: test-secret-for-tests-only-test-secret-for-tests-only
+        secret: integration-test-secret-integration-test-secret-123456
         expiration-minutes: 60

@@ -1,51 +1,39 @@
 package com.theduckers.backend.integration;
 
-import org.junit.jupiter.api.BeforeEach;
+import com.theduckers.backend.integration.util.TestJwtUtils;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.http.MediaType;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+
+
+//test/integration/AuthIntegrationTest:
+
 
 public class AuthIntegrationTest extends AbstractIntegrationTest {
 
-        @LocalServerPort
-        private int port;
+    @Test
+    void register_and_login_should_return_valid_jwt_and_access_protected_endpoint() throws Exception {
 
-        private WebTestClient webTestClient;
+        String email = "testuser@email.com";
+        String password = "password123";
 
-        @BeforeEach
-        void setupClient() {
-                this.webTestClient = WebTestClient.bindToServer()
-                        .baseUrl("http://localhost:" + port)
-                        .build();
-        }
+        // 1️⃣ Register user
+        TestJwtUtils.registerUser(mockMvc, objectMapper, email, password);
 
-        @Test
-        void contextLoads() {
-                // test mínimo: solo validar que el contexto levanta
-        }
+        // 2️⃣ Login and extract token
+        String token = TestJwtUtils.loginAndGetToken(mockMvc, objectMapper, email, password);
 
-        @Test
-        void register_shouldReturn201AndToken() {
-                String requestBody = """
-                        {
-                        "email": "testuser1@duckers.cl",
-                        "password": "password123",
-                        "firstName": "Test",
-                        "lastNameFather": "User",
-                        "lastNameMother": "Duck",
-                        "referralCode": null
-                        }
-                        """;
+        // 3️⃣ Ensure token is not null
+        assert token != null && !token.isBlank();
 
-                webTestClient.post()
-                        .uri("/auth/register")
-                        .header("Content-Type", "application/json")
-                        .bodyValue(requestBody)
-                        .exchange()
-                        .expectStatus().isCreated()
-                        .expectHeader().contentTypeCompatibleWith("application/json")
-                        .expectBody()
-                        .jsonPath("$.token").exists()
-                        .jsonPath("$.expiresAt").exists();
-                }
+        // 4️⃣ Access protected endpoint with token
+        mockMvc.perform(get("/me")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email").value(email));
+    }
 }

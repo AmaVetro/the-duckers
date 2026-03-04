@@ -1,3 +1,5 @@
+#infra/mongo/init/01_seed_catalog.sh:
+
 #!/bin/bash
 set -e
 

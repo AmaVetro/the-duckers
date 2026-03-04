@@ -1,6 +1,6 @@
 -- =====================================================
 -- The Duckers - MySQL Schema
--- File: 01_schema.sql
+-- File: infra/mysql/init/01_schema.sql
 -- Purpose: Create all transactional tables
 -- Author: Vicente
 -- Date: 2026-01-21
@@ -135,8 +135,6 @@ CREATE TABLE shopping_carts (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
 
-    CONSTRAINT uq_shopping_carts_user UNIQUE (user_id),
-
     CONSTRAINT fk_shopping_carts_user
         FOREIGN KEY (user_id)
         REFERENCES users(id)
@@ -190,11 +188,14 @@ CREATE TABLE orders (
 
     user_id BIGINT NOT NULL,
 
-    status VARCHAR(20) NOT NULL,
+    status ENUM('PENDING','PAID','CANCELLED') NOT NULL,
 
     subtotal BIGINT NOT NULL,
-    discount BIGINT NOT NULL,
-    iva BIGINT NOT NULL,
+
+    duoc_discount BIGINT NOT NULL DEFAULT 0,
+    points_discount BIGINT NOT NULL DEFAULT 0,
+
+    iva BIGINT NOT NULL DEFAULT 0,
     total BIGINT NOT NULL,
 
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -204,7 +205,7 @@ CREATE TABLE orders (
 
     CONSTRAINT fk_orders_user
         FOREIGN KEY (user_id)
-        REFERENCES users(id), 
+        REFERENCES users(id),
 
     CONSTRAINT chk_orders_status
         CHECK (status IN ('PENDING', 'PAID', 'CANCELLED')),
@@ -212,8 +213,11 @@ CREATE TABLE orders (
     CONSTRAINT chk_orders_subtotal
         CHECK (subtotal >= 0),
 
-    CONSTRAINT chk_orders_discount
-        CHECK (discount >= 0),
+    CONSTRAINT chk_orders_duoc_discount
+        CHECK (duoc_discount >= 0),
+
+    CONSTRAINT chk_orders_points_discount
+        CHECK (points_discount >= 0),
 
     CONSTRAINT chk_orders_iva
         CHECK (iva >= 0),
@@ -222,7 +226,9 @@ CREATE TABLE orders (
         CHECK (total >= 0),
 
     CONSTRAINT chk_orders_total_formula
-        CHECK (total = (subtotal - discount + iva))
+        CHECK (
+            total = (subtotal - duoc_discount - points_discount + iva)
+        )
 );
 
 -- -----------------------------------------------------
@@ -313,3 +319,17 @@ ON order_items(order_id);
 -- Shopping cart items
 CREATE INDEX idx_cart_items_cart_id
 ON shopping_cart_items(cart_id);
+
+
+
+
+
+-- -----------------------------------------------------
+-- Official Level Seed (Day 11)
+-- -----------------------------------------------------
+INSERT INTO levels (name, min_points) VALUES
+('BRONZE', 0),
+('SILVER', 100000),
+('GOLD', 300000),
+('PLATINUM', 700000),
+('DIAMOND', 1500000);

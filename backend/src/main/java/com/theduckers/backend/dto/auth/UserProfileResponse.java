@@ -1,5 +1,9 @@
 package com.theduckers.backend.dto.auth;
 
+
+//dto/auth/UserProfileResponse:
+
+
 public class UserProfileResponse {
 
     private Long id;

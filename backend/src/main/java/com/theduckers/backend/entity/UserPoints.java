@@ -3,6 +3,11 @@ package com.theduckers.backend.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+
+//entity/UserPoints:
+
+
+
 @Entity
 @Table(name = "user_points")
 public class UserPoints {

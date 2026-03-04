@@ -13,6 +13,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+
+
+
+//security/JwtAuthenticationFilter:
+
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -60,21 +65,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 String email = jwtService.extractEmail(token);
 
-                UserDetailsImpl userDetails =
-                        (UserDetailsImpl) userDetailsService.loadUserByUsername(email);
+                try {
+                        if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                                UserDetailsImpl userDetails =
+                                        (UserDetailsImpl) userDetailsService.loadUserByUsername(email);
 
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
+                                UsernamePasswordAuthenticationToken authentication =
+                                        UsernamePasswordAuthenticationToken.authenticated(
+                                                userDetails,
+                                                null,
+                                                userDetails.getAuthorities()
+                                        );
 
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
+                                authentication.setDetails(
+                                        new WebAuthenticationDetailsSource().buildDetails(request)
+                                );
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                                SecurityContextHolder.getContext().setAuthentication(authentication);
+                        }
+
+                } catch (Exception ex) {
+                // Silent failure: request will proceed unauthenticated
+                }
 
                 filterChain.doFilter(request, response);
         }
