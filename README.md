@@ -36,6 +36,10 @@ The project is intentionally architected to be explainable and defensible in tec
 - Docker
 - Docker Compose (local development)
 - Testcontainers (integration testing)
+- Render (backend hosting)
+- Railway (managed MySQL)
+- MongoDB Atlas (managed MongoDB)
+- Vercel (frontend hosting)
 
 ---
 
@@ -43,10 +47,19 @@ The project is intentionally architected to be explainable and defensible in tec
 
 - Public backend API (Render)
 - Public frontend (Vercel)
-- Managed MySQL
+- MySQL (Railway managed database)
 - MongoDB Atlas
 - Production profile configuration
 - CI pipeline enforced before deploy
+
+---
+
+### Production Architecture
+
+Frontend → Vercel  
+Backend → Render  
+MySQL → Railway  
+MongoDB → MongoDB Atlas
 
 ---
 
