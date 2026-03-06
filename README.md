@@ -283,11 +283,11 @@ This ensures economic sustainability while keeping financial rules decoupled fro
 
 Level Thresholds
 
-BRONZE   → 0
-SILVER   → 250,000
-GOLD     → 500,000
-PLATINUM → 850,000
-DIAMOND  → 1,500,000
+- BRONZE   → 0
+- SILVER   → 250,000
+- GOLD     → 500,000
+- PLATINUM → 850,000
+- DIAMOND  → 1,500,000
 
 ---
 
