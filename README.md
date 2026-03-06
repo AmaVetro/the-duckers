@@ -275,6 +275,22 @@ This ensures economic sustainability while keeping financial rules decoupled fro
 
 ---
 
+# Referral System
+
+- Each user receives a unique referral code.
+- Referral codes can be used only during registration.
+- Both the referrer and the referred user receive 700,000 points.
+
+Level Thresholds
+
+BRONZE   → 0
+SILVER   → 250,000
+GOLD     → 500,000
+PLATINUM → 850,000
+DIAMOND  → 1,500,000
+
+---
+
 ## 📄 License
 
 Educational and portfolio purposes.
