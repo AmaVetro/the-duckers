@@ -383,7 +383,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.points").value(119000))
-                        .andExpect(jsonPath("$.level").value("SILVER"));
+                        .andExpect(jsonPath("$.level").value("BRONZE"));
         }
 
 

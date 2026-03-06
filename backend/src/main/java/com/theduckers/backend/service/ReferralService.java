@@ -17,7 +17,7 @@ import com.theduckers.backend.repository.UserRepository;
 @Service
 public class ReferralService {
 
-    private static final long REFERRAL_BONUS_POINTS = 500;
+    private static final long REFERRAL_BONUS_POINTS = 700_000;
 
     private final UserRepository userRepository;
     private final ReferralRepository referralRepository;

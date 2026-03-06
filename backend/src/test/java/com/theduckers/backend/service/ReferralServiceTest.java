@@ -149,8 +149,8 @@ class ReferralServiceTest {
 
                 verify(referralRepository).save(any(Referral.class));
 
-                verify(pointsService).addPoints(1L, 500);
-                verify(pointsService).addPoints(2L, 500);
+                verify(pointsService).addPoints(1L, 700_000);
+                verify(pointsService).addPoints(2L, 700_000);
         }
 
 
