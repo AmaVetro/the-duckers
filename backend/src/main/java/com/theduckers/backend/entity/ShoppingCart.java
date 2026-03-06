@@ -26,7 +26,8 @@ public class ShoppingCart {
     @OneToMany(
         mappedBy = "cart",
         cascade = CascadeType.ALL,
-        orphanRemoval = true
+        orphanRemoval = true,
+        fetch = FetchType.EAGER
     )
     private List<ShoppingCartItem> items = new ArrayList<>();
 
