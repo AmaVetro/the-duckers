@@ -1,62 +1,78 @@
-//FrontEndDuckers/src/hooks/useAuth.js:
+// src/hooks/useAuth.js
 
 import { useEffect, useState } from "react";
+import { login as loginRequest } from "../services/authService";
 
 
-const STORAGE_KEY = "theduckers_auth";
-
-
-const readUserFromStorage = () => {
-  try {
-    const raw = sessionStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-};
-
+const TOKEN_KEY = "theduckers_token";
 
 
 
 export const useAuth = () => {
 
-  const [user, setUser] = useState(readUserFromStorage()); 
+    const [token, setToken] = useState(
+        sessionStorage.getItem(TOKEN_KEY)
+    );
 
-  useEffect(() => {
-    const sync = () => setUser(readUserFromStorage());
-    window.addEventListener("auth-changed", sync);
 
-    window.addEventListener("storage", sync);
-    return () => {
-      window.removeEventListener("auth-changed", sync);
-      window.removeEventListener("storage", sync);
+
+    const isLogged = !!token;
+
+
+
+    const login = async (email, password) => {
+
+        const data = await loginRequest(email, password);
+
+        const jwt = data.token;
+
+        sessionStorage.setItem(TOKEN_KEY, jwt);
+
+        setToken(jwt);
+
+        window.dispatchEvent(new Event("auth-changed"));
+
+        return true;
     };
-  }, []);
 
 
 
+    const logout = () => {
 
-  const login = ({ username }) => {
+        sessionStorage.removeItem(TOKEN_KEY);
 
-    const cleanUsername = (username || "demo_user").trim();
+        setToken(null);
 
-    const mockUser = {
-      username: cleanUsername,                 
-      name: cleanUsername,                    
-      email: `${cleanUsername}@example.com`,   
+        window.dispatchEvent(new Event("auth-changed"));
+
     };
 
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(mockUser));
-    window.dispatchEvent(new Event("auth-changed"));
-    return true;
-  };
 
-  const logout = () => {
-    sessionStorage.removeItem(STORAGE_KEY);
-    window.dispatchEvent(new Event("auth-changed"));
-  };
 
-  const isLogged = !!user;
+    useEffect(() => {
 
-  return { user, isLogged, login, logout };
+        const syncAuth = () => {
+            setToken(sessionStorage.getItem(TOKEN_KEY));
+        };
+
+        window.addEventListener("auth-changed", syncAuth);
+
+        window.addEventListener("storage", syncAuth);
+
+        return () => {
+            window.removeEventListener("auth-changed", syncAuth);
+            window.removeEventListener("storage", syncAuth);
+        };
+
+    }, []);
+
+
+
+    return {
+        token,
+        isLogged,
+        login,
+        logout
+    };
+
 };

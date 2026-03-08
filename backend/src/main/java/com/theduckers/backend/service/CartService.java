@@ -178,21 +178,24 @@ public class CartService {
         // 1) Get user's ACTIVE cart
         ShoppingCart cart = getOrCreateActiveCart(userId);
 
-        // 2) Fetch cart item by itemId
+        // 2) Fetch cart item
         ShoppingCartItem item = shoppingCartItemRepository.findById(itemId)
                 .orElseThrow(() ->
                         new BadRequestException("Cart item not found: " + itemId)
                 );
 
-        // 3) Validate item belongs to user's cart
+        // 3) Validate ownership
         if (!item.getCart().getId().equals(cart.getId())) {
             throw new BadRequestException("Cart item does not belong to user's cart");
         }
 
-        // 4) Remove item
+        // ⭐ IMPORTANT: remove from cart collection
+        cart.getItems().remove(item);
+
+        // 4) Delete from DB
         shoppingCartItemRepository.delete(item);
 
-        // 5) Return updated cart (required by controller)
+        // 5) Return updated cart
         return cart;
     }
 

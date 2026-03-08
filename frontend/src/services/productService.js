@@ -1,49 +1,53 @@
-//FrontEndDuckers/src/services/productService.js:
+// src/services/productService.js
 
-const API_BASE = import.meta.env.VITE_API_URL;
-const API_URL = `${API_BASE}/products`;
-
+import { apiFetch } from "./apiClient";
 
 
+
+/**
+ * Fetch all products
+ * Endpoint: GET /products
+ */
 export const getProducts = async () => {
 
-    const response = await fetch(API_URL); 
+    return await apiFetch("/products");
 
-    if (!response.ok) { 
-        throw new Error('Error al obtener los productos');
-    }
-
-    const products = await response.json(); 
-
-    return products; 
 };
 
 
 
+/**
+ * Fetch product by id
+ * Endpoint: GET /products/{id}
+ */
+export const getProductById = async (id) => {
 
-export const getProductById = async (id) => { 
-    const response = await fetch(`${API_URL}/${id}`); 
+    try {
 
-    if (response.status === 404) { 
-        return null; 
+        return await apiFetch(`/products/${id}`);
+
+    } catch (error) {
+
+        if (error.message.includes("404")) {
+            return null;
+        }
+
+        throw error;
+
     }
 
-    if (!response.ok) { 
-        throw new Error('Error al obtener el producto');
-    }
-
-
-    const product = await response.json();
-
-    return product; 
 };
 
 
 
-export const calculateTotal = (items) => { 
-    return items.reduce( 
+/**
+ * Calculate cart total (pure frontend utility)
+ */
+export const calculateTotal = (items) => {
+
+    return items.reduce(
         (accumulator, item) => accumulator + item.product.price * item.quantity,
         0
     );
-};
 
+};

@@ -84,7 +84,7 @@ export const CatalogView = ({ handler }) => {
                             name={prod.name}
                             description={prod.description}
                             price={prod.price}
-                            image={prod.image}  
+                            image={prod.images?.[0]}  
                         />
                     </div>
                 ))}

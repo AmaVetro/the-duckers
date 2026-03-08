@@ -1,4 +1,4 @@
-//FrontEndDuckers/src/hooks/useItemsCart.js:
+//frontend/src/hooks/useItemsCart.js:
 
 import { useEffect, useReducer } from "react";
 import { itemsReducer } from "../reducer/itemsReducer";
