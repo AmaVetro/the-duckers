@@ -1,4 +1,4 @@
-//FrontEndDuckers/src/routes/CartRoutes.jsx:
+//frontend/src/routes/CartRoutes.jsx:
 
 import { Navigate, Route, Routes } from "react-router-dom"
 import { CartView } from "../components/CartView"

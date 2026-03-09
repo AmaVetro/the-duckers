@@ -1,4 +1,4 @@
-//FrontEndDuckers/src/components/CartView.jsx:
+//frontend/src/components/CartView.jsx:
 
 import { useNavigate } from "react-router-dom";
 import { clp } from "../utils/currency";

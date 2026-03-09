@@ -1,3 +1,6 @@
+//frontend/src/hooks/useCart.js:
+
+
 import { useEffect, useState } from "react";
 import { getCart, addItem, removeItem } from "../services/cartService";
 

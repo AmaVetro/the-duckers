@@ -1,12 +1,17 @@
 //FrontEndDuckers/src/components/CatalogView.jsx:
 
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { getProducts } from "../services/productService";
 import { ProductCardView } from "./ProductCardView";
 
 
 
 export const CatalogView = ({ handler }) => {
+
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const categoryFilter = params.get("category");
 
     const [products, setProducts] = useState([]);
     const [query, setQuery] = useState("");
@@ -76,17 +81,19 @@ export const CatalogView = ({ handler }) => {
 
 
             <div className="row">
-                {products.map((prod) => (
-                    <div className="col-4 my-2" key={prod.id}>
-                        <ProductCardView
-                            handler={handler}
-                            id={prod.id}
-                            name={prod.name}
-                            description={prod.description}
-                            price={prod.price}
-                            image={prod.images?.[0]}  
-                        />
-                    </div>
+                {products
+                    .filter((p) => !categoryFilter || p.categoryId === categoryFilter)
+                    .map((prod) => (
+                        <div className="col-4 my-2" key={prod.id}>
+                            <ProductCardView
+                                handler={handler}
+                                id={prod.id}
+                                name={prod.name}
+                                description={prod.description}
+                                price={prod.price}
+                                image={prod.images?.[0]}  
+                            />
+                        </div>
                 ))}
             </div>
         </>

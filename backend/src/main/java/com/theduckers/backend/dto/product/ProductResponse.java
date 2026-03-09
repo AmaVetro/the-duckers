@@ -1,6 +1,7 @@
 package com.theduckers.backend.dto.product;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Public contract representation of a product.
@@ -22,6 +23,7 @@ public class ProductResponse {
     private Integer stock;
     private String categoryId;
     private List<String> images;
+    private Map<String, String> specs;
 
     public ProductResponse(
             String id,
@@ -30,7 +32,8 @@ public class ProductResponse {
             Long price,
             Integer stock,
             String categoryId,
-            List<String> images
+            List<String> images,
+            Map<String, String> specs
     ) {
         this.id = id;
         this.name = name;
@@ -39,6 +42,7 @@ public class ProductResponse {
         this.stock = stock;
         this.categoryId = categoryId;
         this.images = images;
+        this.specs = specs;
     }
 
     public String getId() {
@@ -68,4 +72,11 @@ public class ProductResponse {
     public List<String> getImages() {
         return images;
     }
+
+    public Map<String, String> getSpecs() {
+        return specs;
+
+
+
+
 }

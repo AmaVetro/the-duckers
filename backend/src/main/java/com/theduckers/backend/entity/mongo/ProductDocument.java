@@ -3,6 +3,7 @@ package com.theduckers.backend.entity.mongo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
+import java.util.Map;
 
 
 
@@ -20,6 +21,7 @@ public class ProductDocument {
     private Integer stock;
     private String categoryId;
     private List<String> images;
+    private Map<String, String> specs;
 
 
 
@@ -83,6 +85,9 @@ public class ProductDocument {
     }
 
 
+    public Map<String, String> getSpecs() {
+        return specs;
+    }
     
 
 

@@ -1,21 +1,18 @@
-//FrontEndDuckers/src/components/HomeView.jsx:
+//FrontEndDuckers/src/components/HomeView.jsx
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProducts } from "../services/productService";
-import { useAuth } from "../hooks/useAuth";  
+import { useAuth } from "../hooks/useAuth";
+import { getCategories } from "../services/categoryService";
 
 
 
-
-export const Slider = ({ slides = [], interval = []}) => {
-
-
+export const Slider = ({ slides = [], interval = 10000 }) => {
 
     const navigate = useNavigate(); 
     const [index, setIndex] = useState(0); 
     const [direction, setDirection] = useState("right"); 
-
 
     useEffect(() => { 
         if (!slides || slides.length === 0) return; 
@@ -29,13 +26,11 @@ export const Slider = ({ slides = [], interval = []}) => {
     }, [slides, interval]); 
 
 
-
-
-
     const prev = () => {
         setDirection("left"); 
         setIndex((i) => (i - 1 + slides.length) % slides.length); 
     };
+
     const next = () => {
         setDirection("right"); 
         setIndex((i) => (i + 1) % slides.length);  
@@ -43,89 +38,110 @@ export const Slider = ({ slides = [], interval = []}) => {
 
     if (!slides || slides.length === 0) return null;
 
-
     const currentSlide = slides[index];
-
 
     return (
 
-
         <div className="home-slider mb-4 position-relative">
-        <div
-            className="d-flex justify-content-center align-items-center"
-            style={{ height: '420px', overflow: 'hidden' }}
-        >
-            <img
-                key={index}
-                src={currentSlide.image}
-                alt={`slide-${index}`} 
-                className={`img-fluid slider-img slide-${direction}`}
-            />
-        </div>
-
-
-
-        <div className="slider-overlay">
-            <h5 className="mb-1">{currentSlide.title}</h5>
-            <p className="mb-2 small">
-            {currentSlide.description}
-            </p>
-            <button
-            className="btn btn-sm btn-transparent"
-            type="button" 
-            onClick={() => navigate(`/product/${currentSlide.id}`)}    //(3)
+            <div
+                className="d-flex justify-content-center align-items-center"
+                style={{ height: '420px', overflow: 'hidden' }}
             >
-            Ver detalles
+                <img
+                    key={index}
+                    src={currentSlide.image}
+                    alt={`slide-${index}`} 
+                    className={`img-fluid slider-img slide-${direction}`}
+                />
+            </div>
+
+            <div className="slider-overlay">
+                <h5 className="mb-1">{currentSlide.title}</h5>
+                <p className="mb-2 small">
+                    {currentSlide.description}
+                </p>
+                <button
+                    className="btn btn-sm btn-transparent"
+                    type="button" 
+                    onClick={() => navigate(`/product/${currentSlide.id}`)}
+                >
+                    Ver detalles
+                </button>
+            </div>
+
+            <button className="btn btn-dark slider-btn left" onClick={prev} aria-label="prev">
+                ❮
             </button>
-        </div>
 
+            <button className="btn btn-dark slider-btn right" onClick={next} aria-label="next">
+                ❯
+            </button>
 
-
-
-        <button className="btn btn-dark slider-btn left" onClick={prev} aria-label="prev">
-            ❮
-        </button>
-        <button className="btn btn-dark slider-btn right" onClick={next} aria-label="next">
-            ❯
-        </button>
         </div>
     );
 };
 
 
 
+const CategoryCard = ({ title, description, image, categoryId }) => {
 
-const CategoryCard = ({ title, description, image }) => (
-    <div className="card h-100">
-        <img
-        src={image}
-        className="card-img-top"
-        alt={title}
-        style={{ height: '160px', objectFit: 'cover' }}
-        />
-        <div className="card-body">
-            <h5 className="card-title">{title}</h5>
-            <p className="card-text">{description}</p>
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/catalog?category=${categoryId}`);
+    };
+
+    return (
+        <div className="card h-100 category-card" onClick={handleClick} style={{ cursor: "pointer" }}>
+            <img
+                src={image}
+                className="card-img-top"
+                alt={title}
+                style={{ height: '160px', objectFit: 'cover' }}
+            />
+            <div className="card-body">
+                <h5 className="card-title">{title}</h5>
+                <p className="card-text">{description}</p>
+            </div>
         </div>
-    </div>
-);
-
+    );
+};
 
 
 
 export const HomeView = () => {
 
-
     const { user, isLogged } = useAuth(); 
     const displayName = user?.name || user?.username || "";
 
-
     const navigate = useNavigate();
+
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
 
+
+    const loadCategories = async () => {
+
+        try {
+
+            const cats = await getCategories();
+
+            setCategories(cats);
+
+        } catch (error) {
+
+            console.error("Error loading categories", error);
+
+        }
+
+    };
+
+
+
     useEffect(() => {
+
         const loadProducts = async () => { 
             try {                   
                 const prods = await getProducts();
@@ -136,23 +152,23 @@ export const HomeView = () => {
                 setIsLoading(false);
             }
         };
+
         loadProducts();
+        loadCategories();
+
     }, []);
 
 
 
 
-    const featuredIds = [6, 7, 8, 9];
-    const slides = products 
-        .filter((p) => featuredIds.includes(p.id))
+    const slides = products
+        .slice(0, 4)
         .map((p) => ({
             id: p.id,
-            image: p.image,
+            image: p.images?.[0] || "/src/img/placeholder.jpg",
             title: p.name,
-            description: p.shortDescription, 
-    }));                
-
-
+            description: p.description,
+        }));
 
 
 
@@ -160,6 +176,9 @@ export const HomeView = () => {
         const product = products.find((p) => p.id === id);
         return product ? product.image : '/src/img/placeholder.jpg';
     };
+
+
+
     const categoryImages = {
         notebooks: getProductImageById(3),
         monitores: getProductImageById(4),
@@ -170,62 +189,63 @@ export const HomeView = () => {
 
     return (
         <div className="d-flex flex-column" style={{ minHeight: '100%' }}>
+
             <div className="flex-grow-1 pb-5">
+
                 {isLogged && displayName && (
-                <h3>Bienvenido, {displayName}</h3>
-                )}
-                {isLoading && (
-                <div className="alert alert-info my-2">Cargando productos...</div>
+                    <h3>Bienvenido, {displayName}</h3>
                 )}
 
-                
+                {isLoading && (
+                    <div className="alert alert-info my-2">
+                        Cargando productos...
+                    </div>
+                )}
+
                 <Slider slides={slides} interval={11000} />
 
 
-
                 <div className="row g-3 mt-3">
-                    <div className="col-md-4">
-                        <CategoryCard
-                        title="VR Sets"
-                        description="Dispositivos de realidad virtual diseñados para máxima inmersión y precisión en cada movimiento."
-                        image={categoryImages.notebooks}
-                        />
-                    </div>
-                    
-                    <div className="col-md-4">
-                        <CategoryCard
-                        title="Teclados"
-                        description="Teclados diseñados para confort y precisión, ideales para escritura, gaming y largas jornadas de uso."
-                        image={categoryImages.monitores}
-                        />
-                    </div>
 
-                    <div className="col-md-4">
-                        <CategoryCard
-                        title="Sillas Gamer"
-                        description="Sillas ergonómicas pensadas para brindar soporte y comodidad durante horas de juego o trabajo."
-                        image={categoryImages.desktop}
-                        />
-                    </div>
+                    {categories.map((category) => (
+
+                        <div className="col-md-4" key={category.id}>
+
+                            <CategoryCard
+                                title={category.name}
+                                description={category.description}
+                                image="/src/img/placeholder.jpg"
+                                categoryId={category.id}
+                            />
+
+                        </div>
+
+                    ))}
+
                 </div>
 
 
 
                 <div className="text-center mt-4">
+
                     <button
                         className="btn btn-outline-primary me-2"
                         onClick={() => navigate('/catalog')}
                     >
                         Ver Catálogo
                     </button>
+
                     <button
                         className="btn btn-outline-secondary"
                         onClick={() => navigate('/cart')}
                     >
                         Ir al Carrito
                     </button>
+
                 </div>
+
             </div>
+
         </div>
     );
 };

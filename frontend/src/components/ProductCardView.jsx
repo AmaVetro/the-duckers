@@ -1,4 +1,4 @@
-//FrontEndDuckers/src/components/ProductCardView.jsx:
+//frontend/src/components/ProductCardView.jsx:
 
 
 import { useNavigate } from "react-router-dom";

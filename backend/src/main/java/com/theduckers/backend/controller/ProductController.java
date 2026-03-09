@@ -111,7 +111,8 @@ public class ProductController {
                         doc.getPrice(),
                         doc.getStock(),
                         doc.getCategoryId(),
-                        doc.getImages()
+                        doc.getImages(),
+                        doc.getSpecs()
                 );
         }
 }

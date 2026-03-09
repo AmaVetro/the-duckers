@@ -1,3 +1,5 @@
+//frontend/src/components/AccountView.jsx:
+
 import React, { useState, useEffect } from "react";
 import { clp } from "../utils/currency";
 import { getProfile } from "../services/profileService";
