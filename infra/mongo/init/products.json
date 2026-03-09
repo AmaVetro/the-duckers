@@ -6,7 +6,7 @@
         "price": 39990,
         "stock": 20,
         "categoryId": "keyboards",
-        "images": ["https://placehold.co/600x400?text=Redragon+K552"],
+        "images": ["/images/products/mechanical-keyboard-redragon-k552.png"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Switch Type": "Mechanical",
@@ -24,7 +24,7 @@
         "price": 54990,
         "stock": 15,
         "categoryId": "keyboards",
-        "images": ["https://placehold.co/600x400?text=Logitech+G213"],
+        "images": ["/images/products/Logitech G213 Prodigy.png"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Switch Type": "Membrane",
@@ -42,7 +42,7 @@
         "price": 69990,
         "stock": 12,
         "categoryId": "keyboards",
-        "images": ["https://placehold.co/600x400?text=HyperX+Alloy+FPS+Pro"],
+        "images": ["/images/products/HyperX Alloy FPS Pro.png"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Switch Type": "Mechanical",
@@ -60,7 +60,7 @@
         "price": 129990,
         "stock": 8,
         "categoryId": "keyboards",
-        "images": ["https://placehold.co/600x400?text=Razer+BlackWidow+V3"],
+        "images": ["/images/products/Razer BlackWidow V3.png"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Switch Type": "Razer Mechanical",
@@ -79,7 +79,7 @@
         "price": 19990,
         "stock": 30,
         "categoryId": "mice",
-        "images": ["https://placehold.co/600x400?text=Logitech+G203"],
+        "images": ["/images/products/Logitech G203 Lightsync.png"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Sensor": "Optical",
@@ -97,7 +97,7 @@
         "price": 24990,
         "stock": 25,
         "categoryId": "mice",
-        "images": ["https://placehold.co/600x400?text=Razer+DeathAdder"],
+        "images": ["/images/products/Razer DeathAdder Essential.png"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Sensor": "Optical",
@@ -115,7 +115,7 @@
         "price": 29990,
         "stock": 18,
         "categoryId": "mice",
-        "images": ["https://placehold.co/600x400?text=SteelSeries+Rival+3"],
+        "images": ["/images/products/SteelSeries Rival 3.png"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Sensor": "Optical",
@@ -133,7 +133,7 @@
         "price": 59990,
         "stock": 10,
         "categoryId": "mice",
-        "images": ["https://placehold.co/600x400?text=Logitech+G502"],
+        "images": ["/images/products/Logitech G502 HERO.PNG"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Sensor": "HERO",
@@ -152,7 +152,7 @@
         "price": 49990,
         "stock": 14,
         "categoryId": "headsets",
-        "images": ["https://placehold.co/600x400?text=HyperX+Cloud+Stinger"],
+        "images": ["/images/products/HyperX Cloud Stinger.png"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Connection": "Wired",
@@ -170,7 +170,7 @@
         "price": 69990,
         "stock": 10,
         "categoryId": "headsets",
-        "images": ["https://placehold.co/600x400?text=Logitech+G335"],
+        "images": ["/images/products/Logitech G335.PNG"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Connection": "Wired",
@@ -188,7 +188,7 @@
         "price": 59990,
         "stock": 9,
         "categoryId": "headsets",
-        "images": ["https://placehold.co/600x400?text=Razer+Kraken+X"],
+        "images": ["/images/products/Razer Kraken X.PNG"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Connection": "Wired",
@@ -207,7 +207,7 @@
         "price": 14990,
         "stock": 40,
         "categoryId": "mousepads",
-        "images": ["https://placehold.co/600x400?text=SteelSeries+QcK"],
+        "images": ["/images/products/SteelSeries QcK Medium.PNG"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Size": "Medium",
@@ -225,7 +225,7 @@
         "price": 17990,
         "stock": 35,
         "categoryId": "mousepads",
-        "images": ["https://placehold.co/600x400?text=Logitech+G240"],
+        "images": ["/images/products/Logitech G240 Cloth Mouse Pad.png"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Size": "Medium",
@@ -243,7 +243,7 @@
         "price": 29990,
         "stock": 22,
         "categoryId": "mousepads",
-        "images": ["https://placehold.co/600x400?text=HyperX+Fury+S+XL"],
+        "images": ["/images/products/HyperX Fury S Pro XL.png"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Size": "XL",
@@ -262,7 +262,7 @@
         "price": 59990,
         "stock": 16,
         "categoryId": "controllers",
-        "images": ["https://placehold.co/600x400?text=Xbox+Controller"],
+        "images": ["/images/products/Xbox Wireless Controller for PC.png"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Connection": "Wireless",
@@ -280,7 +280,7 @@
         "price": 29990,
         "stock": 18,
         "categoryId": "controllers",
-        "images": ["https://placehold.co/600x400?text=Logitech+F310"],
+        "images": ["/images/products/Logitech F310 Gamepad.PNG"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Connection": "Wired",
@@ -298,7 +298,7 @@
         "price": 44990,
         "stock": 12,
         "categoryId": "controllers",
-        "images": ["https://placehold.co/600x400?text=8BitDo+Pro+2"],
+        "images": ["/images/products/8BitDo Pro 2 Wired Controller.png"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Connection": "Wired",
@@ -317,7 +317,7 @@
         "price": 189990,
         "stock": 6,
         "categoryId": "monitors",
-        "images": ["https://placehold.co/600x400?text=AOC+24G2"],
+        "images": ["/images/products/AOC 24G2 24 144Hz Monitor.png"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Resolution": "1920x1080",
@@ -335,7 +335,7 @@
         "price": 229990,
         "stock": 5,
         "categoryId": "monitors",
-        "images": ["https://placehold.co/600x400?text=LG+UltraGear+27"],
+        "images": ["/images/products/gaming-monitor-lg-27gn600-b.PNG"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Resolution": "1920x1080",
@@ -353,7 +353,7 @@
         "price": 199990,
         "stock": 7,
         "categoryId": "monitors",
-        "images": ["https://placehold.co/600x400?text=Samsung+Odyssey+G3"],
+        "images": ["/images/products/Samsung Odyssey G3 24.PNG"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
         "Resolution": "1920x1080",
