@@ -75,6 +75,7 @@ public class ProductResponse {
 
     public Map<String, String> getSpecs() {
         return specs;
+    }
 
 
 
