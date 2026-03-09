@@ -11,7 +11,10 @@
         "specs": {
         "Switch Type": "Mechanical",
         "Layout": "TKL",
-        "Connection": "Wired"
+        "Connection": "Wired",
+        "Backlighting": "Red LED",
+        "Key Rollover": "N-Key",
+        "Construction": "Metal Top Plate"
         }
     },
     {
@@ -26,7 +29,10 @@
         "specs": {
         "Switch Type": "Membrane",
         "Layout": "Full Size",
-        "Connection": "Wired"
+        "Connection": "Wired",
+        "Backlighting": "RGB Lightsync",
+        "Spill Resistance": "Yes",
+        "Palm Rest": "Integrated"
         }
     },
     {
@@ -41,7 +47,10 @@
         "specs": {
         "Switch Type": "Mechanical",
         "Layout": "TKL",
-        "Connection": "Wired"
+        "Connection": "Wired",
+        "Backlighting": "Red LED",
+        "Key Rollover": "100% Anti-Ghosting",
+        "Cable": "Detachable USB"
         }
     },
     {
@@ -54,9 +63,12 @@
         "images": ["https://placehold.co/600x400?text=Razer+BlackWidow+V3"],
         "createdAt": "2026-01-01T00:00:00Z",
         "specs": {
-        "Switch Type": "Mechanical",
+        "Switch Type": "Razer Mechanical",
         "Layout": "Full Size",
-        "Connection": "Wired"
+        "Connection": "Wired",
+        "Backlighting": "Razer Chroma RGB",
+        "Keycaps": "ABS Doubleshot",
+        "Polling Rate": "1000Hz"
         }
     },
 
@@ -72,7 +84,10 @@
         "specs": {
         "Sensor": "Optical",
         "DPI": "200–8000",
-        "Connection": "Wired"
+        "Connection": "Wired",
+        "Buttons": "6 Programmable",
+        "Lighting": "RGB Lightsync",
+        "Weight": "85g"
         }
     },
     {
@@ -87,7 +102,10 @@
         "specs": {
         "Sensor": "Optical",
         "DPI": "6400",
-        "Connection": "Wired"
+        "Connection": "Wired",
+        "Buttons": "5 Programmable",
+        "Ergonomics": "Right-Handed",
+        "Weight": "96g"
         }
     },
     {
@@ -102,7 +120,10 @@
         "specs": {
         "Sensor": "Optical",
         "DPI": "8500",
-        "Connection": "Wired"
+        "Connection": "Wired",
+        "Buttons": "6 Programmable",
+        "Lighting": "Prism RGB",
+        "Weight": "77g"
         }
     },
     {
@@ -117,7 +138,10 @@
         "specs": {
         "Sensor": "HERO",
         "DPI": "100–25600",
-        "Connection": "Wired"
+        "Connection": "Wired",
+        "Buttons": "11 Programmable",
+        "Weights": "Adjustable",
+        "Weight": "121g"
         }
     },
 
@@ -133,7 +157,10 @@
         "specs": {
         "Connection": "Wired",
         "Microphone": "Yes",
-        "Surround": "Stereo"
+        "Surround": "Stereo",
+        "Driver Size": "50mm",
+        "Weight": "275g",
+        "Cable Length": "1.3m"
         }
     },
     {
@@ -148,7 +175,10 @@
         "specs": {
         "Connection": "Wired",
         "Microphone": "Yes",
-        "Surround": "Stereo"
+        "Surround": "Stereo",
+        "Driver Size": "40mm",
+        "Weight": "240g",
+        "Headband": "Adjustable Suspension"
         }
     },
     {
@@ -163,7 +193,10 @@
         "specs": {
         "Connection": "Wired",
         "Microphone": "Yes",
-        "Surround": "7.1"
+        "Surround": "7.1",
+        "Driver Size": "40mm",
+        "Weight": "250g",
+        "Cable Length": "1.3m"
         }
     },
 
@@ -179,7 +212,10 @@
         "specs": {
         "Size": "Medium",
         "Surface": "Cloth",
-        "Base": "Rubber"
+        "Base": "Rubber",
+        "Dimensions": "320x270mm",
+        "Thickness": "2mm",
+        "Edge": "Non-stitched"
         }
     },
     {
@@ -194,7 +230,10 @@
         "specs": {
         "Size": "Medium",
         "Surface": "Cloth",
-        "Base": "Rubber"
+        "Base": "Rubber",
+        "Dimensions": "340x280mm",
+        "Thickness": "1mm",
+        "Compatibility": "Optical Sensors"
         }
     },
     {
@@ -209,7 +248,10 @@
         "specs": {
         "Size": "XL",
         "Surface": "Cloth",
-        "Base": "Rubber"
+        "Base": "Rubber",
+        "Dimensions": "900x420mm",
+        "Thickness": "4mm",
+        "Edge": "Stitched"
         }
     },
 
@@ -225,7 +267,10 @@
         "specs": {
         "Connection": "Wireless",
         "Compatibility": "PC",
-        "Layout": "Xbox"
+        "Layout": "Xbox",
+        "Battery": "AA Batteries",
+        "Bluetooth": "Yes",
+        "Vibration": "Dual Motors"
         }
     },
     {
@@ -240,7 +285,10 @@
         "specs": {
         "Connection": "Wired",
         "Compatibility": "PC",
-        "Layout": "Console-style"
+        "Layout": "Console-style",
+        "Buttons": "10",
+        "Cable Length": "1.8m",
+        "Vibration": "No"
         }
     },
     {
@@ -255,7 +303,10 @@
         "specs": {
         "Connection": "Wired",
         "Compatibility": "PC",
-        "Layout": "Symmetrical"
+        "Layout": "Symmetrical",
+        "Buttons": "12",
+        "Profiles": "3 Custom Profiles",
+        "Vibration": "Dual Motors"
         }
     },
 
@@ -271,7 +322,10 @@
         "specs": {
         "Resolution": "1920x1080",
         "Refresh Rate": "144Hz",
-        "Panel Type": "IPS"
+        "Panel Type": "IPS",
+        "Response Time": "1ms",
+        "Screen Size": "24\"",
+        "Adaptive Sync": "FreeSync"
         }
     },
     {
@@ -286,7 +340,10 @@
         "specs": {
         "Resolution": "1920x1080",
         "Refresh Rate": "144Hz",
-        "Panel Type": "IPS"
+        "Panel Type": "IPS",
+        "Response Time": "1ms",
+        "Screen Size": "27\"",
+        "Adaptive Sync": "G-Sync Compatible"
         }
     },
     {
@@ -301,7 +358,10 @@
         "specs": {
         "Resolution": "1920x1080",
         "Refresh Rate": "144Hz",
-        "Panel Type": "VA"
+        "Panel Type": "VA",
+        "Response Time": "1ms",
+        "Screen Size": "24\"",
+        "Adaptive Sync": "FreeSync Premium"
         }
     }
 ]
