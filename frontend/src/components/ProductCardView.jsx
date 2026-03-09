@@ -38,44 +38,46 @@ export const ProductCardView = ({ handler, id, image, name, description, price }
 
     return (
         <div className="card h-100">
-        <div className="card-body d-flex flex-column">
-            <img className="card-img-top mb-2" src={image} alt={name} />
-            <h5 className="card-title">{name}</h5>
+            <div className="card-body d-flex flex-column">
+                <div className="product-image-container">
+                    <img src={image} alt={name} />
+                </div>
+                <h5 className="card-title">{name}</h5>
 
-            <div className={`description-collapse ${showFull ? "expanded" : ""}`}>
-                <p className="card-text mb-1">
-                    {previewDescription} 
-                    {hasMore && (
-                        <button 
-                            type="button"
-                            className="btn btn-link btn-sm p-0 ms-1 text-info ver-mas-btn"
-                            onClick={() => setShowFull(prev => !prev)}
-                        >
-                            {showFull ? "Ver menos" : "Ver más"} 
-                        </button>
-                    )}
-                </p>
+                <div className={`description-collapse ${showFull ? "expanded" : ""}`}>
+                    <p className="card-text mb-1">
+                        {previewDescription} 
+                        {hasMore && (
+                            <button 
+                                type="button"
+                                className="btn btn-link btn-sm p-0 ms-1 text-info ver-mas-btn"
+                                onClick={() => setShowFull(prev => !prev)}
+                            >
+                                {showFull ? "Ver menos" : "Ver más"} 
+                            </button>
+                        )}
+                    </p>
+                </div>
+
+
+                <p className="card-text fw-bold mb-3">{clp(price)}</p>
+
+                <div className="mt-auto d-flex gap-2">
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => onAddProduct({ id, name, description, price })}
+                    >
+                        Añadir
+                    </button>
+
+                    <button
+                        className="btn btn-outline-secondary"
+                        onClick={onViewDetails} 
+                    >   
+                        Ver detalles
+                    </button>
+                </div>
             </div>
-
-
-            <p className="card-text fw-bold mb-3">{clp(price)}</p>
-
-            <div className="mt-auto d-flex gap-2">
-            <button
-                className="btn btn-primary"
-                onClick={() => onAddProduct({ id, name, description, price })}
-            >
-                Añadir
-            </button>
-
-            <button
-                className="btn btn-outline-secondary"
-                onClick={onViewDetails} 
-            >   
-                Ver detalles
-            </button>
-            </div>
-        </div>
         </div>
     );
 };

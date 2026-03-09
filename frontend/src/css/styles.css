@@ -134,6 +134,26 @@ html, body {
 }
 
 
+/* Contenedor para dejar todas las tarjetas del mismo tamaño */
+
+.product-image-container {
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #0f0f1a;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.product-image-container img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+
 /* ************************ SLIDER ************************ */
 .home-slider {
   position: relative;
