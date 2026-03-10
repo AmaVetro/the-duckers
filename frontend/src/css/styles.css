@@ -285,6 +285,28 @@ body {
   text-shadow: 0 0 5px #00fff7;
 }
 
+
+
+
+
+
+/* ************************ CATÁLOGO ************************ */
+
+
+/* ============================= */
+/* Catalog price filter inputs   */
+/* ============================= */
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.65) !important;
+  opacity: 1;
+}
+
+
+
+
+
+
 /* ************************ AVATAR (MI CUENTA) ************************ */
 .avatar-circle {
   width: 120px;

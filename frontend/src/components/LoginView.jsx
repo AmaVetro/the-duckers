@@ -99,15 +99,18 @@ export const LoginView = () => {
               >
                 Entrar
               </button>
-
             </div>
-
           </form>
 
-
-
           <p className="text-center text-gray-200 mt-3 mb-0">
-            ¿No tienes una cuenta? <span className="fw-semibold text-white">Regístrate</span>
+            ¿No tienes una cuenta?{" "}
+            <span
+              className="fw-semibold text-white"
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate("/register")}
+            >
+              Regístrate
+            </span>
           </p>
 
         </div>

@@ -2,7 +2,7 @@ package com.theduckers.backend.dto.order;
 
 
 
-//OrderItemResponse:
+//dto/order/OrderItemResponse:
 
 
 

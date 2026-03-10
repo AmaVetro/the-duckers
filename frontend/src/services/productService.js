@@ -1,4 +1,4 @@
-// src/services/productService.js
+// src/services/productService.js:
 
 import { apiFetch } from "./apiClient";
 
@@ -8,9 +8,33 @@ import { apiFetch } from "./apiClient";
  * Fetch all products
  * Endpoint: GET /products
  */
-export const getProducts = async () => {
+export const getProducts = async (filters = {}) => {
 
-    return await apiFetch("/products");
+    const params = new URLSearchParams();
+
+    if (filters.text) {
+        params.append("text", filters.text);
+    }
+
+    if (filters.category) {
+        params.append("category", filters.category);
+    }
+
+    if (filters.minPrice) {
+        params.append("minPrice", filters.minPrice);
+    }
+
+    if (filters.maxPrice) {
+        params.append("maxPrice", filters.maxPrice);
+    }
+
+    const queryString = params.toString();
+
+    const path = queryString
+        ? `/products?${queryString}`
+        : "/products";
+
+    return await apiFetch(path);
 
 };
 

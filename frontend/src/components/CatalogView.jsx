@@ -1,9 +1,10 @@
-//FrontEndDuckers/src/components/CatalogView.jsx:
+//frontend/src/components/CatalogView.jsx:
 
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getProducts } from "../services/productService";
 import { ProductCardView } from "./ProductCardView";
+import { getCategories } from "../services/categoryService";
 
 
 
@@ -13,30 +14,94 @@ export const CatalogView = ({ handler }) => {
     const params = new URLSearchParams(location.search);
     const categoryFilter = params.get("category");
 
+    useEffect(() => {
+        if (categoryFilter) {
+            setCategory(categoryFilter);
+            const applyCategoryFilter = async () => {
+                try {
+                    setIsLoading(true);
+                    const filteredProducts = await getProducts({
+                        text: "",
+                        category: categoryFilter,
+                        minPrice: "",
+                        maxPrice: ""
+                    });
+                    setProducts(filteredProducts);
+                } catch (error) {
+                    console.error("Error applying category filter", error);
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            applyCategoryFilter();
+        }
+    }, [categoryFilter]);
+
     const [products, setProducts] = useState([]);
-    const [query, setQuery] = useState("");
+    const [queryText, setQueryText] = useState("");
+    const [minPrice, setMinPrice] = useState("");
+    const [maxPrice, setMaxPrice] = useState("");
+    const [category, setCategory] = useState("");
+    const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    
 
 
 
     useEffect(() => {
         const loadProducts = async () => {
             try {
-                const prods = await getProducts(); 
-                setProducts(prods); 
+                const prods = await getProducts();
+                setProducts(prods);
             } catch (error) {
-                console.error('Error cargando productos', error); 
+                console.error("Error cargando productos", error);
             } finally {
-                setIsLoading(false); 
+                setIsLoading(false);
             }
         };
+
+        const loadCategories = async () => {
+            try {
+                const cats = await getCategories();
+                setCategories(cats);
+            } catch (error) {
+                console.error("Error cargando categorías", error);
+            }
+        };
+
         loadProducts();
+        loadCategories();
     }, []);
 
 
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
+
         e.preventDefault();
+
+        try {
+
+            setIsLoading(true);
+
+            const filteredProducts = await getProducts({
+                text: queryText,
+                category,
+                minPrice,
+                maxPrice
+            });
+
+            setProducts(filteredProducts);
+
+        } catch (error) {
+
+            console.error("Error filtering products", error);
+
+        } finally {
+
+            setIsLoading(false);
+
+        }
+
     };
 
 
@@ -48,16 +113,16 @@ export const CatalogView = ({ handler }) => {
                 <form
                     className="d-flex"
                     role="search"
-                    onSubmit={(e) => {e.preventDefault(); alert("Demo");}}
+                    onSubmit={onSubmit}
                     style={{ flex: 1, maxWidth: "600px", marginLeft: "20px" }}
                 >
                     <input
-                        className="form-control form-control-lg me-2 rounded-pill px-4"
+                        className="form-control me-2 rounded-pill px-4"
                         type="search"
-                        placeholder="🔍 Buscar productos, marcas o categorías..."
+                        placeholder="🔍 Busca productos o marcas..."
                         aria-label="Buscar"
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
+                        value={queryText}
+                        onChange={(e) => setQueryText(e.target.value)}
                     />
                     <button className="btn btn-primary rounded-pill px-4" type="submit">
                         Buscar
@@ -79,11 +144,63 @@ export const CatalogView = ({ handler }) => {
             )}
 
 
+            {/* Price Filters */}
+            <div className="row mb-3 align-items-end">
+                <div className="col-md-3">
+                    <input
+                        type="number"
+                        className="form-control"
+                        placeholder="Precio mínimo"
+                        value={minPrice}
+                        onChange={(e) => setMinPrice(e.target.value)}
+                    />
+                </div>
+                <div className="col-md-3">
+                    <input
+                        type="number"
+                        className="form-control"
+                        placeholder="Precio máximo"
+                        value={maxPrice}
+                        onChange={(e) => setMaxPrice(e.target.value)}
+                    />
+                </div>
+                <div className="col-md-1">
+
+                    <button
+                        className="btn btn-primary"
+                        style={{ height: "38px", padding: "0 16px" }}
+                        onClick={onSubmit}
+                    >
+                        Aplicar
+                    </button>
+                </div>
+            </div>
+
+
+
+            {/* Category Filter */}
+            <div className="row mb-3">
+                <div className="col-md-3">
+                    <select
+                        className="form-select"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                    >
+                        <option value="">
+                            Todas las categorías
+                        </option>
+                        {categories.map((cat) => (
+                            <option key={cat.id} value={cat.id}>
+                                {cat.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+
 
             <div className="row">
-                {products
-                    .filter((p) => !categoryFilter || p.categoryId === categoryFilter)
-                    .map((prod) => (
+                {products.map((prod) => (
                         <div className="col-4 my-2" key={prod.id}>
                             <ProductCardView
                                 handler={handler}

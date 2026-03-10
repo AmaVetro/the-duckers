@@ -1,3 +1,6 @@
+//frontend/src/components/ProductDetailView.jsx:
+
+
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProductById } from "../services/productService";

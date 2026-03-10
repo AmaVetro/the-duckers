@@ -3,8 +3,8 @@
 import { useNavigate } from "react-router-dom";
 import { clp } from "../utils/currency";
 
-export const CartView = ({ handlerDelete, items }) => {
-
+export const CartView = ({ handlerDelete, handlerUpdateQuantity, items }) => {
+  
   const navigate = useNavigate();
 
 
@@ -13,6 +13,36 @@ export const CartView = ({ handlerDelete, items }) => {
     handlerDelete(itemId);
 
   };
+
+  // ===============================
+  // Quantity handlers
+  // ===============================
+
+  const handleIncrease = (item) => {
+
+    const newQuantity = item.quantity + 1;
+
+    handlerUpdateQuantity(item.itemId, newQuantity);
+
+  };
+
+  const handleDecrease = (item) => {
+
+    const newQuantity = item.quantity - 1;
+
+    if (newQuantity < 1) {
+
+      handlerDelete(item.itemId);
+
+      return;
+
+    }
+
+    handlerUpdateQuantity(item.itemId, newQuantity);
+
+  };
+
+
 
 
   const onCatalog = () => {
@@ -66,7 +96,25 @@ export const CartView = ({ handlerDelete, items }) => {
 
                     <td>{clp(item.unitPrice)}</td>
 
-                    <td>{item.quantity}</td>
+                    <td>
+                      <div className="d-flex align-items-center justify-content-center gap-2">
+                        <button
+                          className="btn btn-sm btn-outline-secondary"
+                          onClick={() => handleDecrease(item)}
+                        >
+                          −
+                        </button>
+                        <span className="fw-semibold">
+                          {item.quantity}
+                        </span>
+                        <button
+                          className="btn btn-sm btn-outline-secondary"
+                          onClick={() => handleIncrease(item)}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </td>
 
                     <td>{clp(item.subtotal)}</td>
 

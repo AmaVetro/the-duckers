@@ -1,4 +1,4 @@
-//FrontEndDuckers/src/components/HomeView.jsx
+//frontend/src/components/HomeView.jsx
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -116,6 +116,22 @@ export const HomeView = () => {
 
     const navigate = useNavigate();
 
+    const categoryImages = {
+        controllers: "/images/categories/controllers.png",
+        monitors: "/images/categories/monitors.png",
+        mousepads: "/images/categories/mousepads.png",
+        keyboards: "/images/categories/keyboards.png",
+        mice: "/images/categories/mice.png",
+        headsets: "/images/categories/headsets.png"
+    };
+
+    const sliderImages = {
+        "gaming-mouse-razer-deathadder-essential": "/images/slider/razerdeathader.png",
+        "mousepad-logitech-g240": "/images/slider/Logitech G240 Cloth Mouse Pad.png",
+        "controller-8bitdo-pro-2-wired": "/images/slider/8bitdo.png",
+        "gaming-monitor-aoc-24g2": "/images/slider/ACO 24 G2 Monitor.png"
+    };
+
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -165,27 +181,10 @@ export const HomeView = () => {
         .slice(0, 4)
         .map((p) => ({
             id: p.id,
-            image: p.images?.[0] || "/src/img/placeholder.jpg",
+            image: sliderImages[p.id] || p.images?.[0] || "/src/img/placeholder.jpg",
             title: p.name,
             description: p.description,
         }));
-
-
-
-    const getProductImageById = (id) => {
-        const product = products.find((p) => p.id === id);
-        return product ? product.image : '/src/img/placeholder.jpg';
-    };
-
-
-
-    const categoryImages = {
-        notebooks: getProductImageById(3),
-        monitores: getProductImageById(4),
-        desktop: getProductImageById(5),
-    };
-
-
 
     return (
         <div className="d-flex flex-column" style={{ minHeight: '100%' }}>
@@ -214,7 +213,7 @@ export const HomeView = () => {
                             <CategoryCard
                                 title={category.name}
                                 description={category.description}
-                                image="/src/img/placeholder.jpg"
+                                image={categoryImages[category.id]}
                                 categoryId={category.id}
                             />
 

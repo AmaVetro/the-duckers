@@ -2,6 +2,7 @@ package com.theduckers.backend.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 
@@ -10,12 +11,20 @@ import jakarta.validation.constraints.Size;
 
 public class RegisterRequest {
 
-    @Email
     @NotBlank
+    @Email(message = "Email format is invalid")
+    @Pattern(
+        regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+        message = "Email must contain a valid domain (example@domain.com)"
+    )
     private String email;
 
     @NotBlank
-    @Size(min = 6)
+    @Size(min = 8, message = "Password must be at least 8 characters")
+    @Pattern(
+        regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$",
+        message = "Password must contain uppercase, lowercase and a number"
+    )
     private String password;
 
     @NotBlank

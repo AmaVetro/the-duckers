@@ -10,10 +10,11 @@ import { useAuth } from "../hooks/useAuth";
 import { CheckoutView } from "../components/CheckoutView";
 import { ProductDetailView } from "../components/ProductDetailView";
 import { ProtectedRoute } from "../components/auth/ProtectedRoute";
+import { RegisterView } from "../components/RegisterView";
 
 
 
-export const CartRoutes = ({ handlerAddProductCart, handlerDeleteProductCart, cartItems }) => {
+export const CartRoutes = ({ handlerAddProductCart, handlerDeleteProductCart, handlerUpdateQuantity, cartItems }) => {
     
     const { isLogged } = useAuth();
     
@@ -36,6 +37,7 @@ export const CartRoutes = ({ handlerAddProductCart, handlerDeleteProductCart, ca
                             <CartView
                                 items={cartItems}
                                 handlerDelete={handlerDeleteProductCart}
+                                handlerUpdateQuantity={handlerUpdateQuantity}
                             />
                         </div>
                         )
@@ -57,6 +59,7 @@ export const CartRoutes = ({ handlerAddProductCart, handlerDeleteProductCart, ca
                 }
             />
             <Route path="login" element={<LoginView />} />
+            <Route path="register" element={<RegisterView />} />
             <Route path="/" element={<Navigate to={'/home'} />} />
             <Route
                 path="checkout"

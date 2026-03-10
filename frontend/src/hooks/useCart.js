@@ -2,7 +2,7 @@
 
 
 import { useEffect, useState } from "react";
-import { getCart, addItem, removeItem } from "../services/cartService";
+import { getCart, addItem, removeItem, updateItem } from "../services/cartService";
 
 export const useCart = () => {
 
@@ -66,7 +66,6 @@ export const useCart = () => {
 
 
     const handlerDeleteProductCart = async (itemId) => {
-
         try {
 
             await removeItem(itemId);
@@ -76,20 +75,37 @@ export const useCart = () => {
         } catch (error) {
 
             console.error("Error removing item from cart", error);
-
         }
+    };
 
+
+
+
+    // ==============================
+    // Update cart item quantity
+    // ==============================
+
+    const updateQuantity = async (itemId, quantity) => {
+        try {
+
+            await updateItem(itemId, quantity);
+
+            await loadCart();
+
+        } catch (error) {
+
+            console.error("Error updating item quantity", error);
+        }
     };
 
 
 
     return {
-
         cartItems,
         loadingCart,
         handlerAddProductCart,
-        handlerDeleteProductCart
-
+        handlerDeleteProductCart,
+        updateQuantity
     };
 
 };

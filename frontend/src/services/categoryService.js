@@ -1,3 +1,5 @@
+//frontend/src/services/categoryService.js:
+
 import { apiFetch } from "./apiClient";
 
 /**
