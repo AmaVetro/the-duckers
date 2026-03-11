@@ -20,6 +20,9 @@ public class TestJwtUtils {
                 // Utility class
         }
 
+
+
+
         /**
          * Registers a new valid user for integration tests.
          */
@@ -45,6 +48,9 @@ public class TestJwtUtils {
                                 .content(requestBody))
                         .andExpect(status().isCreated());
         }
+
+
+
 
         /**
          * Performs login and returns JWT token.
@@ -73,6 +79,9 @@ public class TestJwtUtils {
                 return jsonNode.get("token").asText();
         }
 
+
+
+
         /**
          * Test-only DTO matching real RegisterRequest.
          */
@@ -83,6 +92,9 @@ public class TestJwtUtils {
                 String email,
                 String password
         ) {}
+
+
+
 
         /**
          * Test-only DTO matching real LoginRequest.

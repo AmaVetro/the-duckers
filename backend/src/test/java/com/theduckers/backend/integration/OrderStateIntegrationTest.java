@@ -45,7 +45,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
         @Autowired
         private ObjectMapper objectMapper;
 
-        private final String TEST_PASSWORD = "password123";
+        private final String TEST_PASSWORD = "Password123";
 
         @org.junit.jupiter.api.BeforeEach
         void cleanMongo() {

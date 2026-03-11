@@ -1,6 +1,5 @@
 //frontend/src/components/LoginView.jsx:
 
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
@@ -12,13 +11,42 @@ export const LoginView = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [errors, setErrors] = useState({});
+
   const navigate = useNavigate();
+
+
+  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+
+  const validateForm = () => {
+
+    const newErrors = {};
+
+    if (!emailRegex.test(email)) {
+      newErrors.email = "Ingresa un correo válido";
+    }
+
+    if (password.trim() === "") {
+      newErrors.password = "La contraseña es obligatoria";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
 
 
 
   const onSubmit = async (e) => {
 
     e.preventDefault();
+
+    const valid = validateForm();
+
+    if (!valid) {
+      return;
+    }
 
     try {
 
@@ -56,22 +84,32 @@ export const LoginView = () => {
 
           <form onSubmit={onSubmit}>
 
+            {/* EMAIL */}
+
             <div className="mb-3">
 
               <label className="form-label">Correo electrónico</label>
 
               <input
                 type="email"
-                className="form-control form-control-lg"
+                className={`form-control form-control-lg ${email && !emailRegex.test(email) ? "is-invalid" : ""}`}
                 placeholder="tu@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
               />
 
+              {errors.email && (
+                <div className="text-danger mt-1">
+                  {errors.email}
+                </div>
+              )}
+
             </div>
 
 
+
+            {/* PASSWORD */}
 
             <div className="mb-2">
 
@@ -86,6 +124,12 @@ export const LoginView = () => {
                 autoComplete="current-password"
               />
 
+              {errors.password && (
+                <div className="text-danger mt-1">
+                  {errors.password}
+                </div>
+              )}
+
             </div>
 
 
@@ -99,8 +143,12 @@ export const LoginView = () => {
               >
                 Entrar
               </button>
+
             </div>
+
           </form>
+
+
 
           <p className="text-center text-gray-200 mt-3 mb-0">
             ¿No tienes una cuenta?{" "}

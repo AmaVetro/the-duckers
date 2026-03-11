@@ -18,7 +18,7 @@ public class AuthIntegrationTest extends AbstractIntegrationTest {
     void register_and_login_should_return_valid_jwt_and_access_protected_endpoint() throws Exception {
 
         String email = "testuser@email.com";
-        String password = "password123";
+        String password = "Password123";
 
         // 1️⃣ Register user
         TestJwtUtils.registerUser(mockMvc, objectMapper, email, password);

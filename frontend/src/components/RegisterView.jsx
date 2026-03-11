@@ -103,9 +103,20 @@ export const RegisterView = () => {
 
         } catch (error) {
 
-            console.error("Register error:", error);
+        console.error("Register error:", error);
 
-            alert(error.message || "No se pudo crear la cuenta.");
+        if (error.message && error.message.toLowerCase().includes("email")) {
+
+            setErrors((prev) => ({
+            ...prev,
+            email: "El correo ya está en uso"
+            }));
+
+            return;
+
+        }
+
+        alert("No se pudo crear la cuenta.");
 
         }
 

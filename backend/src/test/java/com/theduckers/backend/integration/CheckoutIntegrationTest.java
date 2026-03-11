@@ -22,7 +22,7 @@ public class CheckoutIntegrationTest extends AbstractIntegrationTest {
         @Autowired
         private MongoTemplate mongoTemplate;
 
-        private final String TEST_PASSWORD = "password123";
+        private final String TEST_PASSWORD = "Password123";
 
         @BeforeEach
         void cleanMongo() {
