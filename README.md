@@ -22,6 +22,10 @@ The project is intentionally architected to be explainable and defensible in tec
 - React
 - Vite
 
+The React frontend provides a functional e-commerce interface connected
+to the backend API, including authentication, catalog browsing,
+product detail views, cart management and checkout flow.
+
 ### Backend
 - Java 21 LTS
 - Spring Boot 3.2.5
@@ -106,6 +110,12 @@ Services started:
 docker compose -f infra/docker-compose.yml down --volumes
 docker compose -f infra/docker-compose.yml up -d
 ```
+
+### 5. Start the backend API
+
+```bash
+cd backend
+./mvnw spring-boot:run
 
 ---
 
@@ -223,7 +233,8 @@ This ensures eventual consistency across data stores.
 
 ### Validated Flows
 
-- User registration & authentication
+- User registration (`POST /auth/register`)
+- User authentication (`POST /auth/login`)
 - Add-to-cart
 - Snapshot verification
 - Successful checkout reduces stock atomically
