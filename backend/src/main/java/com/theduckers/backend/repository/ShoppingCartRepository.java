@@ -39,4 +39,16 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long
 
 
     List<ShoppingCart> findAllByUserIdAndStatus(Long userId, String status);
+
+
+    @Query("""
+        SELECT c
+        FROM ShoppingCart c
+        LEFT JOIN FETCH c.items
+        WHERE c.userId = :userId
+        AND c.status = :status
+    """)
+    Optional<ShoppingCart> findActiveCartWithItems(Long userId, String status);
+
+    
 }

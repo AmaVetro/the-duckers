@@ -53,10 +53,13 @@ public class OrderService {
         @Transactional
         public Order checkout(Long userId, boolean redeemPoints) {
                 ShoppingCart cart = shoppingCartRepository
-                        .findByUserIdAndStatus(userId, "ACTIVE")
+                        .findActiveCartWithItems(userId, "ACTIVE")
                         .orElseThrow(() ->
                                 new BadRequestException("No active cart found")
                         );
+
+                System.out.println("DEBUG CART ID: " + cart.getId());
+                System.out.println("DEBUG CART ITEMS COUNT: " + cart.getItems().size());
 
                 if (cart.getItems().isEmpty()) {
                         throw new BadRequestException("Cannot checkout an empty cart");
