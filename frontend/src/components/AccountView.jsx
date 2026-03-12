@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { clp } from "../utils/currency";
 import { getProfile } from "../services/profileService";
+import { getOrders, cancelOrder } from "../services/orderService";
+
 
 const initialsFrom = (value) => {
   const parts = (value || "").trim().split(" ");
@@ -74,6 +76,37 @@ export const AccountView = () => {
   const [profile, setProfile] = useState(null);
   const [loadingProfile, setLoadingProfile] = useState(true);
 
+  const [orders, setOrders] = useState([]);
+
+
+  const loadOrders = async () => {
+    try {
+      const data = await getOrders();
+      setOrders(data);
+    } catch (error) {
+      console.error("Error loading orders", error);
+    }
+  };
+
+
+  const handleCancelOrder = async (orderId) => {
+
+    try {
+
+      await cancelOrder(orderId);
+
+      await loadOrders();
+
+    } catch (error) {
+
+      console.error("Error cancelling order", error);
+
+      alert("No se pudo cancelar la orden");
+
+    }
+
+  };
+
 
   useEffect(() => {
 
@@ -97,6 +130,7 @@ export const AccountView = () => {
     };
 
     loadProfile();
+    loadOrders();
 
   }, []);
 
@@ -184,9 +218,9 @@ export const AccountView = () => {
 
                   <tbody>
 
-                    {mockOrders.map((o) => {
+                    {orders.map((o) => {
 
-                      const fecha = new Date(o.date).toLocaleDateString("es-CL");
+                      const fecha = new Date(o.createdAt).toLocaleDateString("es-CL");
                       const expanded = expandedId === o.id;
 
                       return (
@@ -204,20 +238,39 @@ export const AccountView = () => {
                               </span>
                             </td>
 
-                            <td className="text-center">{o.itemsCount}</td>
+                            <td className="text-center">{o.items?.length ?? 0}</td>
 
                             <td className="text-end">{clp(o.total)}</td>
 
+
+
                             <td className="text-end">
 
-                              <button
-                                className="btn btn-sm btn-outline-secondary"
-                                onClick={() => toggle(o.id)}
-                              >
-                                {expanded ? "Ocultar" : "Ver detalle"}
-                              </button>
+                              <div className="d-flex gap-2 justify-content-end">
+
+                                <button
+                                  className="btn btn-sm btn-outline-secondary"
+                                  onClick={() => toggle(o.id)}
+                                >
+                                  {expanded ? "Ocultar" : "Ver detalle"}
+                                </button>
+
+                                {o.status === "PENDING" && (
+
+                                  <button
+                                    className="btn btn-sm btn-outline-danger"
+                                    onClick={() => handleCancelOrder(o.id)}
+                                  >
+                                    Cancelar
+                                  </button>
+
+                                )}
+
+                              </div>
 
                             </td>
+
+
 
                           </tr>
 
@@ -253,18 +306,18 @@ export const AccountView = () => {
 
                                       <tbody>
 
-                                        {o.items.map((it, idx) => (
+                                        {o.items?.map((it, idx) => (
 
                                           <tr key={idx}>
 
-                                            <td>{it.name}</td>
+                                            <td>{it.productName}</td>
 
-                                            <td className="text-center">{it.qty}</td>
+                                            <td className="text-center">{it.quantity}</td>
 
-                                            <td className="text-end">{clp(it.price)}</td>
+                                            <td className="text-end">{clp(it.unitPrice)}</td>
 
                                             <td className="text-end">
-                                              {clp(it.price * it.qty)}
+                                              {clp(it.subtotal)}
                                             </td>
 
                                           </tr>

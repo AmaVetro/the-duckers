@@ -3,6 +3,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { clp } from "../utils/currency";
+import { checkout, payOrder } from "../services/orderService";
+import { getCart } from "../services/cartService";
 
 
 
@@ -11,24 +13,39 @@ export const CheckoutView = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const total = location?.state?.total ?? 0;
-
+  const previewTotal = location?.state?.total ?? 0;
+  
   const [paymentMethod, setPaymentMethod] = useState("tarjeta");
   const [deliveryMethod, setDeliveryMethod] = useState("despacho");
+  const [orderId, setOrderId] = useState(null);
 
-  const orderTotal = useMemo(() => total, [total]);
+  const orderTotal = useMemo(() => previewTotal, [previewTotal]);
 
-  const handleConfirm = (e) => {
+  const createOrder = async () => {
+
+    const order = await checkout(false);
+
+    setOrderId(order.id);
+
+    return order.id;
+
+  };
+
+  const executePayment = async (orderId) => {
+    await payOrder(orderId);
+  };
+
+  const handleConfirm = async (e) => {
     e.preventDefault();
-    const nroPedido = Math.floor(100000 + Math.random() * 900000);
-    alert(
-      `¡Pago simulado!\n\n` +
-      `Pedido: #${nroPedido}\n` +
-      `Total: ${clp(orderTotal)}\n` +
-      `Pago: ${paymentMethod}\n` +
-      `Entrega: ${deliveryMethod === "despacho" ? "Despacho a domicilio" : "Retiro en tienda"}`
-    );
-    navigate("/home");
+    try {
+      const id = await createOrder();
+      await executePayment(id);
+      alert("Pago completado exitosamente");
+      navigate("/account");
+    } catch (error) {
+      console.error("Checkout error:", error);
+      alert("Error procesando la orden");
+    }
   };
 
   return (
@@ -42,7 +59,7 @@ export const CheckoutView = () => {
               <h5 className="card-title mb-3">Resumen de pago</h5>
 
               <div className="mb-3">
-                <label className="form-label fw-semibold">Total a pagar</label>
+                <label className="form-label fw-semibold">Total estimado del carrito</label>
                 <div className="form-control" readOnly>
                   {clp(orderTotal)}
                 </div>
@@ -150,7 +167,7 @@ export const CheckoutView = () => {
             <div className="card-body">
               <h6 className="fw-bold mb-2">Detalle</h6>
               <div className="d-flex justify-content-between">
-                <span>Total</span>
+                <span>Total estimado</span>
                 <span className="fw-semibold">{clp(orderTotal)}</span>
               </div>
               <hr />

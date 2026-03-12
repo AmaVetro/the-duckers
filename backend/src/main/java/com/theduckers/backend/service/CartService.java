@@ -6,6 +6,10 @@ import com.theduckers.backend.exception.BadRequestException;
 import com.theduckers.backend.repository.ShoppingCartItemRepository;
 import com.theduckers.backend.repository.ShoppingCartRepository;
 import com.theduckers.backend.repository.mongo.ProductRepository;
+
+import java.util.Comparator;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,12 +49,40 @@ public class CartService {
     @Transactional
     public ShoppingCart getOrCreateActiveCart(Long userId) {
 
-        return shoppingCartRepository
-                .findByUserIdAndStatus(userId, "ACTIVE")
-                .orElseGet(() -> {
-                    ShoppingCart newCart = new ShoppingCart(userId);
-                    return shoppingCartRepository.save(newCart);
-                });
+        List<ShoppingCart> activeCarts =
+                shoppingCartRepository.findAllByUserIdAndStatus(userId, "ACTIVE");
+
+        // Case 1 — no active cart → create one
+        if (activeCarts.isEmpty()) {
+
+            ShoppingCart newCart = new ShoppingCart(userId);
+            return shoppingCartRepository.save(newCart);
+        }
+
+        // Case 2 — exactly one active cart → use it
+        if (activeCarts.size() == 1) {
+            return activeCarts.get(0);
+        }
+
+        // Case 3 — multiple ACTIVE carts (DB inconsistency)
+        // Choose the most recent one and close the others
+
+        activeCarts.sort(
+            Comparator.comparing(ShoppingCart::getCreatedAt).reversed()
+        );
+
+        ShoppingCart newestCart = activeCarts.get(0);
+
+        for (int i = 1; i < activeCarts.size(); i++) {
+
+            ShoppingCart duplicate = activeCarts.get(i);
+
+            duplicate.markAsCheckedOut();
+
+            shoppingCartRepository.save(duplicate);
+        }
+
+        return newestCart;
     }
 
 

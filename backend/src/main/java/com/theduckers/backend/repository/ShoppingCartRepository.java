@@ -4,6 +4,7 @@ import com.theduckers.backend.entity.ShoppingCart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -35,4 +36,7 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long
         WHERE c.id = :id
     """)
     Optional<ShoppingCart> findByIdWithItems(Long id);
+
+
+    List<ShoppingCart> findAllByUserIdAndStatus(Long userId, String status);
 }

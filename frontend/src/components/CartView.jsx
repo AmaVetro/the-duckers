@@ -51,6 +51,7 @@ export const CartView = ({ handlerDelete, handlerUpdateQuantity, items }) => {
 
   };
 
+  const cartTotal = items.reduce((acc, item) => acc + item.subtotal, 0);
 
   return (
 
@@ -150,9 +151,16 @@ export const CartView = ({ handlerDelete, handlerUpdateQuantity, items }) => {
 
             <button
               className="btn btn-primary ms-2"
-              onClick={() => navigate("/checkout")}
+              onClick={() =>
+                navigate("/checkout", {
+                  state: {
+                    total: items.reduce((sum, item) => sum + item.subtotal, 0),
+                    items
+                  }
+                })
+              }
             >
-              - - Realizar pago - -
+              Realizar pago
             </button>
 
           </div>

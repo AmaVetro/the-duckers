@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -59,8 +60,8 @@ class CartServiceTest {
 
         @Test
         void getOrCreateActiveCart_createsCartWhenNoneExists() {
-                when(shoppingCartRepository.findByUserIdAndStatus(USER_ID, "ACTIVE"))
-                        .thenReturn(Optional.empty());
+                when(shoppingCartRepository.findAllByUserIdAndStatus(USER_ID, "ACTIVE"))
+                        .thenReturn(List.of());
 
                 when(shoppingCartRepository.save(any()))
                         .thenAnswer(invocation -> invocation.getArgument(0));
@@ -82,8 +83,8 @@ class CartServiceTest {
                 when(product.getName()).thenReturn("Mechanical Keyboard");
                 when(product.getPrice()).thenReturn(49990L);
 
-                when(shoppingCartRepository.findByUserIdAndStatus(USER_ID, "ACTIVE"))
-                        .thenReturn(Optional.of(cart));
+                when(shoppingCartRepository.findAllByUserIdAndStatus(USER_ID, "ACTIVE"))
+                        .thenReturn(List.of(cart));
 
                 when(productRepository.findById(PRODUCT_ID))
                         .thenReturn(Optional.of(product));
@@ -105,8 +106,8 @@ class CartServiceTest {
                 ShoppingCartItem existingItem =
                         new ShoppingCartItem(cart, PRODUCT_ID, "Mechanical Keyboard", 49990L, 1);
 
-                when(shoppingCartRepository.findByUserIdAndStatus(USER_ID, "ACTIVE"))
-                        .thenReturn(Optional.of(cart));
+                when(shoppingCartRepository.findAllByUserIdAndStatus(USER_ID, "ACTIVE"))
+                        .thenReturn(List.of(cart));
 
                 when(productRepository.findById(PRODUCT_ID))
                         .thenReturn(Optional.of(mock(ProductDocument.class)));
@@ -135,8 +136,8 @@ class CartServiceTest {
                 ShoppingCartItem item =
                         new ShoppingCartItem(cart, PRODUCT_ID, "Mechanical Keyboard", 49990L, 1);
 
-                when(shoppingCartRepository.findByUserIdAndStatus(USER_ID, "ACTIVE"))
-                        .thenReturn(Optional.of(cart));
+                when(shoppingCartRepository.findAllByUserIdAndStatus(USER_ID, "ACTIVE"))
+                        .thenReturn(List.of(cart));
 
                 when(shoppingCartItemRepository.findById(1L))
                         .thenReturn(Optional.of(item));
@@ -156,8 +157,8 @@ class CartServiceTest {
                 ShoppingCartItem item =
                         new ShoppingCartItem(cart, PRODUCT_ID, "Mechanical Keyboard", 49990L, 1);
 
-                when(shoppingCartRepository.findByUserIdAndStatus(USER_ID, "ACTIVE"))
-                        .thenReturn(Optional.of(cart));
+                when(shoppingCartRepository.findAllByUserIdAndStatus(USER_ID, "ACTIVE"))
+                        .thenReturn(List.of(cart));
 
                 when(shoppingCartItemRepository.findById(1L))
                         .thenReturn(Optional.of(item));
