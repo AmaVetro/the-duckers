@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { clp } from "../utils/currency";
 import { getProfile } from "../services/profileService";
 import { getOrders, cancelOrder } from "../services/orderService";
+import { useNavigate } from "react-router-dom";
 
 
 const initialsFrom = (value) => {
@@ -13,46 +14,6 @@ const initialsFrom = (value) => {
   return (first + last).toUpperCase();
 };
 
-
-const mockOrders = [
-  {
-    id: "TDK-2025-00123",
-    date: "2025-10-04T15:35:00",
-    status: "Entregado",
-    itemsCount: 3,
-    total: 18990 + 46990 + 74990,
-    payment: "Tarjeta •••• 1234",
-    shippingSummary: "Entrega a domicilio, Ñuñoa",
-    items: [
-      { name: "Auriculares Force 2", qty: 1, price: 18990 },
-      { name: "Mouse RobotRat", qty: 1, price: 46990 },
-      { name: "Teclado Platforms 5", qty: 1, price: 74990 },
-    ],
-  },
-  {
-    id: "TDK-2025-00145",
-    date: "2025-10-21T11:10:00",
-    status: "En camino",
-    itemsCount: 2,
-    total: 45990 + 84990,
-    payment: "Tarjeta •••• 5678",
-    shippingSummary: "Retiro en tienda, Santiago Centro",
-    items: [
-      { name: "Teclado Amazonia R50", qty: 1, price: 45990 },
-      { name: "Silla Gamer Comfy Throne 3", qty: 1, price: 84990 },
-    ],
-  },
-  {
-    id: "TDK-2025-00187",
-    date: "2025-11-02T18:48:00",
-    status: "Procesando",
-    itemsCount: 1,
-    total: 287990,
-    payment: "Transferencia bancaria",
-    shippingSummary: "Entrega a domicilio, Providencia",
-    items: [{ name: "VR Headset Luminous Vision", qty: 1, price: 287990 }],
-  },
-];
 
 const badgeFor = (status) => {
   switch (status) {
@@ -71,6 +32,7 @@ const badgeFor = (status) => {
 
 export const AccountView = () => {
 
+  const navigate = useNavigate();
   const [expandedId, setExpandedId] = useState(null);
 
   const [profile, setProfile] = useState(null);
@@ -221,14 +183,14 @@ export const AccountView = () => {
                     {orders.map((o) => {
 
                       const fecha = new Date(o.createdAt).toLocaleDateString("es-CL");
-                      const expanded = expandedId === o.id;
+                      const expanded = expandedId === o.orderId;
 
                       return (
-                        <React.Fragment key={o.id}>
+                        <React.Fragment key={o.orderId}>
 
                           <tr>
 
-                            <td className="fw-medium">{o.id}</td>
+                            <td className="fw-medium">{o.orderId}</td>
 
                             <td>{fecha}</td>
 
@@ -250,7 +212,7 @@ export const AccountView = () => {
 
                                 <button
                                   className="btn btn-sm btn-outline-secondary"
-                                  onClick={() => toggle(o.id)}
+                                  onClick={() => toggle(o.orderId)}
                                 >
                                   {expanded ? "Ocultar" : "Ver detalle"}
                                 </button>
@@ -259,12 +221,24 @@ export const AccountView = () => {
 
                                   <button
                                     className="btn btn-sm btn-outline-danger"
-                                    onClick={() => handleCancelOrder(o.id)}
+                                    onClick={() => handleCancelOrder(o.orderId)}
                                   >
                                     Cancelar
                                   </button>
+                                )}
+
+                                {o.status === "PENDING" && (
+
+                                  <button
+                                    className="btn btn-sm btn-outline-primary"
+                                    onClick={() => navigate(`/payment/${o.orderId}`)}
+                                  >
+                                    Continuar
+                                  </button>
 
                                 )}
+
+                                
 
                               </div>
 

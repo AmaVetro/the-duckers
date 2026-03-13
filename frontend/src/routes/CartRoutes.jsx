@@ -8,6 +8,8 @@ import { AccountView } from '../components/AccountView';
 import { LoginView } from '../components/LoginView';
 import { useAuth } from "../hooks/useAuth";
 import { CheckoutView } from "../components/CheckoutView";
+import { PaymentView } from "../components/PaymentView";
+import { OrderConfirmationView } from "../components/OrderConfirmationView";
 import { ProductDetailView } from "../components/ProductDetailView";
 import { ProtectedRoute } from "../components/auth/ProtectedRoute";
 import { RegisterView } from "../components/RegisterView";
@@ -66,6 +68,25 @@ export const CartRoutes = ({ handlerAddProductCart, handlerDeleteProductCart, ha
                 element={
                     <ProtectedRoute>
                     <CheckoutView />
+                    </ProtectedRoute>
+                }
+            />
+
+
+            <Route
+                path="payment/:orderId"
+                element={
+                    <ProtectedRoute>
+                        <PaymentView />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="order-confirmation/:orderId"
+                element={
+                    <ProtectedRoute>
+                        <OrderConfirmationView />
                     </ProtectedRoute>
                 }
             />

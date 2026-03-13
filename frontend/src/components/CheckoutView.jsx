@@ -1,51 +1,165 @@
-//FrontEndDuckers/src/components/CheckoutView.jsx:
+//frontend/src/components/CheckoutView.jsx:
 
-import { useLocation, useNavigate } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { clp } from "../utils/currency";
-import { checkout, payOrder } from "../services/orderService";
+import { checkout } from "../services/orderService";
 import { getCart } from "../services/cartService";
-
-
-
+import { getProfile } from "../services/profileService";
 
 export const CheckoutView = () => {
-  const location = useLocation();
+
   const navigate = useNavigate();
 
-  const previewTotal = location?.state?.total ?? 0;
-  
-  const [paymentMethod, setPaymentMethod] = useState("tarjeta");
-  const [deliveryMethod, setDeliveryMethod] = useState("despacho");
-  const [orderId, setOrderId] = useState(null);
+  const [cartTotal, setCartTotal] = useState(0);
+  const [userPoints, setUserPoints] = useState(0);
+  const [userEmail, setUserEmail] = useState("");
+  const [usePoints, setUsePoints] = useState(false);
+  const [pointsDiscount, setPointsDiscount] = useState(0);
+  const [duocDiscount, setDuocDiscount] = useState(0);
+  const [ivaAmount, setIvaAmount] = useState(0);
+  const [finalTotal, setFinalTotal] = useState(0);
 
-  const orderTotal = useMemo(() => previewTotal, [previewTotal]);
+  useEffect(() => {
 
-  const createOrder = async () => {
+    const loadCartTotal = async () => {
 
-    const order = await checkout(false);
+      try {
 
-    setOrderId(order.id);
+        const cart = await getCart();
 
-    return order.id;
+        const total = cart.items?.reduce(
+          (sum, item) => sum + item.subtotal,
+          0
+        ) ?? 0;
 
-  };
+        setCartTotal(total);
 
-  const executePayment = async (orderId) => {
-    await payOrder(orderId);
-  };
+      } catch (error) {
+
+        console.error("Error loading cart total", error);
+
+      }
+
+    };
+
+
+    const loadUserPoints = async () => {
+
+      try {
+
+        const profile = await getProfile();
+
+        setUserPoints(profile.points ?? 0);
+        setUserEmail(profile.email ?? "");
+
+      } catch (error) {
+
+        console.error("Error loading user points", error);
+
+      }
+
+    };
+
+    loadCartTotal();
+    loadUserPoints();
+
+  }, []);
+
+
+
+
+  useEffect(() => {
+
+    if (!usePoints) {
+
+      setPointsDiscount(0);
+      return;
+
+    }
+
+    const maxDiscount = cartTotal * 0.30;
+
+    const availableDiscount = userPoints / 100;
+
+    const discount = Math.min(availableDiscount, maxDiscount);
+
+    setPointsDiscount(Math.floor(discount));
+
+  }, [usePoints, userPoints, cartTotal]);
+
+
+
+  useEffect(() => {
+
+    if (!userEmail) {
+
+      setDuocDiscount(0);
+      return;
+
+    }
+
+    const isDuocUser = userEmail.endsWith("@duocuc.cl");
+
+    if (!isDuocUser) {
+
+      setDuocDiscount(0);
+      return;
+
+    }
+
+    const discount = cartTotal * 0.10;
+
+    setDuocDiscount(Math.floor(discount));
+
+  }, [userEmail, cartTotal]);
+
+
+  useEffect(() => {
+
+    const taxableBase = cartTotal - pointsDiscount - duocDiscount;
+
+    if (taxableBase <= 0) {
+
+      setIvaAmount(0);
+      setFinalTotal(0);
+      return;
+
+    }
+
+    const iva = Math.floor(taxableBase * 0.19);
+
+    setIvaAmount(iva);
+
+    const total = taxableBase + iva;
+
+    setFinalTotal(Math.floor(total));
+
+  }, [cartTotal, pointsDiscount, duocDiscount]);
+
+
+
 
   const handleConfirm = async (e) => {
+
     e.preventDefault();
+
     try {
-      const id = await createOrder();
-      await executePayment(id);
-      alert("Pago completado exitosamente");
-      navigate("/account");
+
+      const order = await checkout(false);
+
+      const orderId = order.orderId;
+
+      navigate(`/payment/${orderId}`);
+
     } catch (error) {
+
       console.error("Checkout error:", error);
-      alert("Error procesando la orden");
+
+      alert("Error creando la orden");
+
     }
+
   };
 
   return (
@@ -53,128 +167,157 @@ export const CheckoutView = () => {
       <h3 className="mb-3">Checkout</h3>
 
       <div className="row g-3">
+
         <div className="col-12 col-lg-8">
+
           <div className="card">
+
             <div className="card-body">
-              <h5 className="card-title mb-3">Resumen de pago</h5>
+
+              <h5 className="card-title mb-3">
+                Resumen de pago
+              </h5>
 
               <div className="mb-3">
-                <label className="form-label fw-semibold">Total estimado del carrito</label>
+                <label className="form-label fw-semibold">
+                  Total estimado del carrito
+                </label>
+
                 <div className="form-control" readOnly>
-                  {clp(orderTotal)}
+                  {clp(cartTotal)}
                 </div>
               </div>
 
               <div className="mb-3">
-                <label className="form-label fw-semibold">Método de pago</label>
-                <div className="d-flex gap-3 flex-wrap">
+
+                <label className="form-label fw-semibold">
+                  ¿Usar puntos?
+                </label>
+
+                <div className="d-flex gap-3">
+
                   <div className="form-check">
+
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="paymentMethod"
-                      id="pago_tarjeta"
-                      value="tarjeta"
-                      checked={paymentMethod === "tarjeta"}
-                      onChange={(e) => setPaymentMethod(e.target.value)}
+                      name="usePoints"
+                      value="yes"
+                      checked={usePoints === true}
+                      disabled={userPoints === 0}
+                      onChange={() => setUsePoints(true)}
                     />
-                    <label className="form-check-label" htmlFor="pago_tarjeta">
-                      Tarjeta
+
+                    <label className="form-check-label">
+                      Sí
                     </label>
+
                   </div>
 
                   <div className="form-check">
+
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="paymentMethod"
-                      id="pago_transferencia"
-                      value="transferencia"
-                      checked={paymentMethod === "transferencia"}
-                      onChange={(e) => setPaymentMethod(e.target.value)}
+                      name="usePoints"
+                      value="no"
+                      checked={!usePoints}
+                      onChange={() => setUsePoints(false)}
                     />
-                    <label className="form-check-label" htmlFor="pago_transferencia">
-                      Transferencia
+
+                    <label className="form-check-label">
+                      No
                     </label>
+
                   </div>
 
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="paymentMethod"
-                      id="pago_webpay"
-                      value="webpay"
-                      checked={paymentMethod === "webpay"}
-                      onChange={(e) => setPaymentMethod(e.target.value)}
-                    />
-                    <label className="form-check-label" htmlFor="pago_webpay">
-                      Webpay
-                    </label>
-                  </div>
                 </div>
-              </div>
 
-              <div className="mb-3">
-                <label className="form-label fw-semibold">Entrega</label>
-                <div className="d-flex gap-3 flex-wrap">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="deliveryMethod"
-                      id="entrega_despacho"
-                      value="despacho"
-                      checked={deliveryMethod === "despacho"}
-                      onChange={(e) => setDeliveryMethod(e.target.value)}
-                    />
-                    <label className="form-check-label" htmlFor="entrega_despacho">
-                      Despacho a domicilio
-                    </label>
-                  </div>
+                <small className="text-muted">
+                  Puntos disponibles: {userPoints.toLocaleString("es-CL")}
+                </small>
 
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="deliveryMethod"
-                      id="entrega_retiro"
-                      value="retiro"
-                      checked={deliveryMethod === "retiro"}
-                      onChange={(e) => setDeliveryMethod(e.target.value)}
-                    />
-                    <label className="form-check-label" htmlFor="entrega_retiro">
-                      Retiro en tienda
-                    </label>
-                  </div>
-                </div>
               </div>
 
               <div className="d-flex gap-2">
-                <button className="btn btn-secondary" onClick={() => navigate("/cart")}>
+
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => navigate("/cart")}
+                >
                   Volver al carrito
                 </button>
-                <button className="btn btn-success" onClick={handleConfirm}>
+
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={handleConfirm}
+                >
                   Confirmar pago
                 </button>
+
               </div>
+
             </div>
+
           </div>
+
         </div>
 
         <div className="col-12 col-lg-4">
+
           <div className="card">
+
             <div className="card-body">
-              <h6 className="fw-bold mb-2">Detalle</h6>
+
+              <h6 className="fw-bold mb-2">
+                Detalle
+              </h6>
+
               <div className="d-flex justify-content-between">
                 <span>Total estimado</span>
-                <span className="fw-semibold">{clp(orderTotal)}</span>
+                <span className="fw-semibold">
+                  {clp(cartTotal)}
+                </span>
               </div>
+
+              <div className="d-flex justify-content-between">
+                <span>Descuento por puntos</span>
+                <span className="text-success">
+                  - {clp(pointsDiscount)}
+                </span>
+              </div>
+
+              <div className="d-flex justify-content-between">
+                <span>Descuento DUOC UC</span>
+                <span className="text-success">
+                  - {clp(duocDiscount)}
+                </span>
+              </div>
+
+              <div className="d-flex justify-content-between">
+                <span>IVA (19%)</span>
+                <span>
+                  {clp(ivaAmount)}
+                </span>
+              </div>
+
               <hr />
+
+              <div className="d-flex justify-content-between fw-bold">
+                <span>Total final</span>
+                <span>{clp(finalTotal)}</span>
+              </div>
+
             </div>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
   );
+
 };
