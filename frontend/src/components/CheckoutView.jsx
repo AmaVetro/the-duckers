@@ -146,7 +146,7 @@ export const CheckoutView = () => {
 
     try {
 
-      const order = await checkout(false);
+      const order = await checkout(usePoints);
 
       const orderId = order.orderId;
 

@@ -64,18 +64,11 @@ export const OrderConfirmationView = () => {
 
     const date = new Date(order.createdAt).toLocaleString("es-CL");
 
-    const subtotal = order.items?.reduce(
-        (sum, item) => sum + item.subtotal,
-        0
-    ) ?? 0;
-
-    const duocDiscount = Math.floor(subtotal * 0.10);
-
-    const pointsDiscount = Math.floor(subtotal * 0.05);
-
-    const taxableBase = subtotal - duocDiscount - pointsDiscount;
-
-    const iva = Math.floor(taxableBase * 0.19);
+    const subtotal = order.subtotal ?? 0;
+    const duocDiscount = order.duocDiscount ?? 0;
+    const pointsDiscount = order.pointsDiscount ?? 0;
+    const iva = order.iva ?? 0;
+    const total = order.total ?? 0;
 
 
     return (
@@ -154,7 +147,7 @@ export const OrderConfirmationView = () => {
                                 </td>
 
                                 <td className="text-end fw-bold">
-                                    {clp(order.total)}
+                                    {clp(total)}
                                 </td>
 
                             </tr>
@@ -194,7 +187,7 @@ export const OrderConfirmationView = () => {
 
                         <div className="d-flex justify-content-between fw-bold">
                             <span>Total final</span>
-                            <span>{clp(order.total)}</span>
+                            <span>{clp(total)}</span>
                         </div>
 
                     </div>

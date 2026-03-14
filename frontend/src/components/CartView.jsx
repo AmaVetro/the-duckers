@@ -2,10 +2,17 @@
 
 import { useNavigate } from "react-router-dom";
 import { clp } from "../utils/currency";
+import { useCart } from "../hooks/useCart";
+import { useEffect } from "react";
 
 export const CartView = ({ handlerDelete, handlerUpdateQuantity, items }) => {
   
   const navigate = useNavigate();
+  const { loadCart } = useCart();
+
+  useEffect(() => {
+    loadCart();
+  }, []);
 
 
   const onDeleteProduct = (itemId) => {
@@ -66,104 +73,109 @@ export const CartView = ({ handlerDelete, handlerUpdateQuantity, items }) => {
           {items.length === 0 ? (
 
             <div className="alert alert-warning">
-
               Tu carrito está vacío.
-
             </div>
 
           ) : (
 
-            <table className="table table-hover table-striped">
+            <>
+              <table className="table table-hover table-striped">
 
-              <thead>
+                <thead>
 
-                <tr>
-                  <th>Producto</th>
-                  <th>Precio</th>
-                  <th>Cantidad</th>
-                  <th>Subtotal</th>
-                  <th>Eliminar</th>
-                </tr>
-
-              </thead>
-
-              <tbody>
-
-                {items.map((item) => (
-
-                  <tr key={item.itemId}>
-
-                    <td>{item.productName}</td>
-
-                    <td>{clp(item.unitPrice)}</td>
-
-                    <td>
-                      <div className="d-flex align-items-center justify-content-center gap-2">
-                        <button
-                          className="btn btn-sm btn-outline-secondary"
-                          onClick={() => handleDecrease(item)}
-                        >
-                          −
-                        </button>
-                        <span className="fw-semibold">
-                          {item.quantity}
-                        </span>
-                        <button
-                          className="btn btn-sm btn-outline-secondary"
-                          onClick={() => handleIncrease(item)}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </td>
-
-                    <td>{clp(item.subtotal)}</td>
-
-                    <td>
-
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => onDeleteProduct(item.itemId)}
-                      >
-                        eliminar
-                      </button>
-
-                    </td>
-
+                  <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Eliminar</th>
                   </tr>
 
-                ))}
+                </thead>
 
-              </tbody>
+                <tbody>
 
-            </table>
+                  {items.map((item) => (
+
+                    <tr key={item.itemId}>
+
+                      <td>{item.productName}</td>
+
+                      <td>{clp(item.unitPrice)}</td>
+
+                      <td>
+                        <div className="d-flex align-items-center justify-content-center gap-2">
+
+                          <button
+                            className="btn btn-sm btn-outline-secondary"
+                            onClick={() => handleDecrease(item)}
+                          >
+                            −
+                          </button>
+
+                          <span className="fw-semibold">
+                            {item.quantity}
+                          </span>
+
+                          <button
+                            className="btn btn-sm btn-outline-secondary"
+                            onClick={() => handleIncrease(item)}
+                          >
+                            +
+                          </button>
+
+                        </div>
+                      </td>
+
+                      <td>{clp(item.subtotal)}</td>
+
+                      <td>
+
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => onDeleteProduct(item.itemId)}
+                        >
+                          eliminar
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  ))}
+
+                </tbody>
+
+              </table>
+
+              <div className="mb-4">
+
+                <button
+                  className="btn btn-success"
+                  onClick={onCatalog}
+                >
+                  Seguir comprando
+                </button>
+
+                <button
+                  className="btn btn-primary ms-2"
+                  onClick={() =>
+                    navigate("/checkout", {
+                      state: {
+                        total: items.reduce((sum, item) => sum + item.subtotal, 0),
+                        items
+                      }
+                    })
+                  }
+                >
+                  Realizar pago
+                </button>
+
+              </div>
+
+            </>
 
           )}
-
-          <div className="mb-4">
-
-            <button
-              className="btn btn-success"
-              onClick={onCatalog}
-            >
-              Seguir comprando
-            </button>
-
-            <button
-              className="btn btn-primary ms-2"
-              onClick={() =>
-                navigate("/checkout", {
-                  state: {
-                    total: items.reduce((sum, item) => sum + item.subtotal, 0),
-                    items
-                  }
-                })
-              }
-            >
-              Realizar pago
-            </button>
-
-          </div>
 
         </div>
 

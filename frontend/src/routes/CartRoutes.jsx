@@ -29,12 +29,6 @@ export const CartRoutes = ({ handlerAddProductCart, handlerDeleteProductCart, ha
                 path="cart"
                 element={
                     <ProtectedRoute>
-                    {
-                        cartItems?.length <= 0
-                        ?
-                        <div className="alert alert-warning">No hay productos en el carrito de compras!</div>
-                        :
-                        (
                         <div className="my-4">
                             <CartView
                                 items={cartItems}
@@ -42,8 +36,6 @@ export const CartRoutes = ({ handlerAddProductCart, handlerDeleteProductCart, ha
                                 handlerUpdateQuantity={handlerUpdateQuantity}
                             />
                         </div>
-                        )
-                    }
                     </ProtectedRoute>
                 }
             />

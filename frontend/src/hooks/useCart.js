@@ -105,7 +105,8 @@ export const useCart = () => {
         loadingCart,
         handlerAddProductCart,
         handlerDeleteProductCart,
-        updateQuantity
+        updateQuantity,
+        loadCart
     };
 
 };

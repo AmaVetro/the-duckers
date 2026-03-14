@@ -178,152 +178,210 @@ export const AccountView = () => {
                     </tr>
                   </thead>
 
+
+
                   <tbody>
 
-                    {orders.map((o) => {
+                    {orders.length === 0 ? (
 
-                      const fecha = new Date(o.createdAt).toLocaleDateString("es-CL");
-                      const expanded = expandedId === o.orderId;
+                      <tr>
+                        <td colSpan={6} className="text-center py-5">
 
-                      return (
-                        <React.Fragment key={o.orderId}>
+                          <div className="d-flex flex-column align-items-center">
 
-                          <tr>
+                            <h5 className="mb-2">
+                              ¡Ups! No tienes órdenes.
+                            </h5>
 
-                            <td className="fw-medium">{o.orderId}</td>
+                            <p className="text-white mb-3">
+                              Explora nuestro catálogo y encuentra tu próximo producto.
+                            </p>
 
-                            <td>{fecha}</td>
+                            <button
+                              className="btn btn-primary"
+                              onClick={() => navigate("/catalog")}
+                            >
+                              Ver catálogo
+                            </button>
 
-                            <td>
-                              <span className={`badge bg-${badgeFor(o.status)}`}>
-                                {o.status}
-                              </span>
-                            </td>
+                          </div>
 
-                            <td className="text-center">{o.items?.length ?? 0}</td>
+                        </td>
+                      </tr>
 
-                            <td className="text-end">{clp(o.total)}</td>
+                    ) : (
 
+                      orders.map((o) => {
 
+                        const fecha = new Date(o.createdAt).toLocaleDateString("es-CL");
+                        const expanded = expandedId === o.orderId;
 
-                            <td className="text-end">
-
-                              <div className="d-flex gap-2 justify-content-end">
-
-                                <button
-                                  className="btn btn-sm btn-outline-secondary"
-                                  onClick={() => toggle(o.orderId)}
-                                >
-                                  {expanded ? "Ocultar" : "Ver detalle"}
-                                </button>
-
-                                {o.status === "PENDING" && (
-
-                                  <button
-                                    className="btn btn-sm btn-outline-danger"
-                                    onClick={() => handleCancelOrder(o.orderId)}
-                                  >
-                                    Cancelar
-                                  </button>
-                                )}
-
-                                {o.status === "PENDING" && (
-
-                                  <button
-                                    className="btn btn-sm btn-outline-primary"
-                                    onClick={() => navigate(`/payment/${o.orderId}`)}
-                                  >
-                                    Continuar
-                                  </button>
-
-                                )}
-
-                                
-
-                              </div>
-
-                            </td>
-
-
-
-                          </tr>
-
-
-                          {expanded && (
+                        return (
+                          <React.Fragment key={o.orderId}>
 
                             <tr>
 
-                              <td colSpan={6} className="bg-purple">
+                              <td className="fw-medium">{o.orderId}</td>
 
-                                <div className="p-3">
+                              <td>{fecha}</td>
 
-                                  <div className="mb-2">
-                                    <strong>Método de pago:</strong> {o.payment}
-                                  </div>
+                              <td>
+                                <span className={`badge bg-${badgeFor(o.status)}`}>
+                                  {o.status}
+                                </span>
+                              </td>
 
-                                  <div className="mb-3">
-                                    <strong>Envío:</strong> {o.shippingSummary}
-                                  </div>
+                              <td className="text-center">{o.items?.length ?? 0}</td>
 
-                                  <div className="table-responsive">
+                              <td className="text-end">{clp(o.total)}</td>
 
-                                    <table className="table table-sm">
 
-                                      <thead>
-                                        <tr>
-                                          <th>Producto</th>
-                                          <th className="text-center">Cant.</th>
-                                          <th className="text-end">Precio</th>
-                                          <th className="text-end">Subtotal</th>
-                                        </tr>
-                                      </thead>
 
-                                      <tbody>
+                              <td className="text-end">
 
-                                        {o.items?.map((it, idx) => (
+                                <div className="d-flex gap-2 justify-content-end">
 
-                                          <tr key={idx}>
+                                  <button
+                                    className="btn btn-sm btn-outline-secondary"
+                                    onClick={() => toggle(o.orderId)}
+                                  >
+                                    {expanded ? "Ocultar" : "Ver detalle"}
+                                  </button>
 
-                                            <td>{it.productName}</td>
+                                  {o.status === "PENDING" && (
 
-                                            <td className="text-center">{it.quantity}</td>
+                                    <button
+                                      className="btn btn-sm btn-outline-danger"
+                                      onClick={() => handleCancelOrder(o.orderId)}
+                                    >
+                                      Cancelar
+                                    </button>
+                                  )}
 
-                                            <td className="text-end">{clp(it.unitPrice)}</td>
+                                  {o.status === "PENDING" && (
 
-                                            <td className="text-end">
-                                              {clp(it.subtotal)}
-                                            </td>
+                                    <button
+                                      className="btn btn-sm btn-outline-primary"
+                                      onClick={() => navigate(`/payment/${o.orderId}`)}
+                                    >
+                                      Continuar
+                                    </button>
 
-                                          </tr>
+                                  )}
 
-                                        ))}
-
-                                      </tbody>
-
-                                      <tfoot>
-                                        <tr>
-                                          <td colSpan={3} className="text-end fw-bold">Total</td>
-                                          <td className="text-end fw-bold">{clp(o.total)}</td>
-                                        </tr>
-                                      </tfoot>
-
-                                    </table>
-
-                                  </div>
+                                  
 
                                 </div>
 
                               </td>
 
+
+
                             </tr>
 
-                          )}
 
-                        </React.Fragment>
-                      );
-                    })}
+                            {expanded && (
+
+                              <tr>
+
+                                <td colSpan={6} className="bg-purple">
+
+                                  <div className="p-3">
+                                    
+                                    <div className="table-responsive">
+
+                                      <table className="table table-sm">
+
+                                        <thead>
+                                          <tr>
+                                            <th>Producto</th>
+                                            <th className="text-center">Cant.</th>
+                                            <th className="text-end">Precio</th>
+                                            <th className="text-end">Subtotal</th>
+                                          </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                          {o.items?.map((it, idx) => (
+
+                                            <tr key={idx}>
+
+                                              <td>{it.productName}</td>
+
+                                              <td className="text-center">{it.quantity}</td>
+
+                                              <td className="text-end">{clp(it.unitPrice)}</td>
+
+                                              <td className="text-end">
+                                                {clp(it.subtotal)}
+                                              </td>
+
+                                            </tr>
+
+                                          ))}
+
+                                        </tbody>
+
+
+                                      </table>
+
+                                      <div className="mt-3">
+
+                                        <h6 className="fw-bold mb-2">
+                                          Resumen del pago
+                                        </h6>
+
+                                        <div className="d-flex justify-content-between">
+                                          <span>Subtotal</span>
+                                          <span>{clp(o.subtotal)}</span>
+                                        </div>
+
+                                        <div className="d-flex justify-content-between">
+                                          <span>Descuento DUOC UC</span>
+                                          <span className="text-success">- {clp(o.duocDiscount)}</span>
+                                        </div>
+
+                                        <div className="d-flex justify-content-between">
+                                          <span>Descuento por puntos</span>
+                                          <span className="text-success">- {clp(o.pointsDiscount)}</span>
+                                        </div>
+
+                                        <div className="d-flex justify-content-between">
+                                          <span>IVA (19%)</span>
+                                          <span>{clp(o.iva)}</span>
+                                        </div>
+
+                                        <hr />
+
+                                        <div className="d-flex justify-content-between fw-bold">
+                                          <span>Total final</span>
+                                          <span>{clp(o.total)}</span>
+                                        </div>
+
+                                      </div>
+
+
+
+                                    </div>
+
+                                  </div>
+
+                                </td>
+
+                              </tr>
+
+                            )}
+
+                          </React.Fragment>
+                        );
+                      })
+                    )}
 
                   </tbody>
+
+
+
 
                 </table>
 

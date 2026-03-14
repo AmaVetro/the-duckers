@@ -5,12 +5,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect} from "react";
 import { payOrder, getOrderById } from "../services/orderService";
 import { clp } from "../utils/currency";
+import { useCart } from "../hooks/useCart";
 
 
 export const PaymentView = () => {
 
     const { orderId } = useParams();
     const navigate = useNavigate();
+    const { loadCart } = useCart();
 
     const [paymentMethod, setPaymentMethod] = useState("tarjeta");
     const [deliveryMethod, setDeliveryMethod] = useState("despacho");
@@ -22,21 +24,23 @@ export const PaymentView = () => {
 
         try {
 
-        setProcessing(true);
+            setProcessing(true);
 
-        await payOrder(orderId);
+            await payOrder(orderId);
 
-        navigate(`/order-confirmation/${orderId}`);
+            await loadCart();   // ← refresca estado del carrito
+
+            navigate(`/order-confirmation/${orderId}`);
 
         } catch (error) {
 
-        console.error("Payment error:", error);
+            console.error("Payment error:", error);
 
-        alert("Error procesando el pago");
+            alert("Error procesando el pago");
 
         } finally {
 
-        setProcessing(false);
+            setProcessing(false);
 
         }
 
