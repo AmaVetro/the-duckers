@@ -7,7 +7,13 @@ import { Footer } from "./components/Footer";
 
 export const CartApp = () => {
 
-    const { cartItems, handlerAddProductCart, handlerDeleteProductCart, updateQuantity } = useCart();
+    const {
+        cartItems,
+        handlerAddProductCart,
+        handlerDeleteProductCart,
+        updateQuantity,
+        loadCart
+    } = useCart();
 
     return (
         <>
@@ -24,6 +30,7 @@ export const CartApp = () => {
                             handlerAddProductCart={handlerAddProductCart}
                             handlerDeleteProductCart={handlerDeleteProductCart}
                             handlerUpdateQuantity={updateQuantity}
+                            refreshCart={loadCart}
                         />
 
                     </div>

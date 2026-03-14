@@ -5,14 +5,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect} from "react";
 import { payOrder, getOrderById } from "../services/orderService";
 import { clp } from "../utils/currency";
-import { useCart } from "../hooks/useCart";
 
 
-export const PaymentView = () => {
+export const PaymentView = ({ refreshCart }) => {
 
     const { orderId } = useParams();
     const navigate = useNavigate();
-    const { loadCart } = useCart();
 
     const [paymentMethod, setPaymentMethod] = useState("tarjeta");
     const [deliveryMethod, setDeliveryMethod] = useState("despacho");
@@ -28,7 +26,7 @@ export const PaymentView = () => {
 
             await payOrder(orderId);
 
-            await loadCart();   // ← refresca estado del carrito
+            await refreshCart();
 
             navigate(`/order-confirmation/${orderId}`);
 

@@ -16,7 +16,13 @@ import { RegisterView } from "../components/RegisterView";
 
 
 
-export const CartRoutes = ({ handlerAddProductCart, handlerDeleteProductCart, handlerUpdateQuantity, cartItems }) => {
+export const CartRoutes = ({
+    handlerAddProductCart,
+    handlerDeleteProductCart,
+    handlerUpdateQuantity,
+    cartItems,
+    refreshCart
+    }) => {
     
     const { isLogged } = useAuth();
     
@@ -68,9 +74,9 @@ export const CartRoutes = ({ handlerAddProductCart, handlerDeleteProductCart, ha
             <Route
                 path="payment/:orderId"
                 element={
-                    <ProtectedRoute>
-                        <PaymentView />
-                    </ProtectedRoute>
+                        <ProtectedRoute>
+                            <PaymentView refreshCart={refreshCart} />
+                        </ProtectedRoute>
                 }
             />
 

@@ -2,18 +2,10 @@
 
 import { useNavigate } from "react-router-dom";
 import { clp } from "../utils/currency";
-import { useCart } from "../hooks/useCart";
-import { useEffect } from "react";
 
 export const CartView = ({ handlerDelete, handlerUpdateQuantity, items }) => {
   
   const navigate = useNavigate();
-  const { loadCart } = useCart();
-
-  useEffect(() => {
-    loadCart();
-  }, []);
-
 
   const onDeleteProduct = (itemId) => {
 
@@ -159,14 +151,7 @@ export const CartView = ({ handlerDelete, handlerUpdateQuantity, items }) => {
 
                 <button
                   className="btn btn-primary ms-2"
-                  onClick={() =>
-                    navigate("/checkout", {
-                      state: {
-                        total: items.reduce((sum, item) => sum + item.subtotal, 0),
-                        items
-                      }
-                    })
-                  }
+                  onClick={() => navigate("/checkout")}
                 >
                   Realizar pago
                 </button>
