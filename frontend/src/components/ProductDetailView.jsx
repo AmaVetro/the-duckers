@@ -77,6 +77,18 @@ export const ProductDetailView = ({ handler }) => {
 
     const specsEntries = product.specs ? Object.entries(product.specs) : [];
 
+    // ===============================
+    // Stock display logic
+    // ===============================
+    let stockLabel;
+
+    if (product.stock === 0) {
+        stockLabel = "No disponible";
+    } else if (product.stock > 30) {
+        stockLabel = "+30";
+    } else {
+        stockLabel = product.stock;
+    }
 
     return (
 
@@ -119,6 +131,10 @@ export const ProductDetailView = ({ handler }) => {
                                 {clp(product.price)}
                             </p>
 
+                            <p className="mb-3">
+                                Stock disponible: {stockLabel}
+                            </p>
+
 
                             {specsEntries.length > 0 && (
                                 <>
@@ -144,7 +160,8 @@ export const ProductDetailView = ({ handler }) => {
                             <div className="mt-4 d-flex gap-2">
 
                                 <button
-                                    className="btn btn-primary"
+                                    className={`btn ${product.stock === 0 ? "btn-secondary" : "btn-primary"}`}
+                                    disabled={product.stock === 0}
                                     onClick={onAddProduct}
                                 >
                                     Añadir al carrito

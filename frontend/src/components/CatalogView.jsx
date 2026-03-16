@@ -209,6 +209,7 @@ export const CatalogView = ({ handler }) => {
                                 description={prod.description}
                                 price={prod.price}
                                 image={prod.images?.[0]}  
+                                stock={prod.stock}
                             />
                         </div>
                 ))}

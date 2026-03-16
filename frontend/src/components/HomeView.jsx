@@ -132,6 +132,13 @@ export const HomeView = () => {
         "gaming-monitor-aoc-24g2": "/images/slider/ACO 24 G2 Monitor.png"
     };
 
+    const sliderProductIds = [
+        "gaming-mouse-razer-deathadder-essential",
+        "mousepad-logitech-g240",
+        "controller-8bitdo-pro-2-wired",
+        "gaming-monitor-aoc-24g2"
+    ];
+
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -177,13 +184,14 @@ export const HomeView = () => {
 
 
 
-    const slides = products
-        .slice(0, 4)
+    const slides = sliderProductIds
+        .map((id) => products.find((p) => p.id === id))
+        .filter(Boolean)
         .map((p) => ({
             id: p.id,
-            image: sliderImages[p.id] || p.images?.[0] || "/src/img/placeholder.jpg",
+            image: sliderImages[p.id],
             title: p.name,
-            description: p.description,
+            description: p.description
         }));
 
     return (
