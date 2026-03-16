@@ -1,9 +1,12 @@
 //frontend/src/CartApp.jsx:
 
+import { useState, useEffect } from "react";
 import { Navbar } from "./components/Navbar";
 import { useCart } from "./hooks/useCart";
 import { CartRoutes } from "./routes/CartRoutes";
 import { Footer } from "./components/Footer";
+import { SessionExpiredModal } from "./components/SessionExpiredModal";
+
 
 export const CartApp = () => {
 
@@ -14,6 +17,31 @@ export const CartApp = () => {
         updateQuantity,
         loadCart
     } = useCart();
+
+    const [sessionExpired, setSessionExpired] = useState(false);
+
+    useEffect(() => {
+
+        const handleSessionExpired = () => {
+
+            // ensure token is removed even if event was triggered manually
+            sessionStorage.removeItem("theduckers_token");
+
+            window.dispatchEvent(new Event("auth-changed"));
+
+            setSessionExpired(true);
+
+        };
+
+        window.addEventListener("session-expired", handleSessionExpired);
+
+        return () => {
+
+            window.removeEventListener("session-expired", handleSessionExpired);
+
+        };
+
+    }, []);
 
     return (
         <>
@@ -40,6 +68,10 @@ export const CartApp = () => {
                 <Footer />
 
             </div>
+            <SessionExpiredModal
+                visible={sessionExpired}
+                onClose={() => setSessionExpired(false)}
+            />
         </>
     );
 

@@ -10,12 +10,14 @@ public class UserProfileResponse {
     private String email;
     private String level;
     private long points;
+    private String referralCode;
 
-    public UserProfileResponse(Long id, String email, String level, long points) {
+    public UserProfileResponse(Long id, String email, String level, long points, String referralCode) {
         this.id = id;
         this.email = email;
         this.level = level;
         this.points = points;
+        this.referralCode = referralCode;
     }
 
     public Long getId() {
@@ -32,5 +34,9 @@ public class UserProfileResponse {
 
     public long getPoints() {
         return points;
+    }
+
+    public String getReferralCode() {
+        return referralCode;
     }
 }

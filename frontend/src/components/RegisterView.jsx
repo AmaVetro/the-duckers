@@ -151,7 +151,25 @@ export const RegisterView = () => {
                                 type="email"
                                 className={`form-control form-control-lg ${email && !emailValid ? "is-invalid" : ""}`}
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) => {
+
+                                    const newEmail = e.target.value;
+
+                                    setEmail(newEmail);
+
+                                    setErrors((prev) => {
+
+                                        if (!prev.email) return prev;
+
+                                        const updated = { ...prev };
+
+                                        delete updated.email;
+
+                                        return updated;
+
+                                    });
+
+                                }}
                                 required
                             />
 

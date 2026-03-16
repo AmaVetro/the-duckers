@@ -29,6 +29,18 @@ export const apiFetch = async (path, options = {}) => {
 
     if (!response.ok) {
 
+        if (response.status === 401) {
+
+            console.log("401 detected — removing token");
+
+            sessionStorage.removeItem("theduckers_token");
+
+            window.dispatchEvent(new Event("auth-changed"));
+
+            window.dispatchEvent(new Event("session-expired"));
+
+        }
+
         const errorText = await response.text();
 
         throw new Error(

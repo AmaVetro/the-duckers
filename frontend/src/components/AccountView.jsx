@@ -39,6 +39,7 @@ export const AccountView = () => {
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   const [orders, setOrders] = useState([]);
+  const [copied, setCopied] = useState(false);
 
 
   const loadOrders = async () => {
@@ -100,9 +101,28 @@ export const AccountView = () => {
   const toggle = (id) => setExpandedId((cur) => (cur === id ? null : id));
 
 
+
+  const copyReferralCode = async () => {
+    try {
+      await navigator.clipboard.writeText(referralCode);
+
+      setCopied(true);
+
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+
+    } catch (err) {
+      console.error("Error copying referral code", err);
+    }
+  };
+
+
   const email = profile?.email || "Loading...";
   const level = profile?.level || "-";
   const points = profile?.points || 0;
+  const referralCode = profile?.referralCode || "-";
+  
 
   const initials = initialsFrom(email);
 
@@ -117,19 +137,17 @@ export const AccountView = () => {
 
         {/* PERFIL */}
         <div className="col-12 col-lg-6">
+
           <div className="card account-card">
             <div className="card-body">
 
               <div className="d-flex flex-column align-items-center text-center mb-3">
-
                 <div className="avatar-circle mb-2">
                   <div className="avatar-fallback">{initials}</div>
                 </div>
-
               </div>
 
               <div className="list-group">
-
                 <div className="list-group-item">
                   <small className="text-muted d-block">Correo</small>
                   <span className="fw-semibold">{email}</span>
@@ -146,15 +164,59 @@ export const AccountView = () => {
                     {points.toLocaleString("es-CL")}
                   </span>
                 </div>
-
               </div>
 
             </div>
           </div>
+
+
+          {/* CODIGO REFERIDO */}
+          <div className="card account-card mt-3">
+            <div className="card-body text-center">
+
+              <h5 className="card-title mb-3">Tu código referido:</h5>
+
+              <div className="d-flex justify-content-center align-items-center gap-2 mb-2">
+
+                <div
+                  className="py-2 px-3"
+                  style={{
+                    border: "1px solid #7c4dff",
+                    borderRadius: "6px",
+                    fontWeight: "bold",
+                    letterSpacing: "1px"
+                  }}
+                >
+                  {referralCode}
+                </div>
+
+                <button
+                  className="btn btn-sm btn-outline-primary"
+                  onClick={copyReferralCode}
+                  title="Copiar código"
+                >
+                  📋
+                </button>
+
+              </div>
+
+              {copied && (
+                <div className="text-success small mb-2">
+                  ✔ Código copiado
+                </div>
+              )}
+
+              <p className="small mb-0" style={{ color: "#ffffff" }}>
+                ¡Haz que tus amigos se registren usando este código y ambos ganarán puntos!
+              </p>
+
+            </div>
+          </div>
+
         </div>
 
 
-        {/* HISTORIAL (mock) */}
+        {/* HISTORIAL */}
         <div className="col-12 col-lg-6">
 
           <div className="card h-100">

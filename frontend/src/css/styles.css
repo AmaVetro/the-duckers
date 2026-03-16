@@ -391,8 +391,6 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 }
 
 /* Textos dentro del perfil */
-.account-card h5,
-.account-card h6,
 .account-card p,
 .account-card span,
 .account-card small {
@@ -420,21 +418,6 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 
 
-/* Encabezados de las cards */
-.account-card h5,
-.history-card h5,
-.account-card h6,
-.history-card h6 {
-  color: #111 !important;
-}
-
-/* Campos dentro de las cards */
-.account-card p,
-.history-card p,
-.account-card span,
-.history-card span {
-  color: #333 !important;
-}
 
 /* Botones dentro de las cards */
 .account-card .btn,
