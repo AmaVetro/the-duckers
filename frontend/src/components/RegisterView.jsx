@@ -195,7 +195,35 @@ export const RegisterView = () => {
                                 type="password"
                                 className="form-control form-control-lg"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e) => {
+
+                                    const newPassword = e.target.value;
+
+                                    setPassword(newPassword);
+
+                                    const isValid =
+                                        newPassword.length >= 8 &&
+                                        /[A-Z]/.test(newPassword) &&
+                                        /[a-z]/.test(newPassword) &&
+                                        /\d/.test(newPassword);
+
+                                    setErrors((prev) => {
+
+                                        // Si ya no es válido, NO tocar el error
+                                        if (!isValid) return prev;
+
+                                        // Si es válido, eliminar error
+                                        if (!prev.password) return prev;
+
+                                        const updated = { ...prev };
+
+                                        delete updated.password;
+
+                                        return updated;
+
+                                    });
+
+                                }}
                                 required
                             />
 
