@@ -19,6 +19,8 @@ export const CheckoutView = () => {
   const [duocDiscount, setDuocDiscount] = useState(0);
   const [ivaAmount, setIvaAmount] = useState(0);
   const [finalTotal, setFinalTotal] = useState(0);
+  const [processing, setProcessing] = useState(false);
+  
 
   useEffect(() => {
 
@@ -146,9 +148,14 @@ export const CheckoutView = () => {
 
     try {
 
+      setProcessing(true);
+
       const order = await checkout(usePoints);
 
       const orderId = order.orderId;
+
+      // refresh cart after checkout
+      window.dispatchEvent(new Event("cart-updated"));
 
       navigate(`/payment/${orderId}`);
 
@@ -157,6 +164,10 @@ export const CheckoutView = () => {
       console.error("Checkout error:", error);
 
       alert("Error creando la orden");
+
+    } finally {
+
+      setProcessing(false);
 
     }
 
@@ -233,7 +244,7 @@ export const CheckoutView = () => {
 
                 </div>
 
-                <small className="text-muted">
+                <small className="text-white">
                   Puntos disponibles: {userPoints.toLocaleString("es-CL")}
                 </small>
 
@@ -252,8 +263,9 @@ export const CheckoutView = () => {
                   type="button"
                   className="btn btn-success"
                   onClick={handleConfirm}
+                  disabled={processing}
                 >
-                  Confirmar pago
+                  {processing ? "Procesando..." : "Confirmar pago"}
                 </button>
 
               </div>

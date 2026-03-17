@@ -39,7 +39,6 @@ export const ProductCardView = ({ handler, id, image, name, description, price, 
 
 
     const onAddProduct = (product) => {
-        console.log(product);
         handler(product);
         alert("Producto agregado exitosamente al carrito.");
     };

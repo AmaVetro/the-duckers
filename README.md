@@ -1,42 +1,57 @@
 # The Duckers 🦆
 
-The Duckers is a fullstack e-commerce system focused on gamer products.
+The Duckers is a portfolio-grade fullstack e-commerce system designed to demonstrate real-world backend engineering practices such as transactional integrity, concurrency control, and deterministic testing.
 
-It is designed as a portfolio-grade backend project that goes beyond academic CRUD implementations.  
-The system demonstrates:
+It is designed as a **portfolio-grade backend project** that goes beyond academic CRUD implementations and demonstrates real-world backend engineering practices.
 
-- Transactional integrity across heterogeneous databases (MySQL + MongoDB)
-- Concurrency-safe stock reservation using atomic MongoDB updates
-- Explicit order state machine (`PENDING → PAID → CANCELLED`)
-- Financially realistic pricing engine (VAT 19%, conditional domain discounts, capped loyalty redemption)
-- Stateless JWT-based security with real filter-chain execution
-- Deterministic integration testing using Testcontainers
+Key engineering aspects demonstrated in this project:
 
-The project is intentionally architected to be explainable and defensible in technical interviews from transactional, concurrency, and financial integrity perspectives.
+- Transactional integrity across **heterogeneous databases** (MySQL + MongoDB)
+- **Concurrency-safe stock reservation** using atomic MongoDB updates
+- Explicit **order state machine** (`PENDING → PAID → CANCELLED`)
+- **Financially realistic pricing engine** (VAT 19%, conditional discounts, capped loyalty redemption)
+- **Stateless JWT-based security** using the real Spring Security filter chain
+- **Deterministic integration testing** using Testcontainers
+
+The system is intentionally architected to be **explainable and defensible in technical interviews** from transactional, concurrency, and financial integrity perspectives.
 
 ---
 
-## 🚀 Tech Stack
+# 🌐 Live Demo
 
-### Frontend
-- React
+ REMAINS TO BE DONE
+
+Frontend: https://...
+Backend API: https://...
+Swagger: https://...
+
+---
+
+# 🚀 Tech Stack
+
+## Frontend
+- React 18
 - Vite
+- React Router
+- Bootstrap
 
-The React frontend provides a functional e-commerce interface connected
-to the backend API, including authentication, catalog browsing,
-product detail views, cart management and checkout flow.
+The frontend provides a complete e-commerce interface including authentication, catalog browsing, product detail pages, cart management, checkout flow, and order history.
 
-### Backend
-- Java 21 LTS
-- Spring Boot 3.2.5
-- Spring Security 6.2.x
+## Backend
+- Java 21 (LTS)
+- Spring Boot
+- Spring Security
 - JWT (stateless authentication)
+- Spring Data JPA
+- Spring Data MongoDB
 
-### Databases
-- MySQL (transactional domain: users, carts, orders)
-- MongoDB (product catalog & stock management)
+## Databases
+- **MySQL** — transactional domain data  
+  (users, carts, orders, loyalty points, referrals)
 
-### Infrastructure
+- **MongoDB** — product catalog and stock management
+
+## Infrastructure
 - Docker
 - Docker Compose (local development)
 - Testcontainers (integration testing)
@@ -44,42 +59,50 @@ product detail views, cart management and checkout flow.
 - Railway (managed MySQL)
 - MongoDB Atlas (managed MongoDB)
 - Vercel (frontend hosting)
+- GitHub Actions (CI pipeline)
 
 ---
 
-## 🌍 Public Deployment
+# 🌐 Public Deployment
 
-- Public backend API (Render)
-- Public frontend (Vercel)
-- MySQL (Railway managed database)
-- MongoDB Atlas
-- Production profile configuration
-- CI pipeline enforced before deploy
+- Frontend deployed on **Vercel**
+- Backend deployed on **Render**
+- MySQL hosted on **Railway**
+- MongoDB hosted on **MongoDB Atlas**
 
----
-
-### Production Architecture
-
-Frontend → Vercel  
-Backend → Render  
-MySQL → Railway  
-MongoDB → MongoDB Atlas
+CI pipeline automatically builds and deploys the backend on every push.
 
 ---
 
-## 📦 Project Structure
+# 🏗 Production Architecture
+
+```
+Frontend (Vercel)
+        │
+        ▼
+Backend API (Render)
+        │
+        ├── MySQL (Railway)
+        └── MongoDB (MongoDB Atlas)
+```
+
+The system intentionally separates **transactional data** from **catalog data**, allowing different consistency models and database capabilities to be used where they fit best.
+
+---
+
+# 📦 Project Structure
 
 ```
 the-duckers/
 ├─ infra/        # Docker infrastructure (MySQL, MongoDB)
-├─ backend/      # Spring Boot backend (API)
+├─ backend/      # Spring Boot backend API
 ├─ frontend/     # React frontend
 └─ README.md
 ```
 
 ---
 
-## ▶️ Run Locally
+# ▶️ Run Locally
 
 ### 1. Clone repository
 
@@ -94,214 +117,177 @@ cd the-duckers
 cp .env.example .env
 ```
 
-### 3. Start infrastructure
+### 3. Start databases
 
 ```bash
 docker compose -f infra/docker-compose.yml up -d
 ```
 
 Services started:
+
 - MySQL → `localhost:3306`
 - MongoDB → `localhost:27017`
 
-### 4. Reset environment (if needed)
-
-```bash
-docker compose -f infra/docker-compose.yml down --volumes
-docker compose -f infra/docker-compose.yml up -d
-```
-
-### 5. Start the backend API
+### 4. Start backend
 
 ```bash
 cd backend
 ./mvnw spring-boot:run
+```
+
+### 5. Start frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
 ---
 
-# 🛒 Core Architecture Overview
+# 🛒 Purchase Flow
 
-## Shopping Cart Design
+The system implements a full end-to-end purchasing workflow:
 
-- One **ACTIVE cart per user**
-- Persistent (stored in MySQL)
-- Not session-based
-- Lazy creation on first item addition
-- Items use independent `itemId`
-- Prices are snapshotted at add-to-cart time
+```
+Catalog → Cart → Checkout → Order Creation (PENDING) → Payment → Order Finalization (PAID)
+```
 
-This guarantees pricing stability between cart and checkout.
+Key guarantees:
+
+- Cart prices are **snapshotted when items are added**
+- Checkout converts the active cart into an **order (`PENDING`)**
+- Payment finalizes the order (`PAID`)
+- Orders can only be cancelled while in `PENDING`
+- Loyalty points are emitted **only after successful payment**
 
 ---
 
-# 🔥 Checkout & Order Lifecycle
+# 💰 Financial Rules
 
-Checkout converts:
+The financial engine models realistic Chilean tax and discount rules.
 
-```
-ACTIVE CART → ORDER (PENDING)
-```
-
-Order state machine:
+Calculation pipeline:
 
 ```
-PENDING → PAID → CANCELLED
+subtotal
+ − DUOC discount
+ − points redemption
+ = taxable base
+ + VAT (19%)
+ = final total
 ```
 
-### Guarantees
+Rules implemented:
 
-- Stock validation
-- Atomic stock reservation
-- Concurrency safety
-- Order creation inside SQL transaction
-- Cart closure
-- Explicit state transition validation
-- No distributed transactions (no XA)
+- **VAT (IVA) 19%** applied over the taxable base
+- **DUOC domain discount (10%)** if email ends with `@duocuc.cl`
+- Loyalty redemption conversion: **100 points = 1 CLP**
+- Redemption cap: **30% of order subtotal**
+- Points are emitted **only when the order transitions to `PAID`**
+
+These rules ensure **mathematical consistency and economic sustainability** in the loyalty system.
 
 ---
 
-## 💰 Financial Rules
+# ⚙ Concurrency-Safe Stock Reservation
 
-The financial engine models realistic Chilean tax and discount rules:
+Stock is reserved using **atomic conditional updates in MongoDB**.
 
-- **VAT (IVA) 19%** applied over the taxable base.
-- **DUOC domain discount (10%)** applied when email ends with `@duocuc.cl`.
-- Loyalty redemption conversion: **100 points = 1 CLP**.
-- **Redemption cap: 30%** of order subtotal.
-- Points are emitted only after `ORDER → PAID`.
+Properties:
 
-This ensures mathematical consistency and economic sustainability.
-
----
-
-## ⚙ Atomic MongoDB Stock Reservation
-
-Stock is reserved using a conditional atomic update:
-
-```java
-Query query = new Query(
-    Criteria.where("_id").is(productId)
-            .and("stock").gte(quantity)
-);
-
-Update update = new Update().inc("stock", -quantity);
-
-UpdateResult result =
-    mongoTemplate.updateFirst(query, update, ProductDocument.class);
-
-boolean reserved = result.getModifiedCount() == 1;
-```
-
-### Properties
-
-- Update succeeds only if `stock >= quantity`
+- Update succeeds only if `stock ≥ requested quantity`
+- Prevents overselling during concurrent checkouts
 - No read-then-write race condition
-- Safe under concurrent checkout attempts
 - Database-level concurrency protection
 
----
-
-## 🔄 Compensation Strategy
-
-Because MySQL and MongoDB do not share a distributed transaction:
-
-1. Stock is reserved atomically in MongoDB.
-2. Order creation runs inside `@Transactional`.
-
-If failure occurs after stock reservation but before SQL commit:
-
-```javascript
-$inc: { stock: +quantity }
-```
-
-Stock is restored via manual compensation.
-
-This ensures eventual consistency across data stores.
+If the SQL transaction fails after stock reservation, a **compensation update restores the stock**, ensuring consistency between MongoDB and MySQL.
 
 ---
 
 # 🧪 Testing Strategy
 
-## Integration Testing
+Integration testing uses **Testcontainers** to spin up real database containers during test execution.
 
-- Testcontainers (MySQL + MongoDB)
-- Isolated per test execution
+Key properties:
+
+- MySQL + MongoDB containers started automatically
+- Tests run in **isolated environments**
+- Real **JWT authentication flow**
+- Real **Spring Security filter chain**
 - CI-compatible
-- Real JWT authentication
-- Real SecurityFilterChain execution
-- No embedded HTTP server
 
-### Validated Flows
+### Validated flows
 
 - User registration (`POST /auth/register`)
 - User authentication (`POST /auth/login`)
 - Add-to-cart
-- Snapshot verification
-- Successful checkout reduces stock atomically
-- Insufficient stock returns 400 without stock mutation
-- Explicit 401 validation when JWT is missing
-- Order lifecycle transitions (`PENDING → PAID → CANCELLED`)
+- Cart snapshot integrity
+- Successful checkout
+- Atomic stock reservation
+- Insufficient stock validation
+- Order lifecycle (`PENDING → PAID → CANCELLED`)
 - Financial rule validation (VAT, DUOC discount, redemption cap)
 
-Integration tests explicitly validate financial correctness and state machine integrity.
+This ensures **business logic correctness and transactional safety**.
 
 ---
 
 # 🔐 Security Architecture
 
-- Stateless JWT authentication
+The backend uses **stateless JWT authentication** with Spring Security.
+
+Key elements:
+
 - Custom `JwtAuthenticationFilter`
-- Spring Security 6 filter chain
-- Explicit 401 handling
-- MockMvc-based integration testing aligned with Servlet stack
-
----
-
-# 🏁 Architectural Highlights
-
-- Stateless backend design
-- Concurrency-safe checkout
-- Atomic stock reservation in MongoDB
-- SQL transactional integrity
-- Explicit order state machine
-- Financially realistic (VAT + conditional discounts)
-- Deterministic integration tests
-- Containerized local & CI environment
-
-This project is designed to be explainable in technical interviews from both transactional, concurrency, and financial integrity perspectives.
+- Full **SecurityFilterChain** execution
+- Explicit **401 handling** for unauthenticated requests
+- Protected API routes
+- MockMvc integration tests aligned with the Servlet stack
 
 ---
 
 # 🎖 Loyalty & Level System
 
-- Points are emitted after successful payment (`ORDER → PAID`).
-- Conversion: **1 CLP = 1 point**.
-- Redemption: **100 points = 1 CLP** (1% real cashback).
-- Max redemption cap: **30%** of order subtotal.
-- Levels are based on `totalEarned` (historical spend).
-- Levels are recalculated dynamically.
-- Levels do not affect pricing or financial logic.
+The loyalty system rewards users based on real spending.
 
-This ensures economic sustainability while keeping financial rules decoupled from reputation mechanics.
+Rules:
 
----
+- **1 CLP spent = 1 loyalty point**
+- Redemption: **100 points = 1 CLP**
+- Redemption capped at **30% of order subtotal**
+- Points emitted only when **order is paid**
 
-# Referral System
+Levels are calculated using **historical total earned points**.
 
-- Each user receives a unique referral code.
-- Referral codes can be used only during registration.
-- Both the referrer and the referred user receive 700,000 points.
+Level thresholds:
 
-Level Thresholds
+```
+BRONZE   → 0
+SILVER   → 250,000
+GOLD     → 500,000
+PLATINUM → 850,000
+DIAMOND  → 1,500,000
+```
 
-- BRONZE   → 0
-- SILVER   → 250,000
-- GOLD     → 500,000
-- PLATINUM → 850,000
-- DIAMOND  → 1,500,000
+Levels are **recalculated dynamically** and are intentionally **decoupled from financial logic**.
 
 ---
 
-## 📄 License
+# 🤝 Referral System
 
-Educational and portfolio purposes.
+Each user receives a **unique referral code**.
+
+Referral rules:
+
+- Referral codes can only be used during **registration**
+- Both the **referrer** and the **referred user** receive **700,000 points**
+- High reward values are used intentionally to make referral effects visible during testing.
+
+This encourages user acquisition while integrating with the loyalty system.
+
+---
+
+# 📄 License
+
+This project was built for **educational and portfolio purposes**.

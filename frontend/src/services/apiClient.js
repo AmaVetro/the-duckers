@@ -31,13 +31,20 @@ export const apiFetch = async (path, options = {}) => {
 
         if (response.status === 401) {
 
-            console.log("401 detected — removing token");
+            const token = sessionStorage.getItem("theduckers_token");
 
-            sessionStorage.removeItem("theduckers_token");
+            // Only trigger session expired if a token actually existed
+            if (token) {
 
-            window.dispatchEvent(new Event("auth-changed"));
+                console.log("401 detected — session expired");
 
-            window.dispatchEvent(new Event("session-expired"));
+                sessionStorage.removeItem("theduckers_token");
+
+                window.dispatchEvent(new Event("auth-changed"));
+
+                window.dispatchEvent(new Event("session-expired"));
+
+            }
 
         }
 

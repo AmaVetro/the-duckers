@@ -36,10 +36,19 @@ export const useCart = () => {
     };
 
 
-
     useEffect(() => {
 
         loadCart();
+
+        const handleCartUpdate = () => {
+            loadCart();
+        };
+
+        window.addEventListener("cart-updated", handleCartUpdate);
+
+        return () => {
+            window.removeEventListener("cart-updated", handleCartUpdate);
+        };
 
     }, []);
 
