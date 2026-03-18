@@ -25,6 +25,9 @@ Frontend: https://...
 Backend API: https://...
 Swagger: https://...
 
+> ⚠️ The backend runs on Render free tier.  
+> First request may take ~30s due to cold start.
+
 ---
 
 # 🚀 Tech Stack

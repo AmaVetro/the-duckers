@@ -14,28 +14,7 @@ export const CatalogView = ({ handler }) => {
     const params = new URLSearchParams(location.search);
     const categoryFilter = params.get("category");
 
-    useEffect(() => {
-        if (categoryFilter) {
-            setCategory(categoryFilter);
-            const applyCategoryFilter = async () => {
-                try {
-                    setIsLoading(true);
-                    const filteredProducts = await getProducts({
-                        text: "",
-                        category: categoryFilter,
-                        minPrice: "",
-                        maxPrice: ""
-                    });
-                    setProducts(filteredProducts);
-                } catch (error) {
-                    console.error("Error applying category filter", error);
-                } finally {
-                    setIsLoading(false);
-                }
-            };
-            applyCategoryFilter();
-        }
-    }, [categoryFilter]);
+
 
     const [products, setProducts] = useState([]);
     const [queryText, setQueryText] = useState("");
@@ -49,29 +28,59 @@ export const CatalogView = ({ handler }) => {
 
 
     useEffect(() => {
-        const loadProducts = async () => {
+
+        const loadData = async () => {
+
             try {
-                const prods = await getProducts();
+
+                setIsLoading(true);
+
+                // sync category state with URL
+                if (categoryFilter) {
+                    setCategory(categoryFilter);
+                }
+
+                const prods = await getProducts({
+                    text: "",
+                    category: categoryFilter || "",
+                    minPrice: "",
+                    maxPrice: ""
+                });
+
                 setProducts(prods);
+
             } catch (error) {
-                console.error("Error cargando productos", error);
+
+                console.error("Error loading products", error);
+
             } finally {
+
                 setIsLoading(false);
+
             }
+
         };
 
         const loadCategories = async () => {
+
             try {
+
                 const cats = await getCategories();
+
                 setCategories(cats);
+
             } catch (error) {
-                console.error("Error cargando categorías", error);
+
+                console.error("Error loading categories", error);
+
             }
+
         };
 
-        loadProducts();
+        loadData();
         loadCategories();
-    }, []);
+
+    }, [categoryFilter]);
 
 
 
