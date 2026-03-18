@@ -73,8 +73,8 @@ public class OrderController {
                 - Stock reservation is atomic and rolled back on failure.
 
                 Redemption activation:
-                - Send { "redeemPoints": true } to activate redemption.
-                - Omit body or send false to skip redemption.
+                - Send { "redeemPoints": true } to activate redemption and use points.
+                - Send empty body or send "redeemPoints": false to skip redemption.
                 """
         )
         @ApiResponses({

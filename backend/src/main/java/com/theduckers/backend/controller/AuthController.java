@@ -31,8 +31,13 @@ public class AuthController {
         // =========================
         @Operation(
                 summary = "Register new user",
-                description = "Creates a new user account and returns a JWT access token. Referral code may be provided during registration."
-        )
+                description = """
+                        Creates a new user account and returns a JWT access token.
+                        - Referral code from other user may be provided to earn points (Referrer and Refered user both earn 700.000 points).
+                        - Email must contain @ and a domain (.cl, .com, etc), and not be already registered.
+                        - Password must be at least 8 characters, contain at least one uppercase letter, one lowercase letter, and one digit.
+                        """
+        )                     
         @PostMapping("/register")
         @ResponseStatus(HttpStatus.CREATED)
         @ApiResponses({

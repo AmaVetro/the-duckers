@@ -33,8 +33,8 @@ public class ProfileController {
                         Returns the profile of the authenticated user.
                         - Current loyalty point balance
                         - Dynamically calculated reputation level
-                        - Username
-                        Levels are reputational only and have no financial impact.
+                        - Levels are reputational only and have no financial impact (points on the other side can be redeemed for discounts).
+                        - User's referral code.
                         """
         )
         @ApiResponses({

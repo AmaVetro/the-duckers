@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 //dto/auth/RegisterRequest:
@@ -11,6 +12,7 @@ import jakarta.validation.constraints.Size;
 
 public class RegisterRequest {
 
+    @Schema(example = "string")
     @NotBlank
     @Email(message = "Email format is invalid")
     @Pattern(
@@ -19,6 +21,7 @@ public class RegisterRequest {
     )
     private String email;
 
+    @Schema(example = "string")
     @NotBlank
     @Size(min = 8, message = "Password must be at least 8 characters")
     @Pattern(
