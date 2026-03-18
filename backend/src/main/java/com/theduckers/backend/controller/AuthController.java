@@ -36,6 +36,9 @@ public class AuthController {
                         - Referral code from other user may be provided to earn points (Referrer and Refered user both earn 700.000 points).
                         - Email must contain @ and a domain (.cl, .com, etc), and not be already registered.
                         - Password must be at least 8 characters, contain at least one uppercase letter, one lowercase letter, and one digit.
+                        Important:
+                        - If a referral code is not provided, "string" must be replaced with null. Example: "referralCode": null
+                        - Do not use the JWT access token provided in the response for the "Authorize" button (the Post/auth/login JWT access token is needed for that).
                         """
         )                     
         @PostMapping("/register")
@@ -66,7 +69,7 @@ public class AuthController {
         // =========================
         @Operation(
                 summary = "Authenticate user",
-                description = "Authenticates user credentials and returns a JWT access token. The API is fully stateless and does not use refresh tokens."
+                description = "Authenticates user credentials and returns a JWT access token that can be used in Authorize button. The API is fully stateless and does not use refresh tokens."
         )
         @PostMapping("/login")
         @ApiResponses({

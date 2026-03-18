@@ -65,12 +65,7 @@ public class OrderController {
 
                 6) Final Total:
                 Total = Base + IVA
-
-                Important:
-                - All monetary values are expressed in CLP.
-                - Financial fields are immutable once the order is created.
-                - Database-level CHECK constraints enforce formula integrity.
-                - Stock reservation is atomic and rolled back on failure.
+                
 
                 Redemption activation:
                 - Send { "redeemPoints": true } to activate redemption and use points.

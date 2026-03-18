@@ -25,42 +25,29 @@ public class OpenApiConfig {
                                 .title("The Duckers API")
                                 .version("v1")
                                 .description("""
-                                The Duckers is a portfolio-grade e-commerce backend built with Spring Boot.
+                                The Duckers is a portfolio-grade e-commerce API built with Spring Boot.
 
-                                Architecture:
-                                - Stateless REST API
-                                - JWT access-token authentication (no refresh tokens)
-                                - MySQL for transactional data (users, orders, points, referrals)
-                                - MongoDB for flexible product catalog
-                                - No database-to-database synchronization
+                                Key features:
+                                - Stateless JWT authentication (access token only)
+                                - MySQL (transactions) + MongoDB (product catalog)
+                                - Order lifecycle: PENDING → PAID → CANCELLED
 
-                                Financial Model (Chile-compliant):
+                                Financial highlights:
+                                - VAT (IVA) 19%
+                                - DUOC discount: 10% for @duocuc.cl emails
+                                - Loyalty system: 100 points = 1 CLP (max 30% redemption)
 
-                                Order Calculation Flow:
-                                1. subtotal = sum(order items)
-                                2. DUOC discount = 10% of subtotal (if email ends with @duocuc.cl)
-                                3. Points redemption = 100 points = 1 CLP (optional, capped at 30% of subtotal)
-                                4. taxable base = subtotal - duocDiscount - pointsDiscount
-                                5. VAT (IVA) = 19% applied over taxable base
-                                6. total = taxable base + VAT
+                                All endpoints are stateless and require JWT unless explicitly stated.
 
-                                Safeguards:
-                                - totalDiscount never exceeds subtotal
-                                - taxable base is never negative
-                                - VAT is always calculated over post-discount base
-                                - Points are deducted only after successful payment
-                                - Points are emitted over the final total INCLUDING VAT
+                                For more info, see the README.
 
-                                Loyalty System:
-                                - Emission: 1 CLP spent = 1 point
-                                - Redemption: 100 points = 1 CLP
-                                - Levels are reputational only (no financial impact)
-
-                                This API intentionally avoids overengineering:
-                                - No ledger system
-                                - No async/event-driven complexity
-                                - No refresh-token rotation
-                                - Monetary values handled as long (CLP simplification)
+                                User flow:
+                                - Get/product, Get/categories, Get/health can be used without authentication
+                                - If any other endpoint is used without authenticatio1n, a 401 error is returned
+                                - Register endpoint creates a new user and returns a JWT access token, but this token is not meant to be used in "Authorize" button (the login one is)
+                                - Then, the Login endpoint returns a JWT access token that must be used in the "Authorize" button
+                                - After the login JWT access token is used in "Authorize", all the secured endpoints can be used
+                                - Purcharse flow: Post/cart/items --> Post/checkout --> Post/orders/{id}/pay
                                 """)
                         )
                         .components(new io.swagger.v3.oas.models.Components()
