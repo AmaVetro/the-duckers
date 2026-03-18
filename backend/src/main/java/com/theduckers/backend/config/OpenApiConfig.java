@@ -43,7 +43,7 @@ public class OpenApiConfig {
 
                                 User flow:
                                 - Get/product, Get/categories, Get/health can be used without authentication
-                                - If any other endpoint is used without authenticatio1n, a 401 error is returned
+                                - If any other endpoint is used without authentication, a 401 error is returned
                                 - Register endpoint creates a new user and returns a JWT access token, but this token is not meant to be used in "Authorize" button (the login one is)
                                 - Then, the Login endpoint returns a JWT access token that must be used in the "Authorize" button
                                 - After the login JWT access token is used in "Authorize", all the secured endpoints can be used
