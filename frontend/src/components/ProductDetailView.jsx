@@ -5,12 +5,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProductById } from "../services/productService";
 import { clp } from "../utils/currency";
+import { useAuth } from "../hooks/useAuth";
+
 
 export const ProductDetailView = ({ handler }) => {
 
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const { isLogged } = useAuth();
 
     const navigate = useNavigate();
 
@@ -62,6 +65,11 @@ export const ProductDetailView = ({ handler }) => {
 
 
     const onAddProduct = () => {
+
+        if (!isLogged) {
+            navigate("/login");
+            return;
+        }
 
         handler({
             id: product.id,

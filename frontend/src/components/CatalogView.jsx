@@ -1,7 +1,7 @@
 //frontend/src/components/CatalogView.jsx:
 
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getProducts } from "../services/productService";
 import { ProductCardView } from "./ProductCardView";
 import { getCategories } from "../services/categoryService";
@@ -11,6 +11,7 @@ import { getCategories } from "../services/categoryService";
 export const CatalogView = ({ handler }) => {
 
     const location = useLocation();
+    const navigate = useNavigate();
     const params = new URLSearchParams(location.search);
     const categoryFilter = params.get("category");
 
@@ -193,7 +194,22 @@ export const CatalogView = ({ handler }) => {
                     <select
                         className="form-select"
                         value={category}
-                        onChange={(e) => setCategory(e.target.value)}
+                        onChange={(e) => {
+                            const newCategory = e.target.value;
+
+                            setCategory(newCategory);
+
+                            // sync URL with state
+                            const params = new URLSearchParams(location.search);
+
+                            if (newCategory) {
+                                params.set("category", newCategory);
+                            } else {
+                                params.delete("category");
+                            }
+
+                            navigate(`/catalog?${params.toString()}`);
+                        }}
                     >
                         <option value="">
                             Todas las categorías

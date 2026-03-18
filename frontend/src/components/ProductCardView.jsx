@@ -4,10 +4,12 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { clp } from "../utils/currency";
+import { useAuth } from "../hooks/useAuth";
 
 export const ProductCardView = ({ handler, id, image, name, description, price, stock }) => {
 
     const navigate = useNavigate(); 
+    const { isLogged } = useAuth();
 
     const maxLen = 90;
     const [showFull, setShowFull] = useState(false);
@@ -39,8 +41,15 @@ export const ProductCardView = ({ handler, id, image, name, description, price, 
 
 
     const onAddProduct = (product) => {
+
+        if (!isLogged) {
+            navigate("/login");
+            return;
+        }
+
         handler(product);
         alert("Producto agregado exitosamente al carrito.");
+
     };
 
     const onViewDetails = () => {
