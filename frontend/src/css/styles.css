@@ -154,6 +154,29 @@ html, body {
 }
 
 
+
+
+/* ************************ HOME ************************ */
+
+.home-hero-text {
+    border: 1px solid rgba(95, 39, 205, 0.4); /* mismo estilo que .card */
+    border-radius: 12px;
+    padding: 8px 16px;
+
+    font-weight: 450;
+    font-size: 1rem; /* más chico */
+
+    color: #e5e5e5; /* blanco como el resto del sitio */
+    
+
+    display: inline-block;
+
+    backdrop-filter: blur(2px); /* coherente con slider */
+}
+
+
+
+
 /* ************************ SLIDER ************************ */
 .home-slider {
   position: relative;

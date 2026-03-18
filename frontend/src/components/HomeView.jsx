@@ -208,7 +208,11 @@ export const HomeView = () => {
                         Cargando productos...
                     </div>
                 )}
-
+                <div className="text-center mb-3">
+                    <div className="home-hero-text">
+                        Conviértete en un gamer especializado.
+                    </div>
+                </div>
                 <Slider slides={slides} interval={11000} />
 
 
