@@ -20,16 +20,16 @@ public class AuthIntegrationTest extends AbstractIntegrationTest {
         String email = "testuser@email.com";
         String password = "Password123";
 
-        // 1️⃣ Register user
+        // Register user
         TestJwtUtils.registerUser(mockMvc, objectMapper, email, password);
 
-        // 2️⃣ Login and extract token
+        // Login and extract token
         String token = TestJwtUtils.loginAndGetToken(mockMvc, objectMapper, email, password);
 
-        // 3️⃣ Ensure token is not null
+        // Ensure token is not null
         assert token != null && !token.isBlank();
 
-        // 4️⃣ Access protected endpoint with token
+        // Access protected endpoint with token
         mockMvc.perform(get("/me")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON))

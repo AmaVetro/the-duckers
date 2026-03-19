@@ -70,7 +70,7 @@ public class OrderService {
                 try {
 
                         // ==============================
-                        // 1️⃣ Reserve stock
+                        // Reserve stock
                         // ==============================
 
                         for (ShoppingCartItem cartItem : cart.getItems()) {
@@ -95,7 +95,7 @@ public class OrderService {
                         }
 
                         // ==============================
-                        // 2️⃣ Calculate subtotal
+                        // Calculate subtotal
                         // ==============================
 
                         long subtotal = cart.getItems()
@@ -104,7 +104,7 @@ public class OrderService {
                                 .sum();
 
                         // ==============================
-                        // 3️⃣ Fetch user email
+                        // Fetch user email
                         // ==============================
 
                         User user = userRepository.findById(userId)
@@ -115,7 +115,7 @@ public class OrderService {
                         String email = user.getEmail();
 
                         // ==============================
-                        // 4️⃣ DUOC Discount (10%)
+                        // DUOC Discount (10%)
                         // ==============================
 
                         long duocDiscount = 0L;
@@ -128,7 +128,7 @@ public class OrderService {
                         duocDiscount = Math.min(duocDiscount, subtotal);
 
                         // ==============================
-                        // 5️⃣ Points Redemption (Cap 30%)
+                        // Points Redemption (Cap 30%)
                         // ==============================
 
                         long pointsDiscount = 0L;
@@ -147,7 +147,7 @@ public class OrderService {
                         }
 
                         // ==============================
-                        // 6️⃣ Taxable Base (Base Imponible)
+                        // Taxable Base (Base Imponible)
                         // ==============================
 
                         long baseAfterDiscounts = subtotal - duocDiscount - pointsDiscount;
@@ -157,7 +157,7 @@ public class OrderService {
                         }
 
                         // ==============================
-                        // 7️⃣ IVA 19%
+                        // IVA 19%
                         // ==============================
 
                         long iva = baseAfterDiscounts * 19 / 100;
@@ -167,13 +167,13 @@ public class OrderService {
                         }
 
                         // ==============================
-                        // 8️⃣ Final Total
+                        // Final Total
                         // ==============================
 
                         long total = baseAfterDiscounts + iva;
 
                         // ==============================
-                        // 9️⃣ Create Order (Financially Complete)
+                        // Create Order (Financially Complete)
                         // ==============================
 
                         Order order = new Order(
@@ -186,7 +186,7 @@ public class OrderService {
                         );
 
                         // ==============================
-                        // 🔟 Copy items into Order
+                        // Copy items into Order
                         // ==============================
 
                         for (ShoppingCartItem cartItem : cart.getItems()) {
@@ -261,7 +261,7 @@ public class OrderService {
                 }
 
                 // ==============================
-                // 2️⃣ Emit new points
+                // Emit new points
                 // ==============================
 
                 long pointsToEmit = calculatePoints(order);
@@ -269,7 +269,7 @@ public class OrderService {
                 pointsService.addPoints(userId, pointsToEmit);
 
                 // ==============================
-                // 3️⃣ Mark as paid
+                // Mark as paid
                 // ==============================
 
                 order.markAsPaid();
@@ -345,7 +345,7 @@ public class OrderService {
 
         private RedemptionPreview calculateRedemptionPreview(Long userId, long subtotal) {
                 
-                // 1️⃣ Fetch user points (read-only logic)
+                // Fetch user points (read-only logic)
                 UserPoints userPoints = userPointsRepository.findByUserId(userId)
                         .orElse(null);
 
@@ -359,24 +359,24 @@ public class OrderService {
                         return new RedemptionPreview(0L, 0L);
                 }
 
-                // 2️⃣ Cap calculation (30%)
+                // Cap calculation (30%)
                 long maxDiscountByCap = subtotal * 30 / 100;
 
                 if (maxDiscountByCap <= 0) {
                         return new RedemptionPreview(0L, 0L);
                 }
 
-                // 3️⃣ Max discount allowed by available points
+                // Max discount allowed by available points
                 long maxDiscountFromPoints = balance / 100;
 
                 if (maxDiscountFromPoints <= 0) {
                         return new RedemptionPreview(0L, 0L);
                 }
 
-                // 4️⃣ Effective discount
+                // Effective discount
                 long discount = Math.min(maxDiscountByCap, maxDiscountFromPoints);
 
-                // 🔒 Defensive mathematical clamp (Day 13 hardening)
+                // Defensive mathematical clamp (Day 13 hardening)
                 discount = Math.min(discount, subtotal);
 
                 long pointsToDeduct = discount * 100;

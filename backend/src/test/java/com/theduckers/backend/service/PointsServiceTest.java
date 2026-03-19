@@ -31,7 +31,6 @@ class PointsServiceTest {
         pointsService = new PointsService(userPointsRepository);
     }
 
-    // tests vienen aquí
     @Test
     void addPoints_shouldIncreaseBalanceAndTotalEarned_whenValidAmount() {
         // GIVEN

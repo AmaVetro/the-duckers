@@ -38,7 +38,7 @@ public class CheckoutIntegrationTest extends AbstractIntegrationTest {
                 String email = "checkout_" + System.currentTimeMillis() + "@email.com";
 
                 // =========================
-                // 1️⃣ Seed product with stock = 2
+                // Seed product with stock = 2
                 // =========================
                 ProductDocument product = new ProductDocument();
                 product.setId("keyboard-001");
@@ -49,7 +49,7 @@ public class CheckoutIntegrationTest extends AbstractIntegrationTest {
                 mongoTemplate.save(product);
 
                 // =========================
-                // 2️⃣ Register user
+                // Register user
                 // =========================
                 String registerJson = """
                         {
@@ -67,7 +67,7 @@ public class CheckoutIntegrationTest extends AbstractIntegrationTest {
                         .andExpect(status().isCreated());
 
                 // =========================
-                // 3️⃣ Login
+                // Login
                 // =========================
                 String loginJson = """
                         {
@@ -86,7 +86,7 @@ public class CheckoutIntegrationTest extends AbstractIntegrationTest {
                 String token = objectMapper.readTree(loginResponse).get("token").asText();
 
                 // =========================
-                // 4️⃣ Add item to cart (quantity = 2)
+                // Add item to cart (quantity = 2)
                 // =========================
                 String addItemJson = """
                         {
@@ -102,7 +102,7 @@ public class CheckoutIntegrationTest extends AbstractIntegrationTest {
                         .andExpect(status().isOk());
 
                 // =========================
-                // 5️⃣ POST /checkout
+                // POST /checkout
                 // =========================
                 mockMvc.perform(post("/checkout")
                                 .header("Authorization", "Bearer " + token))
@@ -115,7 +115,7 @@ public class CheckoutIntegrationTest extends AbstractIntegrationTest {
                         .andExpect(jsonPath("$.items[0].quantity").value(2));
 
                 // =========================
-                // 6️⃣ Verify Mongo stock = 0
+                // Verify Mongo stock = 0
                 // =========================
                 ProductDocument updated = mongoTemplate.findById("keyboard-001", ProductDocument.class);
 
@@ -132,7 +132,7 @@ public class CheckoutIntegrationTest extends AbstractIntegrationTest {
                 String email = "checkout_" + System.currentTimeMillis() + "@email.com";
 
                 // =========================
-                // 1️⃣ Seed product with stock = 1
+                // Seed product with stock = 1
                 // =========================
                 ProductDocument product = new ProductDocument();
                 product.setId("keyboard-001");
@@ -143,7 +143,7 @@ public class CheckoutIntegrationTest extends AbstractIntegrationTest {
                 mongoTemplate.save(product);
 
                 // =========================
-                // 2️⃣ Register
+                // Register
                 // =========================
                 String registerJson = """
                         {
@@ -161,7 +161,7 @@ public class CheckoutIntegrationTest extends AbstractIntegrationTest {
                         .andExpect(status().isCreated());
 
                 // =========================
-                // 3️⃣ Login
+                // Login
                 // =========================
                 String loginJson = """
                         {
@@ -181,7 +181,7 @@ public class CheckoutIntegrationTest extends AbstractIntegrationTest {
                 ).get("token").asText();
 
                 // =========================
-                // 4️⃣ Add quantity = 2 (exceeds stock)
+                // Add quantity = 2 (exceeds stock)
                 // =========================
                 String addItemJson = """
                         {
@@ -197,14 +197,14 @@ public class CheckoutIntegrationTest extends AbstractIntegrationTest {
                         .andExpect(status().isOk());
 
                 // =========================
-                // 5️⃣ Checkout → expect 400
+                // Checkout → expect 400
                 // =========================
                 mockMvc.perform(post("/checkout")
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isBadRequest());
 
                 // =========================
-                // 6️⃣ Stock must remain 1
+                // Stock must remain 1
                 // =========================
                 ProductDocument updated = mongoTemplate.findById("keyboard-001", ProductDocument.class);
 

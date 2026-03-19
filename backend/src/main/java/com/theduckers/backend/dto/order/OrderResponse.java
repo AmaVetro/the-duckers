@@ -14,7 +14,7 @@ public class OrderResponse {
 
     private Long subtotal;
 
-    // 🔎 Transparent financial breakdown
+    // Transparent financial breakdown
     private Long duocDiscount;
     private Long pointsDiscount;
     private Long discount; // total discount (duoc + points)

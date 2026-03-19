@@ -103,23 +103,23 @@ public class CartService {
     @Transactional
     public ShoppingCart addItem(Long userId, String productId, Integer quantity) {
 
-        // 1️⃣ Validate quantity
+        // Validate quantity
         if (quantity == null || quantity <= 0) {
             throw new BadRequestException("Quantity must be greater than zero");
         }
 
-        // 2️⃣ Get or create ACTIVE cart
+        // Get or create ACTIVE cart
         ShoppingCart cart = getOrCreateActiveCart(userId);
 
-        // 3️⃣ Fetch product from MongoDB
+        // Fetch product from MongoDB
         var product = productRepository.findById(productId)
                 .orElseThrow(() ->
                         new BadRequestException("Product not found: " + productId)
                 );
 
-        // 4️⃣ Stock validation intentionally deferred to checkout
+        // Stock validation intentionally deferred to checkout
 
-        // 5️⃣ Check if item already exists in cart
+        // Check if item already exists in cart
         shoppingCartItemRepository
                 .findByCartIdAndProductId(cart.getId(), productId)
                 .ifPresentOrElse(
@@ -137,14 +137,14 @@ public class CartService {
                                     quantity
                             );
 
-                            // 🔥 CRITICAL: synchronize both sides of relationship
+                            // CRITICAL: synchronize both sides of relationship
                             cart.getItems().add(newItem);
 
                             shoppingCartItemRepository.save(newItem);
                         }
                 );
 
-        // 6️⃣ Return cart (now correctly synchronized in memory)
+        // Return cart (now correctly synchronized in memory)
         return cart;
     }
 
@@ -221,7 +221,7 @@ public class CartService {
             throw new BadRequestException("Cart item does not belong to user's cart");
         }
 
-        // ⭐ IMPORTANT: remove from cart collection
+        // IMPORTANT: remove from cart collection
         cart.getItems().remove(item);
 
         // 4) Delete from DB

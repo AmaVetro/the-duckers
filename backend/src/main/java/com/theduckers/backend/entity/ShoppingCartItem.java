@@ -44,7 +44,6 @@ public class ShoppingCartItem {
 
 
     protected ShoppingCartItem() {
-        // Required by JPA
     }
 
     public ShoppingCartItem(

@@ -60,7 +60,7 @@ public class User {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    protected User() { //Constructor PROTEGIDO (requerido por JPA) y vacío por ahora, no sé porqué
+    protected User() {
     }
 
     public User(

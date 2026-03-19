@@ -79,7 +79,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
 
-            // 🔥 Correct filter placement
+            // Correct filter placement
             .addFilterBefore(
                 jwtAuthenticationFilter,
                 UsernamePasswordAuthenticationFilter.class

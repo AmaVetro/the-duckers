@@ -20,7 +20,7 @@ public class CartIntegrationTest extends AbstractIntegrationTest {
     void addItem_should_add_product_to_cart_and_return_correct_snapshot() throws Exception {
 
         // =========================
-        // 1️⃣ Seed Mongo manually
+        // Seed Mongo manually
         // =========================
 
         var product = new org.bson.Document()
@@ -34,7 +34,7 @@ public class CartIntegrationTest extends AbstractIntegrationTest {
         mongoTemplate.getDb().getCollection("products").insertOne(product);
 
         // =========================
-        // 2️⃣ Register + Login
+        // Register + Login
         // =========================
 
         String email = "cartuser@email.com";
@@ -44,7 +44,7 @@ public class CartIntegrationTest extends AbstractIntegrationTest {
         String token = TestJwtUtils.loginAndGetToken(mockMvc, objectMapper, email, password);
 
         // =========================
-        // 3️⃣ Prepare request body
+        // Prepare request body
         // =========================
 
         ObjectNode requestBody = objectMapper.createObjectNode();
@@ -52,7 +52,7 @@ public class CartIntegrationTest extends AbstractIntegrationTest {
         requestBody.put("quantity", 2);
 
         // =========================
-        // 4️⃣ Perform POST /cart/items
+        // Perform POST /cart/items
         // =========================
 
         mockMvc.perform(post("/cart/items")

@@ -32,7 +32,6 @@ public class PointRedemption {
     private LocalDateTime createdAt;
 
     protected PointRedemption() {
-        // JPA
     }
 
     public PointRedemption(

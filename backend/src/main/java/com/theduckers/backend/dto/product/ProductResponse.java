@@ -3,10 +3,6 @@ package com.theduckers.backend.dto.product;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Public contract representation of a product.
- * Mirrors ProductDocument but decouples API layer from persistence layer.
- */
 
 
 

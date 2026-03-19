@@ -40,7 +40,6 @@ public class ShoppingCart {
 
 
     protected ShoppingCart() {
-        // Required by JPA
     }
 
     public ShoppingCart(Long userId) {

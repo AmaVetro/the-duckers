@@ -21,7 +21,7 @@ public class Level {
     @Column(name = "min_points", nullable = false)
     private Long minPoints;
 
-    protected Level() { //Constructor PROTEGIDO (requerido por JPA) y vacío por ahora, no sé porqué
+    protected Level() { 
     }
 
     private Level(Long id, String name, Long minPoints) {
@@ -33,7 +33,6 @@ public class Level {
 
 
 
-    // Getters & setters se agregarán después
 
     public Long getId() {
         return id;

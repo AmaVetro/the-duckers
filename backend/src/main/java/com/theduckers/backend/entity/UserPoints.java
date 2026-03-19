@@ -25,7 +25,7 @@ public class UserPoints {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    protected UserPoints() { //Constructor PROTEGIDO (requerido por JPA) y vacío por ahora, no sé porqué
+    protected UserPoints() { 
     }
 
     public UserPoints(Long userId) {
@@ -35,7 +35,6 @@ public class UserPoints {
         this.updatedAt = LocalDateTime.now();
     }
 
-    // Getters & setters se agregarán después
 
     public Long getUserId() {
         return userId;

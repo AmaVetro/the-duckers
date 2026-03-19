@@ -296,7 +296,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
 
                 String email = "points_" + System.currentTimeMillis() + "@email.com";
 
-                // 1️⃣ Seed product worth 100000 CLP
+                // Seed product worth 100000 CLP
                 var product = new com.theduckers.backend.entity.mongo.ProductDocument();
                 product.setId("keyboard-100k");
                 product.setName("Premium Keyboard");
@@ -304,7 +304,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                 product.setStock(1);
                 mongoTemplate.save(product);
 
-                // 2️⃣ Register
+                // Register
                 String registerJson = """
                         {
                         "firstName":"Test",
@@ -320,7 +320,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                                 .content(registerJson))
                         .andExpect(status().isCreated());
 
-                // 3️⃣ Login
+                // Login
                 String loginJson = """
                         {
                         "email":"%s",
@@ -338,7 +338,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                         loginResult.getResponse().getContentAsString()
                 ).get("token").asText();
 
-                // 4️⃣ Add item
+                // Add item
                 String addItemJson = """
                         {
                         "productId":"keyboard-100k",
@@ -352,7 +352,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                                 .content(addItemJson))
                         .andExpect(status().isOk());
 
-                // 5️⃣ Checkout
+                // Checkout
                 var checkoutResult = mockMvc.perform(post("/checkout")
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
@@ -362,13 +362,13 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                         checkoutResult.getResponse().getContentAsString()
                 ).get("orderId").asLong();
 
-                // 6️⃣ Pay
+                // Pay
                 mockMvc.perform(post("/orders/" + orderId + "/pay")
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.status").value("PAID"));
 
-                // 7️⃣ Validate DB state
+                // Validate DB state
                 UserPoints userPoints = userPointsRepository
                         .findByUserId(
                                 orderRepository.findById(orderId).orElseThrow().getUserId()
@@ -378,7 +378,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                 assertEquals(119000L, userPoints.getBalance());
                 assertEquals(119000L, userPoints.getTotalEarned());
 
-                // 8️⃣ Validate level via /me
+                // Validate level via /me
                 mockMvc.perform(get("/me")
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
@@ -395,7 +395,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
 
                 String email = "restore_" + System.currentTimeMillis() + "@email.com";
 
-                // 1️⃣ Seed product with stock = 2
+                // Seed product with stock = 2
                 var product = new com.theduckers.backend.entity.mongo.ProductDocument();
                 product.setId("keyboard-restore");
                 product.setName("Restore Keyboard");
@@ -403,7 +403,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                 product.setStock(2);
                 mongoTemplate.save(product);
 
-                // 2️⃣ Register
+                // Register
                 String registerJson = """
                         {
                         "firstName":"Test",
@@ -419,7 +419,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                                 .content(registerJson))
                         .andExpect(status().isCreated());
 
-                // 3️⃣ Login
+                // Login
                 String loginJson = """
                         {
                         "email":"%s",
@@ -437,7 +437,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                         loginResult.getResponse().getContentAsString()
                 ).get("token").asText();
 
-                // 4️⃣ Add item quantity = 2
+                // Add item quantity = 2
                 String addItemJson = """
                         {
                         "productId":"keyboard-restore",
@@ -451,7 +451,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                                 .content(addItemJson))
                         .andExpect(status().isOk());
 
-                // 5️⃣ Checkout → stock becomes 0
+                // Checkout → stock becomes 0
                 var checkoutResult = mockMvc.perform(post("/checkout")
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
@@ -467,13 +467,13 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                 assertNotNull(afterCheckout);
                 assertEquals(0, afterCheckout.getStock());
 
-                // 6️⃣ Cancel order
+                // Cancel order
                 mockMvc.perform(post("/orders/" + orderId + "/cancel")
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.status").value("CANCELLED"));
 
-                // 7️⃣ Verify stock restored to 2
+                // Verify stock restored to 2
                 var afterCancel = mongoTemplate.findById("keyboard-restore",
                         com.theduckers.backend.entity.mongo.ProductDocument.class);
 
@@ -489,7 +489,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
 
                 String email = "redeem_" + System.currentTimeMillis() + "@email.com";
 
-                // 1️⃣ Seed product worth 100000 CLP
+                // Seed product worth 100000 CLP
                 var product = new com.theduckers.backend.entity.mongo.ProductDocument();
                 product.setId("keyboard-redeem");
                 product.setName("Redeem Keyboard");
@@ -497,7 +497,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                 product.setStock(1);
                 mongoTemplate.save(product);
 
-                // 2️⃣ Register user
+                // Register user
                 String registerJson = """
                         {
                         "firstName":"Test",
@@ -513,7 +513,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                                 .content(registerJson))
                         .andExpect(status().isCreated());
 
-                // 3️⃣ Login
+                // Login
                 String loginJson = """
                         {
                         "email":"%s",
@@ -531,17 +531,17 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                         loginResult.getResponse().getContentAsString()
                 ).get("token").asText();
 
-                // 4️⃣ Fetch correct userId
+                // Fetch correct userId
                 var user = userRepository.findByEmail(email).orElseThrow();
                 Long userId = user.getId();
 
-                // 5️⃣ Manually grant 100000 points
+                // Manually grant 100000 points
                 var userPoints = userPointsRepository.findByUserId(userId).orElseThrow();
                 userPoints.setBalance(100000L);
                 userPoints.setTotalEarned(100000L);
                 userPointsRepository.save(userPoints);
 
-                // 6️⃣ Add item
+                // Add item
                 String addItemJson = """
                         {
                         "productId":"keyboard-redeem",
@@ -555,7 +555,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                                 .content(addItemJson))
                         .andExpect(status().isOk());
 
-                // 7️⃣ Checkout WITH redeemPoints = true
+                // Checkout WITH redeemPoints = true
                 String checkoutJson = """
                         {
                         "redeemPoints": true
@@ -576,18 +576,18 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                         checkoutResult.getResponse().getContentAsString()
                 ).get("orderId").asLong();
 
-                // 8️⃣ Verify balance unchanged after checkout
+                // Verify balance unchanged after checkout
                 var beforePayment = userPointsRepository.findByUserId(userId).orElseThrow();
                 assertEquals(100000L, beforePayment.getBalance());
                 assertEquals(100000L, beforePayment.getTotalEarned());
 
-                // 9️⃣ Pay order
+                // Pay order
                 mockMvc.perform(post("/orders/" + orderId + "/pay")
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.status").value("PAID"));
 
-                // 🔟 Verify final balance after deduction + emission
+                // Verify final balance after deduction + emission
                 var afterPayment = userPointsRepository.findByUserId(userId).orElseThrow();
 
                 // 100000 - 100000 + 117810 = 117810
@@ -596,7 +596,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                 // totalEarned increased by emission (117810)
                 assertEquals(217810L, afterPayment.getTotalEarned());
 
-                // 1️⃣1️⃣ Verify redemption record exists
+                // Verify redemption record exists
                 var redemption = pointRedemptionRepository.findByOrderId(orderId);
                 assertTrue(redemption.isPresent());
 
@@ -613,7 +613,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
 
                 String email = "cap_" + System.currentTimeMillis() + "@email.com";
 
-                // 1️⃣ Seed product worth 100000 CLP
+                // Seed product worth 100000 CLP
                 var product = new com.theduckers.backend.entity.mongo.ProductDocument();
                 product.setId("keyboard-cap");
                 product.setName("Cap Keyboard");
@@ -621,7 +621,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                 product.setStock(1);
                 mongoTemplate.save(product);
 
-                // 2️⃣ Register
+                // Register
                 String registerJson = """
                         {
                         "firstName":"Test",
@@ -637,7 +637,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                                 .content(registerJson))
                         .andExpect(status().isCreated());
 
-                // 3️⃣ Login
+                // Login
                 String loginJson = """
                         {
                         "email":"%s",
@@ -655,17 +655,17 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                         loginResult.getResponse().getContentAsString()
                 ).get("token").asText();
 
-                // 4️⃣ Fetch userId
+                // Fetch userId
                 var user = userRepository.findByEmail(email).orElseThrow();
                 Long userId = user.getId();
 
-                // 5️⃣ Grant massive points
+                // Grant massive points
                 var userPoints = userPointsRepository.findByUserId(userId).orElseThrow();
                 userPoints.setBalance(10_000_000L);
                 userPoints.setTotalEarned(10_000_000L);
                 userPointsRepository.save(userPoints);
 
-                // 6️⃣ Add item
+                // Add item
                 String addItemJson = """
                         {
                         "productId":"keyboard-cap",
@@ -679,7 +679,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                                 .content(addItemJson))
                         .andExpect(status().isOk());
 
-                // 7️⃣ Checkout with redemption
+                // Checkout with redemption
                 String checkoutJson = """
                         {
                         "redeemPoints": true
@@ -700,13 +700,13 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                         checkoutResult.getResponse().getContentAsString()
                 ).get("orderId").asLong();
 
-                // 8️⃣ Pay
+                // Pay
                 mockMvc.perform(post("/orders/" + orderId + "/pay")
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.status").value("PAID"));
 
-                // 9️⃣ Verify final balance
+                // Verify final balance
                 var afterPayment = userPointsRepository.findByUserId(userId).orElseThrow();
 
                 // 10,000,000 - 3,000,000 + 83,300 = 7,083,300
@@ -715,7 +715,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                 // totalEarned increased by emission (83,300)
                 assertEquals(10_083_300L, afterPayment.getTotalEarned());
 
-                // 🔟 Verify redemption record
+                // Verify redemption record
                 var redemption = pointRedemptionRepository.findByOrderId(orderId);
                 assertTrue(redemption.isPresent());
                 assertEquals(3_000_000L, redemption.get().getPointsUsed());
@@ -731,7 +731,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
 
                 String email = "duoc_" + System.currentTimeMillis() + "@duocuc.cl";
 
-                // 1️⃣ Seed product worth 100000 CLP
+                // Seed product worth 100000 CLP
                 var product = new com.theduckers.backend.entity.mongo.ProductDocument();
                 product.setId("keyboard-duoc");
                 product.setName("DUOC Keyboard");
@@ -739,7 +739,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                 product.setStock(1);
                 mongoTemplate.save(product);
 
-                // 2️⃣ Register DUOC user
+                // Register DUOC user
                 String registerJson = """
                         {
                         "firstName":"Test",
@@ -755,7 +755,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                                 .content(registerJson))
                         .andExpect(status().isCreated());
 
-                // 3️⃣ Login
+                // Login
                 String loginJson = """
                         {
                         "email":"%s",
@@ -773,7 +773,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                         loginResult.getResponse().getContentAsString()
                 ).get("token").asText();
 
-                // 4️⃣ Add item to cart
+                // Add item to cart
                 String addItemJson = """
                         {
                         "productId":"keyboard-duoc",
@@ -787,7 +787,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                                 .content(addItemJson))
                         .andExpect(status().isOk());
 
-                // 5️⃣ Checkout (NO redemption)
+                // Checkout (NO redemption)
                 var checkoutResult = mockMvc.perform(post("/checkout")
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
@@ -802,13 +802,13 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                         checkoutResult.getResponse().getContentAsString()
                 ).get("orderId").asLong();
 
-                // 6️⃣ Pay order
+                // Pay order
                 mockMvc.perform(post("/orders/" + orderId + "/pay")
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.status").value("PAID"));
 
-                // 7️⃣ Verify points emission
+                // Verify points emission
                 var user = userRepository.findByEmail(email).orElseThrow();
                 var userPoints = userPointsRepository.findByUserId(user.getId()).orElseThrow();
 
@@ -824,7 +824,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
 
                 String email = "duoc_redeem_" + System.currentTimeMillis() + "@duocuc.cl";
 
-                // 1️⃣ Seed product worth 100000 CLP
+                // Seed product worth 100000 CLP
                 var product = new com.theduckers.backend.entity.mongo.ProductDocument();
                 product.setId("keyboard-duoc-redeem");
                 product.setName("DUOC Redeem Keyboard");
@@ -832,7 +832,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                 product.setStock(1);
                 mongoTemplate.save(product);
 
-                // 2️⃣ Register DUOC user
+                // Register DUOC user
                 String registerJson = """
                         {
                         "firstName":"Test",
@@ -848,7 +848,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                                 .content(registerJson))
                         .andExpect(status().isCreated());
 
-                // 3️⃣ Login
+                // Login
                 String loginJson = """
                         {
                         "email":"%s",
@@ -866,7 +866,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                         loginResult.getResponse().getContentAsString()
                 ).get("token").asText();
 
-                // 4️⃣ Fetch user and grant 1,000,000 points
+                // Fetch user and grant 1,000,000 points
                 var user = userRepository.findByEmail(email).orElseThrow();
                 Long userId = user.getId();
 
@@ -875,7 +875,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                 userPoints.setTotalEarned(1_000_000L);
                 userPointsRepository.save(userPoints);
 
-                // 5️⃣ Add item
+                // Add item
                 String addItemJson = """
                         {
                         "productId":"keyboard-duoc-redeem",
@@ -889,7 +889,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                                 .content(addItemJson))
                         .andExpect(status().isOk());
 
-                // 6️⃣ Checkout WITH redemption
+                // Checkout WITH redemption
                 String checkoutJson = """
                         {
                         "redeemPoints": true
@@ -912,13 +912,13 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                         checkoutResult.getResponse().getContentAsString()
                 ).get("orderId").asLong();
 
-                // 7️⃣ Pay
+                // Pay
                 mockMvc.perform(post("/orders/" + orderId + "/pay")
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.status").value("PAID"));
 
-                // 8️⃣ Verify points after payment
+                // Verify points after payment
                 var afterPayment = userPointsRepository.findByUserId(userId).orElseThrow();
 
                 // 1,000,000 - 1,000,000 + 95,200 = 95,200
@@ -927,7 +927,7 @@ public class OrderStateIntegrationTest extends AbstractIntegrationTest {
                 // totalEarned increased by 95,200
                 assertEquals(1_095_200L, afterPayment.getTotalEarned());
 
-                // 9️⃣ Verify redemption record
+                // Verify redemption record
                 var redemption = pointRedemptionRepository.findByOrderId(orderId);
                 assertTrue(redemption.isPresent());
                 assertEquals(1_000_000L, redemption.get().getPointsUsed());

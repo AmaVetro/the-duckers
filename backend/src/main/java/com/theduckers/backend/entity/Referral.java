@@ -29,7 +29,6 @@ public class Referral {
     private LocalDateTime createdAt;
 
     protected Referral() {
-        // requerido por JPA
     }
 
     public Referral(

@@ -60,7 +60,6 @@ public class Order {
     )
     private List<OrderItem> items = new ArrayList<>();
 
-    // Required by JPA for reflection-based instantiation
     protected Order() {
     }
 

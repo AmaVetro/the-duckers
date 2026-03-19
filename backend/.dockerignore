@@ -1,7 +1,5 @@
 #backend/.dockerignore:
 
-
-
 target
 .git
 .gitignore

@@ -39,7 +39,6 @@ public class OrderItem {
     private LocalDateTime createdAt;
 
     protected OrderItem() {
-        // Required by JPA
     }
 
     public OrderItem(
