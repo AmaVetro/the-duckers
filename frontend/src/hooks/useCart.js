@@ -12,27 +12,24 @@ export const useCart = () => {
 
 
     const loadCart = async () => {
-
         try {
-
             const response = await getCart();
-
             const items = response?.items ?? [];
-
             setCartItems(items);
-
         } catch (error) {
 
-            console.error("Error loading cart", error);
+            const errorMessage = String(error);
 
-            setCartItems([]);
-
+            if (errorMessage.includes("401")) {
+                // Usuario no autenticado → comportamiento esperado
+                setCartItems([]);
+            } else {
+                console.error("Error loading cart", error);
+                setCartItems([]);
+            }
         } finally {
-
             setLoadingCart(false);
-
         }
-
     };
 
 
