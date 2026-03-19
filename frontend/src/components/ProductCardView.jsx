@@ -61,7 +61,11 @@ export const ProductCardView = ({ handler, id, image, name, description, price, 
     return (
         <div className="card h-100">
             <div className="card-body d-flex flex-column">
-                <div className="product-image-container">
+                <div 
+                    className="product-image-container"
+                    onClick={onViewDetails}
+                    style={{ cursor: "pointer" }}
+                >
                     <img src={image} alt={name} />
                 </div>
                 <h5 className="card-title">{name}</h5>
