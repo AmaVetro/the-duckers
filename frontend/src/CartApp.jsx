@@ -12,6 +12,7 @@ export const CartApp = () => {
 
     const {
         cartItems,
+        loadingCart,
         handlerAddProductCart,
         handlerDeleteProductCart,
         updateQuantity,
@@ -55,6 +56,7 @@ export const CartApp = () => {
 
                         <CartRoutes
                             cartItems={cartItems}
+                            loadingCart={loadingCart}
                             handlerAddProductCart={handlerAddProductCart}
                             handlerDeleteProductCart={handlerDeleteProductCart}
                             handlerUpdateQuantity={updateQuantity}

@@ -21,6 +21,7 @@ export const CartRoutes = ({
     handlerDeleteProductCart,
     handlerUpdateQuantity,
     cartItems,
+    loadingCart,
     refreshCart
     }) => {
     
@@ -38,6 +39,7 @@ export const CartRoutes = ({
                         <div className="my-4">
                             <CartView
                                 items={cartItems}
+                                loadingCart={loadingCart}
                                 handlerDelete={handlerDeleteProductCart}
                                 handlerUpdateQuantity={handlerUpdateQuantity}
                             />

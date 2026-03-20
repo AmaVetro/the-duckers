@@ -20,6 +20,7 @@ export const RegisterView = () => {
 
     const [errors, setErrors] = useState({});
     const [showAlert, setShowAlert] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
@@ -86,6 +87,8 @@ export const RegisterView = () => {
             return;
         }
 
+        setIsSubmitting(true);
+
         try {
 
             await register({
@@ -103,7 +106,8 @@ export const RegisterView = () => {
 
         } catch (error) {
 
-        console.error("Register error:", error);
+            setIsSubmitting(false);
+            console.error("Register error:", error);
 
         if (error.message && error.message.toLowerCase().includes("email")) {
 
@@ -356,8 +360,9 @@ export const RegisterView = () => {
                             <button
                                 className="btn btn-primary btn-lg"
                                 type="submit"
+                                disabled={isSubmitting}
                             >
-                                Crear cuenta
+                                {isSubmitting ? "Creando..." : "Crear cuenta"}
                             </button>
 
                             {showAlert && (

@@ -3,7 +3,7 @@
 import { useNavigate } from "react-router-dom";
 import { clp } from "../utils/currency";
 
-export const CartView = ({ handlerDelete, handlerUpdateQuantity, items }) => {
+export const CartView = ({ handlerDelete, handlerUpdateQuantity, items, loadingCart }) => {
   
   const navigate = useNavigate();
 
@@ -62,7 +62,13 @@ export const CartView = ({ handlerDelete, handlerUpdateQuantity, items }) => {
 
           <h3>Carro de compras</h3>
 
-          {items.length === 0 ? (
+          {loadingCart ? (
+
+            <div className="alert alert-info">
+              Cargando carrito...
+            </div>
+
+          ) : items.length === 0 ? (
 
             <div className="alert alert-warning">
               Tu carrito está vacío.
