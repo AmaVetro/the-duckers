@@ -9,9 +9,15 @@ export const CartView = ({ handlerDelete, handlerUpdateQuantity, items, loadingC
   const navigate = useNavigate();
   const [loadingItems, setLoadingItems] = useState({});
 
-  const onDeleteProduct = (itemId) => {
+  const onDeleteProduct = async (itemId) => {
 
-    handlerDelete(itemId);
+    setLoadingItems(prev => ({ ...prev, [itemId]: true }));
+
+    try {
+      await handlerDelete(itemId);
+    } finally {
+      setLoadingItems(prev => ({ ...prev, [itemId]: false }));
+    }
 
   };
 
@@ -158,6 +164,7 @@ export const CartView = ({ handlerDelete, handlerUpdateQuantity, items, loadingC
                         <button
                           className="btn btn-danger"
                           onClick={() => onDeleteProduct(item.itemId)}
+                          disabled={loadingItems[item.itemId]}
                         >
                           eliminar
                         </button>
