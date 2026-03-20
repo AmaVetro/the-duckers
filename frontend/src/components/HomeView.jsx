@@ -179,7 +179,7 @@ export const HomeView = () => {
 
                     coldStartTimer = setTimeout(() => {
                         setShowColdStart(true);
-                    }, 2500); // 2.5 segundos
+                    }, 2000); // 2 segundos
 
                 }
 
@@ -239,6 +239,7 @@ export const HomeView = () => {
         }));
 
     return (
+        <>
         <div className="d-flex flex-column" style={{ minHeight: '100%' }}>
 
             <div className="flex-grow-1 pb-5">
@@ -253,65 +254,6 @@ export const HomeView = () => {
                     </div>
                 )}
 
-                {showColdStart && (
-                    <div className="d-flex justify-content-center my-4">
-                        <div
-                            className="d-flex align-items-center gap-3 px-4 py-3 rounded shadow-sm"
-                            style={{
-                                backgroundColor: "#2a2a2a",
-                                border: "1px solid #444",
-                                maxWidth: "420px"
-                            }}
-                        >
-
-                            {!isBackendReady ? (
-                                <div
-                                    className="spinner-border text-light"
-                                    role="status"
-                                    style={{ width: "1.5rem", height: "1.5rem" }}
-                                >
-                                    <span className="visually-hidden">Loading...</span>
-                                </div>
-                            ) : (
-                                <div
-                                    style={{
-                                        width: "1.5rem",
-                                        height: "1.5rem",
-                                        borderRadius: "50%",
-                                        backgroundColor: "#28a745",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        color: "white",
-                                        fontSize: "1rem",
-                                        fontWeight: "bold"
-                                    }}
-                                >
-                                    ✓
-                                </div>
-                            )}
-
-                            <div style={{ fontSize: "14px", color: "#e0e0e0" }}>
-                                {!isBackendReady ? (
-                                    <>
-                                        Inicializando servidor...<br />
-                                        <span style={{ fontSize: "12px", color: "#aaa" }}>
-                                            Esto puede tardar unos segundos la primera vez
-                                        </span>
-                                    </>
-                                ) : (
-                                    <>
-                                        Servidor listo<br />
-                                        <span style={{ fontSize: "12px", color: "#aaa" }}>
-                                            Cargando contenido...
-                                        </span>
-                                    </>
-                                )}
-                            </div>
-
-                        </div>
-                    </div>
-                )}
                 <div className="text-center mb-3">
                     <div className="home-hero-text">
                         Conviértete en un gamer especializado.
@@ -362,5 +304,82 @@ export const HomeView = () => {
             </div>
 
         </div>
+
+        {/* OVERLAY LOADER */}
+        {showColdStart && (
+            <div
+                style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100vw",
+                    height: "100vh",
+                    backgroundColor: "rgba(0,0,0,0.6)", // oscurece fondo
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 9999
+                }}
+            >
+
+                <div
+                    className="d-flex align-items-center gap-3 px-4 py-3 rounded shadow"
+                    style={{
+                        backgroundColor: "#1e1e1e", // mismo tono que tu UI
+                        border: "1px solid #7c4dff", // MORADO (como category cards)
+                        maxWidth: "420px"
+                    }}
+                >
+
+                    {!isBackendReady ? (
+                        <div
+                            className="spinner-border text-light"
+                            role="status"
+                            style={{ width: "1.5rem", height: "1.5rem" }}
+                        >
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    ) : (
+                        <div
+                            style={{
+                                width: "1.5rem",
+                                height: "1.5rem",
+                                borderRadius: "50%",
+                                backgroundColor: "#28a745",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                color: "white",
+                                fontSize: "1rem",
+                                fontWeight: "bold"
+                            }}
+                        >
+                            ✓
+                        </div>
+                    )}
+
+                    <div style={{ fontSize: "14px", color: "#e0e0e0" }}>
+                        {!isBackendReady ? (
+                            <>
+                                Inicializando servidor...<br />
+                                <span style={{ fontSize: "12px", color: "#aaa" }}>
+                                    Esto puede tardar 2 minutos la primera vez
+                                </span>
+                            </>
+                        ) : (
+                            <>
+                                Servidor listo<br />
+                                <span style={{ fontSize: "12px", color: "#aaa" }}>
+                                    Cargando contenido...
+                                </span>
+                            </>
+                        )}
+                    </div>
+
+                </div>
+
+            </div>
+        )}
+        </>
     );
 };
