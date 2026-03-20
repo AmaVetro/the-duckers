@@ -1,32 +1,50 @@
 # The Duckers 🦆
 
-The Duckers is a portfolio-grade fullstack e-commerce system designed to demonstrate real-world backend engineering practices such as transactional integrity, concurrency control, and deterministic testing.
+The Duckers is a portfolio-grade fullstack e-commerce system built to demonstrate real-world backend engineering concepts such as transactional integrity, concurrency control, and financial consistency.
 
-It is designed as a **portfolio-grade backend project** that goes beyond academic CRUD implementations and demonstrates real-world backend engineering practices.
+Unlike typical CRUD-based projects, this system models a complete purchase lifecycle with realistic business rules, deterministic testing, and production-like architecture.
 
-Key engineering aspects demonstrated in this project:
+## 📂 Repository
+
+https://github.com/AmaVetro/the-duckers.git
+
+
+## ⚙️ Core Engineering Highlights
 
 - Transactional integrity across heterogeneous databases (MySQL + MongoDB)
 - Concurrency-safe stock reservation using atomic MongoDB updates
+- Full purchase lifecycle (Cart → Checkout → Payment → Orders)
 - Explicit order state machine (`PENDING → PAID → CANCELLED`)
 - Financially realistic pricing engine (VAT 19%, conditional discounts, capped loyalty redemption)
 - Stateless JWT-based security using the real Spring Security filter chain
 - Deterministic integration testing using Testcontainers
 
-The system is intentionally architected to be explainable and defensible in technical interviews from transactional, concurrency, and financial integrity perspectives.
+The system is intentionally designed to be explainable and defensible in technical interviews, focusing on transactional integrity, concurrency, and financial correctness.
 
 ---
 
 # 🌐 Live Demo
 
- REMAINS TO BE DONE
-
-Frontend: https://...
-Backend API: https://...
-Swagger: https://...
+Frontend: https://the-duckers.vercel.app
+Backend API: https://the-duckers.onrender.com
+Swagger: https://the-duckers.onrender.com/swagger-ui.html
 
 > ⚠️ The backend runs on Render free tier.  
 > First request may take ~30s due to cold start.
+
+---
+
+### 🧪 Suggested Demo Flow
+
+1. Register a new user  
+2. Browse the catalog and open a product  
+3. Add items to the cart  
+4. Proceed to checkout and observe discounts if applied
+5. Complete payment  
+6. Verify order appears in "My Account"  
+7. Observe points earned and order status
+
+> This demonstrates the full transactional flow of the system.
 
 ---
 
@@ -38,8 +56,6 @@ Swagger: https://...
 - React Router
 - Bootstrap
 
-The frontend provides a complete e-commerce interface including authentication, catalog browsing, product detail pages, cart management, checkout flow, and order history.
-
 ## Backend
 - Java 21 (LTS)
 - Spring Boot
@@ -49,10 +65,10 @@ The frontend provides a complete e-commerce interface including authentication, 
 - Spring Data MongoDB
 
 ## Databases
-- **MySQL** — transactional domain data  
-  (users, carts, orders, loyalty points, referrals)
+- MySQL — transactional domain data  
+  (users, levels, carts, orders, user points, loyalty points, shopping carts, shopping cart items, referrals)
 
-- **MongoDB** — product catalog and stock management
+- MongoDB — product catalog, categories, and stock management
 
 ## Infrastructure
 - Docker
@@ -66,20 +82,8 @@ The frontend provides a complete e-commerce interface including authentication, 
 
 ---
 
-# 🌐 Public Deployment
-
-- Frontend deployed on Vercel
-- Backend deployed on Render
-- MySQL hosted on Railway
-- MongoDB hosted on MongoDB Atlas
-
-CI pipeline automatically builds and deploys the backend on every push.
-
----
-
 # 🏗 Production Architecture
 
-```
 Frontend (Vercel)
         │
         ▼
@@ -87,58 +91,58 @@ Backend API (Render)
         │
         ├── MySQL (Railway)
         └── MongoDB (MongoDB Atlas)
-```
 
 The system intentionally separates transactional data from catalog data, allowing different consistency models and database capabilities to be used where they fit best.
 
 ---
 
+## 🔄 System Flow
+
+User → Cart → Checkout → Order (PENDING) → Payment → Order (PAID)
+
+- Cart is snapshotted at checkout
+- Orders start as `PENDING`
+- Payment transitions order to `PAID`
+- Points are emitted only after successful payment
+
+---
+
 # 📦 Project Structure
 
-```
 the-duckers/
 ├─ infra/        # Docker infrastructure (MySQL, MongoDB)
 ├─ backend/      # Spring Boot backend API
 ├─ frontend/     # React frontend
 └─ README.md
-```
 
 ---
 
-# ▶️ Run Locally
+
+# ▶️ Run Locally (Optional)
+
+> ⚠️ Not required for evaluation — the system is fully deployed.
 
 ### 1. Clone repository
 
 ```bash
-git clone <REPOSITORY_URL>
+git clone https://github.com/AmaVetro/the-duckers.git
 cd the-duckers
 ```
 
-### 2. Create environment file
-
-```bash
-cp .env.example .env
-```
-
-### 3. Start databases
+### 2. Start Databases
 
 ```bash
 docker compose -f infra/docker-compose.yml up -d
 ```
 
-Services started:
-
-- MySQL → `localhost:3306`
-- MongoDB → `localhost:27017`
-
-### 4. Start backend
+### 3. Start Backend
 
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
 
-### 5. Start frontend
+### 4. Start Frontend
 
 ```bash
 cd frontend
@@ -146,50 +150,33 @@ npm install
 npm run dev
 ```
 
----
-
-# 🛒 Purchase Flow
-
-The system implements a full end-to-end purchasing workflow:
-
-```
-Catalog → Cart → Checkout → Order Creation (PENDING) → Payment → Order Finalization (PAID)
-```
-
-Key guarantees:
-
-- Cart prices are*snapshotted when items are added
-- Checkout converts the active cart into an order (`PENDING`)
-- Payment finalizes the order (`PAID`)
-- Orders can only be cancelled while in `PENDING`
-- Loyalty points are emitted only after successful payment
+Backend runs on: http://localhost:8080  
+Frontend runs on: http://localhost:5173
 
 ---
+
 
 # 💰 Financial Rules
 
 The financial engine models realistic Chilean tax and discount rules.
 
-Calculation pipeline:
-
-```
+```bash
 subtotal
- − DUOC discount
- − points redemption
- = taxable base
- + VAT (19%)
- = final total
+− discounts (DUOC + points)
+= taxable base
++ VAT (19%)
+= final total
 ```
 
 Rules implemented:
 
 - VAT (IVA) 19% applied over the taxable base
-- DUOC domain discount (10%) if email ends with `@duocuc.cl`
-- Loyalty redemption conversion: 100 points = 1 CLP
+- DUOC discount (10%) for `@duocuc.cl` emails
+- Loyalty redemption: 100 points = 1 CLP
 - Redemption cap: 30% of order subtotal
-- Points are emitted only when the order transitions to `PAID`
+- Points emitted only after payment
 
-These rules ensure mathematical consistency and economic sustainability in the loyalty system.
+All calculations are enforced in the backend to guarantee consistency.
 
 ---
 
@@ -210,29 +197,24 @@ If the SQL transaction fails after stock reservation, a compensation update rest
 
 # 🧪 Testing Strategy
 
-Integration testing uses Testcontainers to spin up real database containers during test execution.
+Integration tests are implemented using Testcontainers, running real MySQL and MongoDB instances during execution.
 
-Key properties:
+Key aspects:
 
-- MySQL + MongoDB containers started automatically
-- Tests run in isolated environments
-- Real **JWT authentication flow**
-- Real **Spring Security filter chain**
-- CI-compatible
+- Real database environments (no mocks)
+- Full JWT authentication flow tested
+- Spring Security filter chain included
+- CI-compatible execution
 
-### Validated flows
+Validated flows include:
 
-- User registration (`POST /auth/register`)
-- User authentication (`POST /auth/login`)
-- Add-to-cart
-- Cart snapshot integrity
-- Successful checkout
-- Atomic stock reservation
-- Insufficient stock validation
-- Order lifecycle (`PENDING → PAID → CANCELLED`)
-- Financial rule validation (VAT, DUOC discount, redemption cap)
+- Authentication
+- Cart operations
+- Checkout and payment
+- Order lifecycle
+- Financial rules
 
-This ensures business logic correctness and transactional safety.
+This ensures end-to-end correctness of business logic.
 
 ---
 
@@ -257,7 +239,7 @@ The loyalty system rewards users based on real spending.
 Rules:
 
 - 1 CLP spent = 1 loyalty point
-- Redemption: 100 points = 1 CLP**
+- Redemption: 100 points = 1 CLP
 - Redemption capped at 30% of order subtotal
 - Points emitted only when order is paid
 
@@ -291,6 +273,21 @@ This encourages user acquisition while integrating with the loyalty system.
 
 ---
 
+# 📌 Design Decisions
+
+This project intentionally avoids overengineering while focusing on core backend complexity.
+
+- No refresh tokens → simplified stateless JWT model
+- No admin panel → scope focused on purchase flow
+- No real payment integration → controlled simulation
+- Dual database design → separation of transactional and catalog data
+
+The goal is to maximize learning value and technical clarity rather than feature quantity.
+
+---
+
 # 📄 License
 
 This project was built for educational and portfolio purposes.
+
+
