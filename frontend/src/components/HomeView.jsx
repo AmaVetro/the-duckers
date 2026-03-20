@@ -169,6 +169,7 @@ export const HomeView = () => {
     useEffect(() => {
 
         let coldStartTimer;
+        let didTriggerColdStart = false;
 
         const loadProducts = async () => {
 
@@ -178,8 +179,9 @@ export const HomeView = () => {
                 if (!hasLoadedOnce) {
 
                     coldStartTimer = setTimeout(() => {
+                        didTriggerColdStart = true;
                         setShowColdStart(true);
-                    }, 2000); // 2 segundos
+                    }, 2000);
 
                 }
 
@@ -197,7 +199,7 @@ export const HomeView = () => {
                 clearTimeout(coldStartTimer);
 
                 // Si estaba mostrando cold start → mostramos check verde
-                if (showColdStart) {
+                if (didTriggerColdStart) {
 
                     setIsBackendReady(true);
 

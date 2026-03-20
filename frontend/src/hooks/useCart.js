@@ -12,6 +12,7 @@ export const useCart = () => {
 
 
     const loadCart = async () => {
+        setLoadingCart(true);
         try {
             const response = await getCart();
             const items = response?.items ?? [];
