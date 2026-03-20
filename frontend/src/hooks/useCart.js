@@ -11,8 +11,12 @@ export const useCart = () => {
 
 
 
-    const loadCart = async () => {
-        setLoadingCart(true);
+    const loadCart = async (showLoading = true) => {
+
+        if (showLoading) {
+            setLoadingCart(true);
+        }
+
         try {
             const response = await getCart();
             const items = response?.items ?? [];
@@ -22,14 +26,16 @@ export const useCart = () => {
             const errorMessage = String(error);
 
             if (errorMessage.includes("401")) {
-                // Usuario no autenticado → comportamiento esperado
                 setCartItems([]);
             } else {
                 console.error("Error loading cart", error);
                 setCartItems([]);
             }
+
         } finally {
-            setLoadingCart(false);
+            if (showLoading) {
+                setLoadingCart(false);
+            }
         }
     };
 
@@ -59,7 +65,7 @@ export const useCart = () => {
 
         await addItem(product.id, 1);
 
-        await loadCart();
+        await loadCart(false);
 
         } catch (error) {
 
@@ -77,7 +83,7 @@ export const useCart = () => {
 
             await removeItem(itemId);
 
-            await loadCart();
+            await loadCart(false);
 
         } catch (error) {
 
@@ -97,7 +103,7 @@ export const useCart = () => {
 
             await updateItem(itemId, quantity);
 
-            await loadCart();
+            await loadCart(false);
 
         } catch (error) {
 
