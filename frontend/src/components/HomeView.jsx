@@ -142,6 +142,8 @@ export const HomeView = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [showColdStart, setShowColdStart] = useState(false);
+    const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
 
 
 
@@ -165,19 +167,47 @@ export const HomeView = () => {
 
     useEffect(() => {
 
-        const loadProducts = async () => { 
-            try {                   
+        let coldStartTimer;
+
+        const loadProducts = async () => {
+
+            try {
+
+                // SOLO en la primera carga del sitio
+                if (!hasLoadedOnce) {
+
+                    coldStartTimer = setTimeout(() => {
+                        setShowColdStart(true);
+                    }, 2500); // 2.5 segundos
+
+                }
+
                 const prods = await getProducts();
+
                 setProducts(prods);
+                setHasLoadedOnce(true);
+
             } catch (error) {
+
                 console.error('Error cargando productos en HomeView', error);
-            } finally {  
+
+            } finally {
+
+                clearTimeout(coldStartTimer);
+
+                setShowColdStart(false);
                 setIsLoading(false);
+
             }
+
         };
 
         loadProducts();
         loadCategories();
+
+        return () => {
+            clearTimeout(coldStartTimer);
+        };
 
     }, []);
 
@@ -203,9 +233,32 @@ export const HomeView = () => {
                     <h3>Bienvenido, {displayName}</h3>
                 )}
 
-                {isLoading && (
+                {isLoading && !showColdStart && (
                     <div className="alert alert-info my-2">
                         Cargando productos...
+                    </div>
+                )}
+
+                {showColdStart && (
+                    <div className="d-flex justify-content-center my-4">
+                        <div className="d-flex align-items-center gap-3 px-4 py-3 rounded shadow-sm"
+                            style={{
+                                backgroundColor: "#2a2a2a",
+                                border: "1px solid #444",
+                                maxWidth: "420px"
+                            }}
+                        >
+                            <div className="spinner-border text-light" role="status" style={{ width: "1.5rem", height: "1.5rem" }}>
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+
+                            <div style={{ fontSize: "14px", color: "#e0e0e0" }}>
+                                Inicializando servidor...<br />
+                                <span style={{ fontSize: "12px", color: "#aaa" }}>
+                                    Esto tarda 2 minutos la primera vez...
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 )}
                 <div className="text-center mb-3">
