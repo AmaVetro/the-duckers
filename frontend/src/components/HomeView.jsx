@@ -206,7 +206,7 @@ export const HomeView = () => {
                     setTimeout(() => {
                         setShowColdStart(false);
                         setIsBackendReady(false);
-                    }, 1000); // duración del "check visible"
+                    }, 2000); // duración del "check visible"
 
                 } else {
                     setShowColdStart(false);

@@ -2,10 +2,12 @@
 
 import { useNavigate } from "react-router-dom";
 import { clp } from "../utils/currency";
+import { useState } from "react";
 
 export const CartView = ({ handlerDelete, handlerUpdateQuantity, items, loadingCart }) => {
   
   const navigate = useNavigate();
+  const [loadingItems, setLoadingItems] = useState({});
 
   const onDeleteProduct = (itemId) => {
 
@@ -17,27 +19,38 @@ export const CartView = ({ handlerDelete, handlerUpdateQuantity, items, loadingC
   // Quantity handlers
   // ===============================
 
-  const handleIncrease = (item) => {
+  const handleIncrease = async (item) => {
 
-    const newQuantity = item.quantity + 1;
+    setLoadingItems(prev => ({ ...prev, [item.itemId]: true }));
 
-    handlerUpdateQuantity(item.itemId, newQuantity);
+    try {
+      const newQuantity = item.quantity + 1;
+      await handlerUpdateQuantity(item.itemId, newQuantity);
+    } finally {
+      setLoadingItems(prev => ({ ...prev, [item.itemId]: false }));
+    }
 
   };
 
-  const handleDecrease = (item) => {
 
-    const newQuantity = item.quantity - 1;
+  const handleDecrease = async (item) => {
 
-    if (newQuantity < 1) {
+    setLoadingItems(prev => ({ ...prev, [item.itemId]: true }));
 
-      handlerDelete(item.itemId);
+    try {
 
-      return;
+      const newQuantity = item.quantity - 1;
 
+      if (newQuantity < 1) {
+        await handlerDelete(item.itemId);
+        return;
+      }
+
+      await handlerUpdateQuantity(item.itemId, newQuantity);
+
+    } finally {
+      setLoadingItems(prev => ({ ...prev, [item.itemId]: false }));
     }
-
-    handlerUpdateQuantity(item.itemId, newQuantity);
 
   };
 
@@ -104,9 +117,21 @@ export const CartView = ({ handlerDelete, handlerUpdateQuantity, items, loadingC
                       <td>
                         <div className="d-flex align-items-center justify-content-center gap-2">
 
+                          {/* LOADER */}
+                          {loadingItems[item.itemId] && (
+                            <div
+                              className="spinner-border spinner-border-sm text-secondary"
+                              role="status"
+                              style={{ width: "1rem", height: "1rem" }}
+                            >
+                              <span className="visually-hidden">Loading...</span>
+                            </div>
+                          )}
+
                           <button
                             className="btn btn-sm btn-outline-secondary"
                             onClick={() => handleDecrease(item)}
+                            disabled={loadingItems[item.itemId]}
                           >
                             −
                           </button>
@@ -118,6 +143,7 @@ export const CartView = ({ handlerDelete, handlerUpdateQuantity, items, loadingC
                           <button
                             className="btn btn-sm btn-outline-secondary"
                             onClick={() => handleIncrease(item)}
+                            disabled={loadingItems[item.itemId]}
                           >
                             +
                           </button>
