@@ -21,6 +21,8 @@ spring:
         mongodb:
             uri: ${SPRING_DATA_MONGODB_URI}
             auto-index-creation: false
+    main:
+        lazy-initialization: true
 
 server:
     port: 8080
