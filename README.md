@@ -23,14 +23,26 @@ The system is intentionally designed to be explainable and defensible in technic
 
 ---
 
+
 # 🌐 Live Demo
 
-Frontend: https://the-duckers.vercel.app
+Frontend: https://the-duckers.vercel.app (frontend initialization may take up to **120 seconds**)
 Backend API: https://the-duckers.onrender.com
 Swagger: https://the-duckers.onrender.com/swagger-ui.html
 
-> ⚠️ The backend runs on Render free tier.  
-> First request may take ~30s due to cold start.
+⚠️ ¡Important!: the frontend initialization may take up to **120 seconds** due to Cold Start 
+(Render Free Tier).
+
+This backend is deployed on Render's free tier, which automatically spins down the service after inactivity.
+
+This delay is mainly due to:
+
+Spring Boot application startup
+
+Initial database connections (MySQL + MongoDB Atlas cluster)
+
+Subsequent requests are fast once the service is warm.
+
 
 ---
 
