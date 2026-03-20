@@ -42,6 +42,7 @@ export const CartRoutes = ({
                                 loadingCart={loadingCart}
                                 handlerDelete={handlerDeleteProductCart}
                                 handlerUpdateQuantity={handlerUpdateQuantity}
+                                refreshCart={refreshCart}
                             />
                         </div>
                     </ProtectedRoute>

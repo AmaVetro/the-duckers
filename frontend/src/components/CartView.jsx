@@ -2,12 +2,15 @@
 
 import { useNavigate } from "react-router-dom";
 import { clp } from "../utils/currency";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export const CartView = ({ handlerDelete, handlerUpdateQuantity, items, loadingCart }) => {
+export const CartView = ({ handlerDelete, handlerUpdateQuantity, items, loadingCart, refreshCart }) => {
   
   const navigate = useNavigate();
   const [loadingItems, setLoadingItems] = useState({});
+  useEffect(() => {
+    refreshCart(true);
+  }, []);
 
   const onDeleteProduct = async (itemId) => {
 
