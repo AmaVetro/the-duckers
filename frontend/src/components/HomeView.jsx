@@ -144,6 +144,7 @@ export const HomeView = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [showColdStart, setShowColdStart] = useState(false);
     const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
+    const [isBackendReady, setIsBackendReady] = useState(false);
 
 
 
@@ -195,7 +196,20 @@ export const HomeView = () => {
 
                 clearTimeout(coldStartTimer);
 
-                setShowColdStart(false);
+                // Si estaba mostrando cold start → mostramos check verde
+                if (showColdStart) {
+
+                    setIsBackendReady(true);
+
+                    setTimeout(() => {
+                        setShowColdStart(false);
+                        setIsBackendReady(false);
+                    }, 1000); // duración del "check visible"
+
+                } else {
+                    setShowColdStart(false);
+                }
+
                 setIsLoading(false);
 
             }
@@ -241,23 +255,60 @@ export const HomeView = () => {
 
                 {showColdStart && (
                     <div className="d-flex justify-content-center my-4">
-                        <div className="d-flex align-items-center gap-3 px-4 py-3 rounded shadow-sm"
+                        <div
+                            className="d-flex align-items-center gap-3 px-4 py-3 rounded shadow-sm"
                             style={{
                                 backgroundColor: "#2a2a2a",
                                 border: "1px solid #444",
                                 maxWidth: "420px"
                             }}
                         >
-                            <div className="spinner-border text-light" role="status" style={{ width: "1.5rem", height: "1.5rem" }}>
-                                <span className="visually-hidden">Loading...</span>
-                            </div>
+
+                            {!isBackendReady ? (
+                                <div
+                                    className="spinner-border text-light"
+                                    role="status"
+                                    style={{ width: "1.5rem", height: "1.5rem" }}
+                                >
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            ) : (
+                                <div
+                                    style={{
+                                        width: "1.5rem",
+                                        height: "1.5rem",
+                                        borderRadius: "50%",
+                                        backgroundColor: "#28a745",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        color: "white",
+                                        fontSize: "1rem",
+                                        fontWeight: "bold"
+                                    }}
+                                >
+                                    ✓
+                                </div>
+                            )}
 
                             <div style={{ fontSize: "14px", color: "#e0e0e0" }}>
-                                Inicializando servidor...<br />
-                                <span style={{ fontSize: "12px", color: "#aaa" }}>
-                                    Esto tarda 2 minutos la primera vez...
-                                </span>
+                                {!isBackendReady ? (
+                                    <>
+                                        Inicializando servidor...<br />
+                                        <span style={{ fontSize: "12px", color: "#aaa" }}>
+                                            Esto puede tardar unos segundos la primera vez
+                                        </span>
+                                    </>
+                                ) : (
+                                    <>
+                                        Servidor listo<br />
+                                        <span style={{ fontSize: "12px", color: "#aaa" }}>
+                                            Cargando contenido...
+                                        </span>
+                                    </>
+                                )}
                             </div>
+
                         </div>
                     </div>
                 )}
