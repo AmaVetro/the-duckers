@@ -34,10 +34,10 @@ Subsequent requests are fast once the service is warm.
 ## 🎬 Video Demo
 
 ### Feature Demos
-- Normal flow without discounts → [Ver](https://youtu.be/SjyB0ADXDRs)
-- Discounts and referral code → [Ver](https://youtu.be/iKweOwaJQ4Q)
-- Order cancelation and restoring stock → [Ver](https://youtu.be/h9NXZJ_vmY0)
-- Protected Routes and JWT roken → [Ver](https://youtu.be/n5YDOQkBduI)
+- Normal flow without discounts → [Link](https://youtu.be/SjyB0ADXDRs)
+- Discounts and referral code → [Link](https://youtu.be/iKweOwaJQ4Q)
+- Order cancelation and restoring stock → [Link](https://youtu.be/h9NXZJ_vmY0)
+- Protected Routes and JWT roken → [Link](https://youtu.be/n5YDOQkBduI)
 
 
 ---
