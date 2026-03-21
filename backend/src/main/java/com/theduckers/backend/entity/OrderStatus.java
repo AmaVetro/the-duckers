@@ -1,6 +1,5 @@
 package com.theduckers.backend.entity;
 
-
 /**
  * Represents the lifecycle states of an Order.
  *
