@@ -12,9 +12,9 @@ Unlike typical CRUD projects, this system focuses on correctness under real-worl
 
 # 🌐 Live Demo
 
-Frontend: https://the-duckers.vercel.app (frontend initialization may take up to **2 minutes**)
-Backend API: https://the-duckers.onrender.com
-Swagger: https://the-duckers.onrender.com/swagger-ui.html
+- Frontend: https://the-duckers.vercel.app (frontend initialization may take up to **2 minutes**)
+- Backend API: https://the-duckers.onrender.com
+- Swagger: https://the-duckers.onrender.com/swagger-ui.html
 
 ⚠️ Important: the frontend initialization may take up to **2 minutes** due to Cold Start 
 (Render Free Tier).
@@ -108,7 +108,7 @@ The system is intentionally designed to be explainable and defensible in technic
 
 
 # 🏗 Production Architecture
-
+```text
 Frontend (Vercel)
         │
         ▼
@@ -116,7 +116,7 @@ Backend API (Render)
         │
         ├── MySQL (Railway)
         └── MongoDB (MongoDB Atlas)
-
+```
 The system intentionally separates transactional data from catalog data, allowing different consistency models and database capabilities to be used where they fit best.
 
 
@@ -137,13 +137,13 @@ User → Cart → Checkout → Order (PENDING) → Payment → Order (PAID)
 
 
 # 📦 Project Structure
-
+```text
 the-duckers/
 ├─ infra/        # Docker infrastructure (MySQL, MongoDB)
 ├─ backend/      # Spring Boot backend API
 ├─ frontend/     # React frontend
 └─ README.md
-
+```
 
 ---
 
