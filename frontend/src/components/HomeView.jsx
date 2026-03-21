@@ -198,7 +198,6 @@ export const HomeView = () => {
 
                 clearTimeout(coldStartTimer);
 
-                // Si estaba mostrando cold start → mostramos check verde
                 if (didTriggerColdStart) {
 
                     setIsBackendReady(true);
@@ -327,8 +326,8 @@ export const HomeView = () => {
                 <div
                     className="d-flex align-items-center gap-3 px-4 py-3 rounded shadow"
                     style={{
-                        backgroundColor: "#1e1e1e", // mismo tono que tu UI
-                        border: "1px solid #7c4dff", // MORADO (como category cards)
+                        backgroundColor: "#1e1e1e", 
+                        border: "1px solid #7c4dff", 
                         maxWidth: "420px"
                     }}
                 >
