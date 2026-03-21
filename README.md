@@ -19,7 +19,7 @@ Unlike typical CRUD projects, this system focuses on correctness under real-worl
 ⚠️ Important: the frontend initialization may take up to **2 minutes** due to Cold Start 
 (Render Free Tier).
 
-This backend is deployed on Render's free tier, which automatically spins down the service after inactivity.
+⚠️ Important: on Render's free tier, the system spins down the service after **10 minutes of inactivity**.
 
 This delay is mainly due to:
 - Spring Boot application startup
@@ -31,9 +31,13 @@ Subsequent requests are fast once the service is warm.
 ---
 
 
-## 📂 Repository
+## 🎬 Video Demo
 
-https://github.com/AmaVetro/the-duckers.git
+### Feature Demos
+- Normal flow without discounts → [Ver](https://youtu.be/SjyB0ADXDRs)
+- Discounts and referral code → [Ver](https://youtu.be/iKweOwaJQ4Q)
+- Order cancelation and restoring stock → [Ver](https://youtu.be/h9NXZJ_vmY0)
+- Protected Routes and JWT roken → [Ver](https://youtu.be/n5YDOQkBduI)
 
 
 ---
