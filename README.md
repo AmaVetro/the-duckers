@@ -1,6 +1,6 @@
 # The Duckers 🦆
 
-The Duckers is a production-style fullstack e-commerce system designed to demonstrate real-world backend engineering under realistic constraints.
+The Duckers is a production-style fullstack e-commerce system designed to demonstrate **real-world backend engineering** under realistic constraints.
 
 It models a complete purchase lifecycle with transactional integrity, concurrency-safe stock handling, and financially consistent calculations.
 
@@ -16,10 +16,10 @@ Unlike typical CRUD projects, this system focuses on correctness under real-worl
 - Backend API: https://the-duckers.onrender.com
 - Swagger: https://the-duckers.onrender.com/swagger-ui.html
 
-⚠️ Important: the frontend initialization may take up to **2 minutes** due to Cold Start 
+⚠️ **Important**: the frontend initialization may take up to **2 minutes** due to Cold Start 
 (Render Free Tier).
 
-⚠️ Important: on Render's free tier, the system spins down the service after **10 minutes of inactivity**.
+⚠️ **Important**: on Render's free tier, the system spins down the service after **10 minutes of inactivity**.
 
 This delay is mainly due to:
 - Spring Boot application startup
@@ -66,8 +66,8 @@ Subsequent requests are fast once the service is warm.
 - Full purchase lifecycle (Cart → Checkout → Payment → Orders)
 - Explicit order state machine (`PENDING → PAID → CANCELLED`)
 - Financially realistic pricing engine (VAT 19%, conditional discounts, capped loyalty redemption)
-- Stateless JWT-based security using the real Spring Security filter chain
-- Deterministic integration testing using Testcontainers
+- **Stateless JWT-based security** using the real **Spring Security filter chain**
+- Deterministic integration testing using **Testcontainers**
 
 The system is intentionally designed to be explainable and defensible in technical interviews, focusing on transactional integrity, concurrency, and financial correctness.
 
@@ -213,7 +213,7 @@ Key elements:
 
 # 🧪 Testing Strategy
 
-Integration tests are implemented using Testcontainers, running real MySQL and MongoDB instances during execution.
+Integration tests are implemented using **Testcontainers**, running real MySQL and MongoDB instances during execution.
 
 Key aspects:
 
