@@ -18,7 +18,7 @@ These links may take **2 minutes** to wake up the server (only the first time):
 - Swagger: https://the-duckers.onrender.com/swagger-ui.html
 
 ⚠️ **Important**: the server initialization may take up to **2 minutes** due to Cold Start 
-(Render Free Tier). After the server is on, you can navigate freely through them.
+(Render Free Tier).
 
 ⚠️ **Important**: on Render's free tier, the system spins down the service after **10 minutes of inactivity**.
 
