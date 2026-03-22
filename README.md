@@ -12,12 +12,13 @@ Unlike typical CRUD projects, this system focuses on correctness under real-worl
 
 # 🌐 Live Demo
 
-- Frontend: https://the-duckers.vercel.app (frontend initialization may take up to **2 minutes**)
+These links may take **2 minutes** to wake up the server (only the first time):
+- Frontend: https://the-duckers.vercel.app
 - Backend API: https://the-duckers.onrender.com
 - Swagger: https://the-duckers.onrender.com/swagger-ui.html
 
-⚠️ **Important**: the frontend initialization may take up to **2 minutes** due to Cold Start 
-(Render Free Tier).
+⚠️ **Important**: the server initialization may take up to **2 minutes** due to Cold Start 
+(Render Free Tier). After the server is on, you can navigate freely through them.
 
 ⚠️ **Important**: on Render's free tier, the system spins down the service after **10 minutes of inactivity**.
 
