@@ -60,7 +60,6 @@ export const CartView = ({ handlerDelete, handlerUpdateQuantity, items, loadingC
     } finally {
       setLoadingItems(prev => ({ ...prev, [item.itemId]: false }));
     }
-
   };
 
 
